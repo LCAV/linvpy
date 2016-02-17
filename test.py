@@ -1,1 +1,2 @@
 print("lol")
+print("test")
