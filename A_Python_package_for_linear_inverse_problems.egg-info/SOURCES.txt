@@ -1,0 +1,11 @@
+README.txt
+setup.py
+A_Python_package_for_linear_inverse_problems.egg-info/PKG-INFO
+A_Python_package_for_linear_inverse_problems.egg-info/SOURCES.txt
+A_Python_package_for_linear_inverse_problems.egg-info/dependency_links.txt
+A_Python_package_for_linear_inverse_problems.egg-info/requires.txt
+A_Python_package_for_linear_inverse_problems.egg-info/top_level.txt
+linear_inverse/__init__.py
+linear_inverse/delete_me.py
+linear_inverse/regression.py
+linear_inverse/regularization.py
