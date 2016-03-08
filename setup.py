@@ -11,7 +11,7 @@ setup(
     keywords = "linear inverse",
     url = "http://packages.python.org/an_example_pypi_project",
     packages=['linear_inverse'],
-    long_description=read('README'),
+    #long_description=read('README'),
     classifiers=[
         "Development Status :: 1 - Planning"
     ],

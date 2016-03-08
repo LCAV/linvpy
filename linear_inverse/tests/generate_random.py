@@ -13,5 +13,6 @@ Returns:
     tuple: a random tuple A,y
 """
 def generate_random(size):
-
+    if size == 1:
+        return numpy.matrix([[numpy.random.rand()]]), [numpy.random.rand()]
     return numpy.matrix(numpy.random.rand(size,size-1)) , numpy.random.rand(size)

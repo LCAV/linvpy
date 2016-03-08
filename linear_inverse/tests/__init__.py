@@ -1,1 +1,1 @@
-__all__ = ['test_regression']
+__all__ = ['test_regression', 'generate_random']

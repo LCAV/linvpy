@@ -31,8 +31,8 @@ def least_squares(matrix_a, vector_y):
 
 # Dummy tests
 """
-A = numpy.matrix([[1, 2],[3, 4],[4,5]])
-y = [1,2,4]
+A = numpy.matrix([[2,3],[3,4],[4,5]])
+y = [1,2,3]
 print "MY SOLUTION = ", least_squares(A,y)
 # [0] is to take the first returned element of the lstsq function
 print "NUMPY'S SOLUTION = " , numpy.linalg.lstsq(A,y)[0]
