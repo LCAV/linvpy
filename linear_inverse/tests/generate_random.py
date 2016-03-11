@@ -1,18 +1,60 @@
 """
-    Generation of random (matrix, vector) tuples for test purpose.
+    Generation of some random matrix, vectors etc for test purpose.
 """
 
-import numpy
-from linear_inverse import regression
+import numpy as np
 
-"""
-Args:
-    size (int): size of matrix and vector
+CONDITION_NUMBER_LOWERBOUND = 10000
 
-Returns:
-    tuple: a random tuple A,y
-"""
 def generate_random(size):
+    """
+    :param size: (int) size of matrix and vector
+
+    :return tuple(np.matrix, array): a random tuple A,y of matching dimensions
+    """
+
     if size == 1:
-        return numpy.matrix([[numpy.random.rand()]]), [numpy.random.rand()]
-    return numpy.matrix(numpy.random.rand(size,size-1)) , numpy.random.rand(size)
+        return np.matrix([[np.random.rand()]]), [np.random.rand()]
+    return np.matrix(np.random.rand(size,size-1)) , np.random.rand(size)
+
+
+def generate_random_ill_conditioned(size):
+    """
+    :param size: (int) size of matrix and vector
+
+    :return tuple(np.matrix, array): a random tuple A,y of matching 
+    dimensions with A being an ill-conditioned matrix
+    """
+
+    # An ill-conditioned matrix of size 1 makes no sense so it calls the
+    # normal random generator
+    if(size == 1):
+        return generate_random(1)
+
+    # Generates a random <size,size-1> matrix
+    random_matrix = np.matrix(np.random.rand(size,size-1))
+
+    # Unitary_1, unitary_2 are np.matrix types ; singular is a vector
+    unitary_1, singular, unitary_2 = np.linalg.svd(random_matrix, 
+        full_matrices=False)
+
+    # Finds the largest singular value, multiplies it by
+    # CONDITION_NUMBER_LOWERBOUND and put it as the first element of the
+    # singular values vector to make sure the condition number is greater
+    # than CONDITION_NUMBER_LOWERBOUND
+    max_value = max(singular)
+    singular[0]= max_value * CONDITION_NUMBER_LOWERBOUND
+
+    # Diagnolize the singular vector
+    S = np.diag(singular)
+
+    # Recomposes the random matrix which is ill-conditioned now
+    ill_conditioned_matrix = np.dot(
+        unitary_1, 
+        np.dot(S, unitary_2)
+        )
+
+    # Generates a random vector <size>
+    random_vector = np.random.rand(size)
+
+    return ill_conditioned_matrix, random_vector

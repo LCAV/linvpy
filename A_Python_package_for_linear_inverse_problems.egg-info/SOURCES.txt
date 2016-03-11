@@ -7,4 +7,3 @@ A_Python_package_for_linear_inverse_problems.egg-info/requires.txt
 A_Python_package_for_linear_inverse_problems.egg-info/top_level.txt
 linear_inverse/__init__.py
 linear_inverse/regression.py
-linear_inverse/regularization.py

@@ -16,6 +16,6 @@ setup(
         "Development Status :: 1 - Planning"
     ],
     install_requires=[
-          'numpy',
+          'numpy', 'scikit-learn', 'scipy'
       ]
 )

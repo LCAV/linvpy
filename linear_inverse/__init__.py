@@ -1,1 +1,1 @@
-__all__ = ['regularization', 'regression']
+__all__ = ['regression']

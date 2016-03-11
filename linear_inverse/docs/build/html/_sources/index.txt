@@ -12,6 +12,8 @@ Contents:
    :maxdepth: 2
 .. automodule:: regression
 .. autofunction:: least_squares
+.. autofunction:: least_squares_gradient
+.. autofunction:: tikhonov_regularization
 
 
 Indices and tables
