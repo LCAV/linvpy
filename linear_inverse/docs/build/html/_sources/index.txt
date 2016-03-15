@@ -3,18 +3,45 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to linpy's documentation!
-=================================
-
 Contents:
-
 .. toctree::
    :maxdepth: 2
+
+Welcome to linpy !
+==================
+
+Hello my name is what
+
+.. sidebar:: Sidebar Title
+   :subtitle: Optional Sidebar Subtitle
+
+   Subsequent indented lines comprise
+   the body of the sidebar, and are
+   interpreted as body elements.
+
+Get it
+======
+
+- how to install the package
+
+1)
+2)
+3)
+
+- how to check that the package is correctly installed
+
+Documentation
+=============
+
+
 .. automodule:: regression
 .. autofunction:: least_squares
 .. autofunction:: least_squares_gradient
 .. autofunction:: tikhonov_regularization
 
+
+Develop
+=======
 
 Indices and tables
 ==================
@@ -22,4 +49,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

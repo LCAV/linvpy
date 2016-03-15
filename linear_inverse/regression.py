@@ -41,30 +41,37 @@ def least_squares(matrix_a, vector_y):
     return vector_x
 
 
-def least_squares_gradient(matrix_a, vector_y):
+def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
+    tolerance=1e-6):
     """
     Method computing the least squares solution of the problem : min_x ||y -
     Ax||^2 using the gradient descent algorithm.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
+    :param max_iterations: (optional)(int) number of iterations before stopping
+     if the algorithm doesn't converge
+    :param tolerance: (optional)(float) tolerance of the convergence criteria
 
     :return array: vector x solution of least squares
+
+    :raises ValueError: raises an exception if max_iterations < 0
+    :raises ValueError: raises an exception if tolerance < 0
     """
 
-    # number of iterations for the gradient descent
-    MAX_ITERATIONS = 500
+    if max_iterations < 0 or tolerance < 0 :
+        raise ValueError("max_iterations and tolerance must be zero or positive.")
 
-    # step alpha used in the gradient descent
     ALPHA = 0.01
 
     # ensures numpy.matrix type
     matrix_a = np.matrix(matrix_a)
     N = len(vector_y)
+
     # initialize beta : a vector of 0 whose length is equal to the number of columns of the matrix
     beta = np.zeros(matrix_a.shape[1])
 
-    for i in range(1,MAX_ITERATIONS):
+    for i in range(1,max_iterations):
 
         # Compute the error : error = y - A * beta
         # numpy.squeeze(numpy.asarray(v)) is used to ensure the array type of v
@@ -89,7 +96,7 @@ def least_squares_gradient(matrix_a, vector_y):
         beta = np.subtract(beta, ALPHA * gradient)
 
         # Convergence criteria
-        if np.dot(gradient.transpose(), gradient) < 1e-16:
+        if np.dot(gradient.transpose(), gradient) < tolerance:
             break
 
     # Returns vector beta solution to the least squares problem
@@ -98,6 +105,13 @@ def least_squares_gradient(matrix_a, vector_y):
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     """
+    The standard approach to solve Ax=y (x is unknown) is ordinary least squares
+    linear regression. However if no x satisfies the equation or more than one x
+    does -- that is the solution is not unique -- the problem is said to be
+    ill-posed. In such cases, ordinary least squares estimation leads to an
+    overdetermined (over-fitted), or more often an underdetermined 
+    (under-fitted) system of equations.
+
     The Tikhonov regularization is a tradeoff between the least squares 
     solution and the minimization of the L2-norm of the output x (L2-norm = 
     sum of squared values of the vector x). 
@@ -109,12 +123,19 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     method). The solution is given by x = (A'A + lambda^2 I)^-1 A'y, where I is
     the identity matrix and A' the transpose of A.
 
+    Raises a ValueError if lambda < 0.
+
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
     :param lambda: (int) lambda parameter to regulate the tradeoff
 
     :return array: vector_x solution of Tikhonov regularization
+
+    :raises ValueError: raises an exception if lambda_parameter < 0
     """
+
+    if lambda_parameter < 0:
+        raise ValueError("lambda_parameter must be zero or positive.")
 
     # Ensures np.matrix type
     matrix_a = np.matrix(matrix_a)
@@ -157,16 +178,18 @@ def ridge(A,y,lambda_parameter):
 
 # Dummy tests 2
 """
-A = np.matrix([[1,3],[3,4],[4,5]])
-y = [1,2,3]
-A_lambda = .5
 
+A = np.matrix([[1,3],[3,4],[4,5],[1,2]])
+y = [1,2,3,2]
+A_lambda = -1.5
 
+#print "LEAST SQUARES =", least_squares(y,A)
+#print "LEAST SQUARES GRADIENT =", least_squares_gradient(A,y,100,1)
+#print "TIKHONOV=", tikhonov_regularization(A,y,A_lambda)
 B = np.matrix([[0, 1], [0, 0], [1, 1]])
 yy = np.array([0,0.1,1])
 this_lambda = 10
 
-print "MY SOLUTION TIKHONOV=", tikhonov_regularization(B,yy,this_lambda)
 print "RIDGE =", ridge(B,yy,this_lambda)
 print "SCIPY =", scipy.sparse.linalg.lsmr(B,yy,this_lambda)[0]
 
