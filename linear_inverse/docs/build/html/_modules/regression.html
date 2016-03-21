@@ -302,14 +302,113 @@
     <span class="k">return</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span>
 
 
+<span class="k">def</span> <span class="nf">huber_loss</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;delta must be non-negative.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">delta</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">else</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">evaluate</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">iteratively_reweighted_least_squares</span><span class="p">(</span><span class="n">weight_function</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">vector_y</span><span class="p">):</span>
+
+    <span class="c1"># Tolerance to estimate that the algorithm has converged</span>
+    <span class="n">TOLERANCE</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="c1"># Ensures numpy types</span>
+    <span class="n">matrix_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+    <span class="n">vector_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vector_y</span><span class="p">)</span>
+
+    <span class="c1"># Generates a ones vector_x with length = matrix_a.columns</span>
+    <span class="n">vector_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">matrix_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">MAX_ITERATIONS</span><span class="p">):</span>
+                
+        <span class="c1"># Makes a diagonal matrix with values of w(y-Ax)</span>
+        <span class="c1"># f(x) on a numpy array applies the function to each element</span>
+        <span class="c1"># np.squeeze(np.asarray()) is there to flatten the matrix into a vector</span>
+        <span class="n">weights_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="n">weight_function</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">vector_y</span><span class="p">,</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span>
+                                <span class="n">vector_x</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">print</span> <span class="s2">&quot;weight matrix = &quot;</span><span class="p">,</span> <span class="n">weights_matrix</span>
+
+        <span class="c1"># y_LS = W^1/2 y</span>
+        <span class="n">vector_y_LS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weights_matrix</span><span class="p">),</span>
+            <span class="n">vector_y</span>
+            <span class="p">)</span>
+
+        <span class="c1"># A_LS = W^1/2 A</span>
+        <span class="n">matrix_a_LS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weights_matrix</span><span class="p">),</span>
+            <span class="n">matrix_a</span>
+            <span class="p">)</span>
+
+        <span class="c1"># vector_x_storage is there to store the previous value to compare</span>
+        <span class="n">vector_x_storage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">vector_x</span><span class="p">)</span>
+        <span class="n">vector_x</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">matrix_a_LS</span><span class="p">,</span> <span class="n">vector_y_LS</span><span class="p">)</span>
+
+
+        <span class="k">print</span> <span class="s2">&quot;vector_x_storage = &quot;</span><span class="p">,</span> <span class="n">vector_x_storage</span>
+        <span class="k">print</span> <span class="s2">&quot;vector_x = &quot;</span><span class="p">,</span> <span class="n">vector_x</span>
+        <span class="k">print</span> <span class="s2">&quot;matrix_a_LS = &quot;</span><span class="p">,</span> <span class="n">matrix_a_LS</span>
+        <span class="k">print</span> <span class="s2">&quot;vector_y_LS = &quot;</span><span class="p">,</span> <span class="n">vector_y_LS</span>
+
+
+
+
+        <span class="c1"># if the difference between iteration n and iteration n+1 is smaller </span>
+        <span class="c1"># than TOLERANCE, return vector_x</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
+                <span class="n">vector_x_storage</span><span class="p">,</span> 
+                <span class="n">vector_x</span>
+                <span class="p">)</span>
+            <span class="p">)</span> <span class="o">&lt;</span> <span class="n">TOLERANCE</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s2">&quot;CONVERGED !&quot;</span>
+            <span class="k">return</span> <span class="n">vector_x</span>
+
+        <span class="k">print</span> <span class="s2">&quot;Point A&quot;</span>
+
+    <span class="k">print</span> <span class="s2">&quot;DID NOT CONVERGE !&quot;</span>
+    <span class="k">return</span> <span class="n">vector_x</span>
+
 
 <span class="c1"># Dummy tests 2</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">lol</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span>
+
+<span class="k">print</span> <span class="n">huber_loss</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1">#print &quot;ITERATIVELY REWEIGHTED = &quot;, iteratively_reweighted_least_squares(lol,A,y)</span>
+
+
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">A = np.matrix([[1,3],[3,4],[4,5],[1,2]])</span>
-<span class="sd">y = [1,2,3,2]</span>
 <span class="sd">A_lambda = -1.5</span>
-
 <span class="sd">#print &quot;LEAST SQUARES =&quot;, least_squares(y,A)</span>
 <span class="sd">#print &quot;LEAST SQUARES GRADIENT =&quot;, least_squares_gradient(A,y,100,1)</span>
 <span class="sd">#print &quot;TIKHONOV=&quot;, tikhonov_regularization(A,y,A_lambda)</span>

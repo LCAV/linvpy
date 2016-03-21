@@ -83,7 +83,7 @@
                 <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to linpy !</a></li>
 <li><a class="reference internal" href="#get-it">Get it</a></li>
-<li><a class="reference internal" href="#module-regression">Documentation</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
 <li><a class="reference internal" href="#develop">Develop</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
@@ -138,13 +138,6 @@
 <div class="section" id="welcome-to-linpy">
 <h1>Welcome to linpy !<a class="headerlink" href="#welcome-to-linpy" title="Permalink to this headline">¶</a></h1>
 <p>Hello my name is what</p>
-<div class="sidebar">
-<p class="first sidebar-title">Sidebar Title</p>
-<p class="sidebar-subtitle">Optional Sidebar Subtitle</p>
-<p class="last">Subsequent indented lines comprise
-the body of the sidebar, and are
-interpreted as body elements.</p>
-</div>
 </div>
 <div class="section" id="get-it">
 <h1>Get it<a class="headerlink" href="#get-it" title="Permalink to this headline">¶</a></h1>
@@ -158,101 +151,8 @@ interpreted as body elements.</p>
 <li>how to check that the package is correctly installed</li>
 </ul>
 </div>
-<div class="section" id="module-regression">
-<span id="documentation"></span><h1>Documentation<a class="headerlink" href="#module-regression" title="Permalink to this headline">¶</a></h1>
-<p>Linear regression functions.</p>
-<dl class="function">
-<dt id="regression.least_squares">
-<code class="descclassname">regression.</code><code class="descname">least_squares</code><span class="sig-paren">(</span><em>matrix_a</em>, <em>vector_y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/regression.html#least_squares"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#regression.least_squares" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method computing the least squares solution min_x ||y - Ax||^2.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>matrix_a</strong> &#8211; (np.matrix) matrix A in y - Ax</li>
-<li><strong>vector_y</strong> &#8211; (array) vector y in y - Ax</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return array:</th><td class="field-body"><p class="first last">vector x solution of least squares</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="regression.least_squares_gradient">
-<code class="descclassname">regression.</code><code class="descname">least_squares_gradient</code><span class="sig-paren">(</span><em>matrix_a</em>, <em>vector_y</em>, <em>max_iterations=100</em>, <em>tolerance=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/regression.html#least_squares_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#regression.least_squares_gradient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method computing the least squares solution of the problem : min_x ||y -
-Ax||^2 using the gradient descent algorithm.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>matrix_a</strong> &#8211; (np.matrix) matrix A in y - Ax</li>
-<li><strong>vector_y</strong> &#8211; (array) vector y in y - Ax</li>
-<li><strong>max_iterations</strong> &#8211; (optional)(int) number of iterations before stopping
-if the algorithm doesn&#8217;t converge</li>
-<li><strong>tolerance</strong> &#8211; (optional)(float) tolerance of the convergence criteria</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return array:</th><td class="field-body"><p class="first">vector x solution of least squares</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ValueError</strong> &#8211; raises an exception if max_iterations &lt; 0</li>
-<li><strong>ValueError</strong> &#8211; raises an exception if tolerance &lt; 0</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="regression.tikhonov_regularization">
-<code class="descclassname">regression.</code><code class="descname">tikhonov_regularization</code><span class="sig-paren">(</span><em>matrix_a</em>, <em>vector_y</em>, <em>lambda_parameter</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/regression.html#tikhonov_regularization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#regression.tikhonov_regularization" title="Permalink to this definition">¶</a></dt>
-<dd><p>The standard approach to solve Ax=y (x is unknown) is ordinary least squares
-linear regression. However if no x satisfies the equation or more than one x
-does &#8211; that is the solution is not unique &#8211; the problem is said to be
-ill-posed. In such cases, ordinary least squares estimation leads to an
-overdetermined (over-fitted), or more often an underdetermined 
-(under-fitted) system of equations.</p>
-<p>The Tikhonov regularization is a tradeoff between the least squares 
-solution and the minimization of the L2-norm of the output x (L2-norm = 
-sum of squared values of the vector x).</p>
-<p>The parameter lambda tells how close to the least squares solution the 
-output x will be; a large lambda will make x close to L2-norm(x)=0, while 
-a small lambda will approach the least squares solution (typically running 
-the function with lambda=0 will behave like the normal leat_squares() 
-method). The solution is given by x = (A&#8217;A + lambda^2 I)^-1 A&#8217;y, where I is
-the identity matrix and A&#8217; the transpose of A.</p>
-<p>Raises a ValueError if lambda &lt; 0.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>matrix_a</strong> &#8211; (np.matrix) matrix A in y - Ax</li>
-<li><strong>vector_y</strong> &#8211; (array) vector y in y - Ax</li>
-<li><strong>lambda</strong> &#8211; (int) lambda parameter to regulate the tradeoff</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return array:</th><td class="field-body"><p class="first">vector_x solution of Tikhonov regularization</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>ValueError</strong> &#8211; raises an exception if lambda_parameter &lt; 0</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="develop">
 <h1>Develop<a class="headerlink" href="#develop" title="Permalink to this headline">¶</a></h1>

@@ -43,7 +43,7 @@ class TestUM(unittest.TestCase):
 				)
 	
 
-	# Tests Tikhonov regression against the native Scipy function
+	# Tests Tikhonov regularization against the native Scipy function
 	def test_tikhonov(self):
 		for i in range(2,TESTING_ITERATIONS):
 			# Generates random lambda

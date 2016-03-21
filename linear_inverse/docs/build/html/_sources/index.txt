@@ -12,12 +12,6 @@ Welcome to linpy !
 
 Hello my name is what
 
-.. sidebar:: Sidebar Title
-   :subtitle: Optional Sidebar Subtitle
-
-   Subsequent indented lines comprise
-   the body of the sidebar, and are
-   interpreted as body elements.
 
 Get it
 ======
@@ -33,7 +27,7 @@ Get it
 Documentation
 =============
 
-
+.. module::
 .. automodule:: regression
 .. autofunction:: least_squares
 .. autofunction:: least_squares_gradient

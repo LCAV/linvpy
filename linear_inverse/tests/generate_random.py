@@ -20,6 +20,9 @@ def generate_random(size):
 
 def generate_random_ill_conditioned(size):
     """
+    For test purpose only. Function generating a random ill-conditioned matrix
+    of the size given in parameter.
+
     :param size: (int) size of matrix and vector
 
     :return tuple(np.matrix, array): a random tuple A,y of matching 

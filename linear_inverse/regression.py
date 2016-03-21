@@ -6,11 +6,14 @@ import numpy as np
 import math
 from sklearn import linear_model
 import scipy
+from scipy import special
 from tests import generate_random
 
 def least_squares(matrix_a, vector_y):
     """
-    Method computing the least squares solution min_x ||y - Ax||^2.
+    Method computing the least squares solution min_x ||y - Ax||^2. Basic
+    algorithm to solve a linear inverse problem of the form y = Ax, where
+    y (vector) and A (matrix) are known and x (vector) is unknown.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
@@ -165,6 +168,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
 
     return vector_x
 
+
 # Does not work correctly for now. Avoid using this.
 def ridge(A,y,lambda_parameter):
     clf = linear_model.Ridge(alpha=lambda_parameter)
@@ -175,14 +179,162 @@ def ridge(A,y,lambda_parameter):
     return clf.coef_
 
 
+def huber_loss(input, delta=1.5):
+    """
+    The Huber loss function describes the penalty incurred by an estimation
+    procedure f. This function is quadratic for small values of input, and 
+    linear for large values, with equal values and slopes of the different 
+    sections at the two points where |input| = delta.
+
+    :param input: (array or scalar) residual to be evaluated
+    :param delta: (optional)(float) trigger parameter 
+
+    :return array or float: penalty incurred by the estimation
+    """
+
+    if delta <= 0 :
+        raise ValueError("delta must be positive.")
+
+    def evaluate(x):
+        if (np.absolute(x) > delta):
+            return delta * np.sign(x)
+        else :
+            return x
+
+    # If the input is a list, the evaluation is run on all values and a list
+    # is returned. If it's a scalar, a scalar is returned.
+    if isinstance(input, (int, float)):
+        return evaluate(input)
+    else :
+        # Ensures the input is an array and not a matrix. 
+        # Turns [[a b c]] into [a b c].
+        input = np.squeeze(
+                    np.asarray(
+                        input
+                        )
+                    )
+        return [evaluate(i) for i in input]
+
+
+def weight_function(x, function=huber_loss):
+    """
+    Returns f(x)/x. Returns 0 if x == 0 or if there is any 0 in the array.
+
+    :param x: (array or scalar) x in f(x)/x
+    :param function: (optional)(function) f(x) in f(x)/x. huber_loss by default.
+
+    :return array or float: result of f(x)/x is possible, 0 otherwise
+    """
+    if isinstance(x, (int, float)):
+        if x == 0 :
+                return 0
+    else : 
+        # Ensures x is an array and not a matrix. 
+        # Turns [[a b c]] into [a b c].
+        x = np.squeeze(
+                    np.asarray(x)
+                    )
+        for e in x :
+            if e == 0 :
+                return np.zeros(len(x))
+
+    return np.divide(function(x),x)
+
+def iteratively_reweighted_least_squares(matrix_a, vector_y):
+
+
+    # Tolerance to estimate that the algorithm has converged
+    TOLERANCE = 1e-6
+    MAX_ITERATIONS = 100
+
+    # Ensures numpy types
+    matrix_a = np.matrix(matrix_a)
+    vector_y = np.array(vector_y)
+
+    # Generates a ones vector_x with length = matrix_a.columns
+    vector_x = np.ones(matrix_a.shape[1])
+
+    for x in xrange(1,MAX_ITERATIONS):
+                
+        # Makes a diagonal matrix with values of w(y-Ax)
+        # f(x) on a numpy array applies the function to each element
+        # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
+        weights_matrix = np.diag(
+            np.squeeze(
+                np.asarray(
+                    # w(x) = phi(x)/x = huber_loss(x)/x = huber_loss(y-Ax)/(y-Ax)
+                    weight_function(
+                        np.subtract(vector_y,
+                            np.dot(matrix_a,
+                                vector_x
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+
+
+        # y_LS = W^1/2 y
+        vector_y_LS = np.dot(
+            np.sqrt(weights_matrix),
+            vector_y
+            )
+
+        # A_LS = W^1/2 A
+        matrix_a_LS = np.dot(
+            np.sqrt(weights_matrix),
+            matrix_a
+            )
+
+        # vector_x_storage is there to store the previous value to compare
+        vector_x_storage = np.copy(vector_x)
+        vector_x = least_squares(matrix_a_LS, vector_y_LS)
+
+        """
+        print "weight matrix = ", weights_matrix
+        print "vector_x_storage = ", vector_x_storage
+        print "vector_x = ", vector_x
+        print "matrix_a_LS = ", matrix_a_LS
+        print "vector_y_LS = ", vector_y_LS
+        """
+
+        # if the difference between iteration n and iteration n+1 is smaller 
+        # than TOLERANCE, return vector_x
+        if (np.linalg.norm(
+            np.subtract(
+                vector_x_storage, 
+                vector_x
+                )
+            ) < TOLERANCE):
+            print "CONVERGED !"
+            return vector_x
+
+    print "DID NOT CONVERGE !"
+    return vector_x
+
 
 # Dummy tests 2
+
+A = np.matrix([[1,3],[3,4],[4,5]])
+y = np.array([-6,1,-2])
+
+
+
+
+#print weight_function([0,1])
+
+#print huber_loss(y,1)
+
+#print "ITERATIVELY REWEIGHTED = ", iteratively_reweighted_least_squares(A,y)
+
+print scipy.special.bdtr(-1,10,0.3)
+print scipy.special.huber(1)
+
+print scipy.special.huber()
+
 """
-
-A = np.matrix([[1,3],[3,4],[4,5],[1,2]])
-y = [1,2,3,2]
 A_lambda = -1.5
-
 #print "LEAST SQUARES =", least_squares(y,A)
 #print "LEAST SQUARES GRADIENT =", least_squares_gradient(A,y,100,1)
 #print "TIKHONOV=", tikhonov_regularization(A,y,A_lambda)
