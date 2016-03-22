@@ -169,42 +169,45 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     return vector_x
 
 
-# Does not work correctly for now. Avoid using this.
-def ridge(A,y,lambda_parameter):
-    clf = linear_model.Ridge(alpha=lambda_parameter)
-    clf.fit(A, y)
-    linear_model.Ridge(alpha=lambda_parameter, copy_X=True, fit_intercept=False,
-                   max_iter=None, normalize=False, random_state=None, 
-                   solver='auto', tol=.0000001)
-    return clf.coef_
-
-
-def huber_loss(input, delta=1.5):
+def phi(input, delta=1.5):
     """
+    Phi(x), the derivative of the Huber loss function.
+
     The Huber loss function describes the penalty incurred by an estimation
     procedure f. This function is quadratic for small values of input, and 
     linear for large values, with equal values and slopes of the different 
     sections at the two points where |input| = delta.
 
-    :param input: (array or scalar) residual to be evaluated
+    :param input: (scalar) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
 
-    :return array or float: penalty incurred by the estimation
+    :return float: penalty incurred by the estimation
     """
 
     if delta <= 0 :
         raise ValueError("delta must be positive.")
 
-    def evaluate(x):
-        if (np.absolute(x) > delta):
-            return delta * np.sign(x)
-        else :
-            return x
+    if (np.absolute(input) >= delta):
+        return delta * np.sign(input)
+    else :
+        return input
+
+
+def weight_function(input, function=phi, delta=1.5):
+    """
+    Returns f(x)/x. Returns 0 for a position where x == 0.
+
+    :param input: (array or scalar) x in f(x)/x
+    :param function: (optional)(function) f(x) in f(x)/x. phi(x) by default.
+    :param delta: (optional) trigger parameter of the huber loss function.
+
+    :return array or float: result of f(x)/x is possible, 0 otherwise
+    """
 
     # If the input is a list, the evaluation is run on all values and a list
     # is returned. If it's a scalar, a scalar is returned.
     if isinstance(input, (int, float)):
-        return evaluate(input)
+        return function(input, delta)
     else :
         # Ensures the input is an array and not a matrix. 
         # Turns [[a b c]] into [a b c].
@@ -213,32 +216,8 @@ def huber_loss(input, delta=1.5):
                         input
                         )
                     )
-        return [evaluate(i) for i in input]
+        return [0 if (i == 0) else function(i, delta)/i for i in input]
 
-
-def weight_function(x, function=huber_loss):
-    """
-    Returns f(x)/x. Returns 0 if x == 0 or if there is any 0 in the array.
-
-    :param x: (array or scalar) x in f(x)/x
-    :param function: (optional)(function) f(x) in f(x)/x. huber_loss by default.
-
-    :return array or float: result of f(x)/x is possible, 0 otherwise
-    """
-    if isinstance(x, (int, float)):
-        if x == 0 :
-                return 0
-    else : 
-        # Ensures x is an array and not a matrix. 
-        # Turns [[a b c]] into [a b c].
-        x = np.squeeze(
-                    np.asarray(x)
-                    )
-        for e in x :
-            if e == 0 :
-                return np.zeros(len(x))
-
-    return np.divide(function(x),x)
 
 def iteratively_reweighted_least_squares(matrix_a, vector_y):
 
@@ -314,24 +293,36 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     return vector_x
 
 
+
+
+
+#===============================================================================
+#===================================TESTING AREA================================
+#===============================================================================
+
+
+
 # Dummy tests 2
 
 A = np.matrix([[1,3],[3,4],[4,5]])
 y = np.array([-6,1,-2])
 
+#def lol(a,b):
+#    return b*a
 
+#print weight_function(1,lol, 3)
 
+#print weight_function([4,0,2,0], phi)
+#print phi(0)
 
-#print weight_function([0,1])
-
-#print huber_loss(y,1)
+#print phi([1,2,2])
 
 #print "ITERATIVELY REWEIGHTED = ", iteratively_reweighted_least_squares(A,y)
 
-print scipy.special.bdtr(-1,10,0.3)
-print scipy.special.huber(1)
+#print scipy.special.bdtr(-1,10,0.3)
+#print scipy.special.huber(1)
 
-print scipy.special.huber()
+#print scipy.special.huber()
 
 """
 A_lambda = -1.5
