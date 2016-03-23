@@ -11,8 +11,9 @@ from tests import generate_random
 
 def least_squares(matrix_a, vector_y):
     """
-    Method computing the least squares solution min_x ||y - Ax||^2. Basic
-    algorithm to solve a linear inverse problem of the form y = Ax, where
+    Method computing the least squares solution
+    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2`.
+    Basic algorithm to solve a linear inverse problem of the form y = Ax, where
     y (vector) and A (matrix) are known and x (vector) is unknown.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
@@ -47,8 +48,9 @@ def least_squares(matrix_a, vector_y):
 def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
     tolerance=1e-6):
     """
-    Method computing the least squares solution of the problem : min_x ||y -
-    Ax||^2 using the gradient descent algorithm.
+    Method computing the least squares solution
+    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2,` using the 
+    gradient descent algorithm.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
@@ -123,8 +125,9 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     output x will be; a large lambda will make x close to L2-norm(x)=0, while 
     a small lambda will approach the least squares solution (typically running 
     the function with lambda=0 will behave like the normal leat_squares() 
-    method). The solution is given by x = (A'A + lambda^2 I)^-1 A'y, where I is
-    the identity matrix and A' the transpose of A.
+    method). 
+
+    The solution is given by :math:`\\hat{x} = (A^{T}A+ \\lambda^{2} I)^{-1}A^{T}\\mathbf{y}`, where I is the identity matrix.
 
     Raises a ValueError if lambda < 0.
 
@@ -168,15 +171,37 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
 
     return vector_x
 
+def huber_loss(input, delta=1.5):
+    """
+    The Huber loss function describes the penalty incurred by an estimation 
+    procedure f.
+
+    :math:`L_\\delta (a) = \\frac{1}{2}{a^2} \\text{ for } |a| \\leq \\delta, \\delta (|a| - \\dfrac{1}{2} \\delta)  \\text{ otherwise }`
+
+    This function is quadratic for small values of a, and linear for large 
+    values, with equal values and slopes of the different sections at the two
+    points where |a|= delta. The variable a often refers to the residuals, 
+    that is to the difference between the observed and predicted values 
+    a=y-f(x)
+
+    :param input: (scalar) residual to be evaluated
+    :param delta: (optional)(float) trigger parameter 
+
+    :return float: penalty incurred by the estimation
+    """
+
+    if delta <= 0 :
+        raise ValueError("delta must be positive.")
+
+    if (np.absolute(input) >= delta):
+        return delta * (np.subtract(np.absolute(input),delta/2))
+    else :
+        return math.pow(input, 2)/2
 
 def phi(input, delta=1.5):
     """
-    Phi(x), the derivative of the Huber loss function.
-
-    The Huber loss function describes the penalty incurred by an estimation
-    procedure f. This function is quadratic for small values of input, and 
-    linear for large values, with equal values and slopes of the different 
-    sections at the two points where |input| = delta.
+    Phi(x), the derivative of the Huber loss function. Used in the weight 
+    function of the M-estimator.
 
     :param input: (scalar) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
@@ -195,13 +220,15 @@ def phi(input, delta=1.5):
 
 def weight_function(input, function=phi, delta=1.5):
     """
-    Returns f(x)/x. Returns 0 for a position where x == 0.
+    Returns an array of [function(x_i)/x_i where x_i != 0, 0 otherwise.]
+    By default the function is phi(x), the derivative of the Huber loss 
+    function.
 
-    :param input: (array or scalar) x in f(x)/x
+    :param input: (array or scalar) vector or scalar to be processed
     :param function: (optional)(function) f(x) in f(x)/x. phi(x) by default.
     :param delta: (optional) trigger parameter of the huber loss function.
 
-    :return array or float: result of f(x)/x is possible, 0 otherwise
+    :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
     """
 
     # If the input is a list, the evaluation is run on all values and a list
@@ -220,7 +247,29 @@ def weight_function(input, function=phi, delta=1.5):
 
 
 def iteratively_reweighted_least_squares(matrix_a, vector_y):
+    """
+    The method of iteratively reweighted least squares (IRLS) is used to solve
+    certain optimization problems with objective functions of the form:
 
+    :math:`\underset{ \\boldsymbol\\beta } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - f_i (\\boldsymbol\\beta)|^p`
+
+    by an iterative method in which each step involves solving a weighted least 
+    squares problem of the form:
+
+    :math:`\\boldsymbol\\beta^{(t+1)} = \underset{\\boldsymbol\\beta} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol\\beta^{(t)}) \\big| y_i - f_i (\\boldsymbol\\beta) \\big|^2.`
+
+    IRLS is used to find the maximum likelihood estimates of a generalized 
+    linear model, and in robust regression to find an M-estimator, as a way of 
+    mitigating the influence of outliers in an otherwise normally-distributed 
+    data set. For example, by minimizing the least absolute error rather than 
+    the least square error.
+    
+
+    :param matrix_a: (np.matrix) matrix A in y - Ax
+    :param vector_y: (array) vector y in y - Ax
+
+    :return array: vector x solution of IRLS
+    """
 
     # Tolerance to estimate that the algorithm has converged
     TOLERANCE = 1e-6
@@ -307,13 +356,15 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
 A = np.matrix([[1,3],[3,4],[4,5]])
 y = np.array([-6,1,-2])
 
-#def lol(a,b):
-#    return b*a
+def lol(a,b):
+    return b*a
 
-#print weight_function(1,lol, 3)
+#print weight_function(-1000,huber_loss,332)
 
 #print weight_function([4,0,2,0], phi)
 #print phi(0)
+
+#print huber_loss(-1,0.1)
 
 #print phi([1,2,2])
 

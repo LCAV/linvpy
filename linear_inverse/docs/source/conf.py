@@ -33,7 +33,10 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'sphinx.ext.mathjax',
 ]
+
+#extensions = ['sphinx.ext.todo', 'sphinx.ext.mathjax', 'sphinx.ext.ifconfig']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -344,6 +347,7 @@ epub_exclude_files = ['search.html']
 
 # Choose between 'default' and 'includehidden'.
 #epub_tocscope = 'default'
+#includehidden=true
 
 # Fix unsupported image types using the Pillow.
 #epub_fix_images = False
@@ -370,3 +374,6 @@ sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/pytho
 
 # Sets the path dynamically so it works on any computer
 #os.path.abspath('/python_project/python-package/linear_inverse')
+
+# A library for rendering nice math formulas in Sphinx
+mathjax_path="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
