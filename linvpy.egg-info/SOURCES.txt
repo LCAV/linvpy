@@ -1,0 +1,9 @@
+README.rst
+setup.py
+linear_inverse/__init__.py
+linear_inverse/regression.py
+linvpy.egg-info/PKG-INFO
+linvpy.egg-info/SOURCES.txt
+linvpy.egg-info/dependency_links.txt
+linvpy.egg-info/requires.txt
+linvpy.egg-info/top_level.txt

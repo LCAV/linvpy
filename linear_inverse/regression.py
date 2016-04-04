@@ -171,6 +171,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
 
     return vector_x
 
+
 def huber_loss(input, delta=1.5):
     """
     The Huber loss function describes the penalty incurred by an estimation 
@@ -193,10 +194,11 @@ def huber_loss(input, delta=1.5):
     if delta <= 0 :
         raise ValueError("delta must be positive.")
 
-    if (np.absolute(input) >= delta):
-        return delta * (np.subtract(np.absolute(input),delta/2))
-    else :
+    if (np.absolute(input) <= delta):
         return math.pow(input, 2)/2
+    else :
+        return delta * (np.subtract(np.absolute(input),delta/2))
+
 
 def phi(input, delta=1.5):
     """
@@ -272,7 +274,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     """
 
     # Tolerance to estimate that the algorithm has converged
-    TOLERANCE = 1e-6
+    TOLERANCE = 1e-5
     MAX_ITERATIONS = 100
 
     # Ensures numpy types
