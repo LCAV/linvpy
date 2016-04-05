@@ -17,14 +17,24 @@ The first motivation for this project is that Marta Martinez-Camara, PhD student
 Get it
 ======
 
-LinvPy is available from PyPi. If you have pip already installed, simply run
+LinvPy is available from PyPi. If you have pip already installed, simply run :
 
 $ pip install linvpy
 
-If you don't have pip installed, run
+If you don't have pip installed, run :
 
 $ sudo easy_install pip
+
 $ pip install linvpy
+
+This is a normal text paragraph. The next paragraph is a code sample::
+
+   It is not processed in any way, except
+   that the indentation is removed.
+
+   It can span multiple lines.
+
+This is a normal text paragraph again.
 
 
 Documentation
