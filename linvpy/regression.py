@@ -1,6 +1,6 @@
-"""
+'''
     Linear regression functions.
-"""
+'''
 
 import numpy as np
 import math
@@ -9,7 +9,7 @@ from scipy import special
 from tests import generate_random
 
 def least_squares(matrix_a, vector_y):
-    """
+    '''
     Method computing the least squares solution
     :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2`.
     Basic algorithm to solve a linear inverse problem of the form y = Ax, where
@@ -19,7 +19,7 @@ def least_squares(matrix_a, vector_y):
     :param vector_y: (array) vector y in y - Ax
 
     :return array: vector x solution of least squares
-    """
+    '''
 
     # Ensures np.matrix type
     matrix_a = np.matrix(matrix_a)
@@ -46,7 +46,7 @@ def least_squares(matrix_a, vector_y):
 
 def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
     tolerance=1e-6):
-    """
+    '''
     Method computing the least squares solution
     :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2,` using the 
     gradient descent algorithm.
@@ -61,7 +61,7 @@ def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
 
     :raises ValueError: raises an exception if max_iterations < 0
     :raises ValueError: raises an exception if tolerance < 0
-    """
+    '''
 
     if max_iterations < 0 or tolerance < 0 :
         raise ValueError("max_iterations and tolerance must be zero or positive.")
@@ -108,7 +108,7 @@ def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
 
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
-    """
+    '''
     The standard approach to solve Ax=y (x is unknown) is ordinary least squares
     linear regression. However if no x satisfies the equation or more than one x
     does -- that is the solution is not unique -- the problem is said to be
@@ -137,7 +137,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     :return array: vector_x solution of Tikhonov regularization
 
     :raises ValueError: raises an exception if lambda_parameter < 0
-    """
+    '''
 
     if lambda_parameter < 0:
         raise ValueError("lambda_parameter must be zero or positive.")
@@ -172,7 +172,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
 
 
 def huber_loss(input, delta=1.5):
-    """
+    '''
     The Huber loss function describes the penalty incurred by an estimation 
     procedure f.
 
@@ -188,7 +188,7 @@ def huber_loss(input, delta=1.5):
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
-    """
+    '''
 
     if delta <= 0 :
         raise ValueError("delta must be positive.")
@@ -200,7 +200,7 @@ def huber_loss(input, delta=1.5):
 
 
 def phi(input, delta=1.5):
-    """
+    '''
     Phi(x), the derivative of the Huber loss function. Used in the weight 
     function of the M-estimator.
 
@@ -208,7 +208,7 @@ def phi(input, delta=1.5):
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
-    """
+    '''
 
     if delta <= 0 :
         raise ValueError("delta must be positive.")
@@ -220,7 +220,7 @@ def phi(input, delta=1.5):
 
 
 def weight_function(input, function=phi, delta=1.5):
-    """
+    '''
     Returns an array of [function(x_i)/x_i where x_i != 0, 0 otherwise.]
     By default the function is phi(x), the derivative of the Huber loss 
     function.
@@ -230,7 +230,7 @@ def weight_function(input, function=phi, delta=1.5):
     :param delta: (optional) trigger parameter of the huber loss function.
 
     :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
-    """
+    '''
 
     # If the input is a list, the evaluation is run on all values and a list
     # is returned. If it's a scalar, a scalar is returned.
@@ -248,7 +248,7 @@ def weight_function(input, function=phi, delta=1.5):
 
 
 def iteratively_reweighted_least_squares(matrix_a, vector_y):
-    """
+    '''
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
 
@@ -270,7 +270,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     :param vector_y: (array) vector y in y - Ax
 
     :return array: vector x solution of IRLS
-    """
+    '''
 
     # Tolerance to estimate that the algorithm has converged
     TOLERANCE = 1e-5
@@ -320,13 +320,13 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
         vector_x_storage = np.copy(vector_x)
         vector_x = least_squares(matrix_a_LS, vector_y_LS)
 
-        """
+        '''
         print "weight matrix = ", weights_matrix
         print "vector_x_storage = ", vector_x_storage
         print "vector_x = ", vector_x
         print "matrix_a_LS = ", matrix_a_LS
         print "vector_y_LS = ", vector_y_LS
-        """
+        '''
 
         # if the difference between iteration n and iteration n+1 is smaller 
         # than TOLERANCE, return vector_x
@@ -336,10 +336,10 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
                 vector_x
                 )
             ) < TOLERANCE):
-            print "CONVERGED !"
+            print("CONVERGED !")
             return vector_x
 
-    print "DID NOT CONVERGE !"
+    print("DID NOT CONVERGE !")
     return vector_x
 
 
@@ -376,7 +376,7 @@ def lol(a,b):
 
 #print scipy.special.huber()
 
-"""
+'''
 A_lambda = -1.5
 #print "LEAST SQUARES =", least_squares(y,A)
 #print "LEAST SQUARES GRADIENT =", least_squares_gradient(A,y,100,1)
@@ -407,13 +407,13 @@ print "tikhonov test 2 ", tikhonov_regularization(A,y, this_lambda)
 # [0] is to take the first returned element of the lstsq function
 #print "numpy'S SOLUTION = " , np.linalg.lstsq(B,yy)[0]
 #print "WEB SOLUTION =", testing(y,A,this_lambda)
-"""
+'''
 
 # Dummy tests 1
-"""
+'''
 A = np.matrix([[2,3],[3,4],[4,5]])
 y = [1,2,3]
 print "MY SOLUTION = ", least_squares(A,y)
 # [0] is to take the first returned element of the lstsq function
 print "np'S SOLUTION = " , np.linalg.lstsq(A,y)[0]
-"""
+'''
