@@ -83,7 +83,7 @@ release = u'0.0.1'
 # for a list of supported languages.
 #
 # This is also used if you do content translation via gettext catalogs.
-# Usually you set "language" from the command line for these cases.
+# Usually you set 'language' from the command line for these cases.
 language = None
 
 # There are two options for replacing |today|: either, you set today to some
@@ -117,7 +117,7 @@ pygments_style = 'sphinx'
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 
-# If true, keep warnings as "system message" paragraphs in the built documents.
+# If true, keep warnings as 'system message' paragraphs in the built documents.
 #keep_warnings = False
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
@@ -139,7 +139,7 @@ html_theme = 'sphinx_rtd_theme'
 #html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
-# "<project> v<release> documentation".
+# '<project> v<release> documentation'.
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
@@ -156,7 +156,7 @@ html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
+# so a file named 'default.css' will overwrite the builtin 'default.css'.
 html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
@@ -191,10 +191,10 @@ html_static_path = ['_static']
 # If true, links to the reST sources are added to the pages.
 #html_show_sourcelink = True
 
-# If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
+# If true, 'Created using Sphinx' is shown in the HTML footer. Default is True.
 #html_show_sphinx = True
 
-# If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
+# If true, '(C) Copyright ...' is shown in the HTML footer. Default is True.
 #html_show_copyright = True
 
 # If true, an OpenSearch description file will be output, and all pages will
@@ -202,7 +202,7 @@ html_static_path = ['_static']
 # base URL from which the finished HTML is served.
 #html_use_opensearch = ''
 
-# This is the file name suffix for HTML files (e.g. ".xhtml").
+# This is the file name suffix for HTML files (e.g. '.xhtml').
 #html_file_suffix = None
 
 # Language to be used for generating the HTML full-text search index.
@@ -250,7 +250,7 @@ latex_documents = [
 # the title page.
 #latex_logo = None
 
-# For "manual" documents, if this is true, then toplevel headings are parts,
+# For 'manual' documents, if this is true, then toplevel headings are parts,
 # not chapters.
 #latex_use_parts = False
 
@@ -300,7 +300,7 @@ texinfo_documents = [
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
 
-# If true, do not generate a @detailmenu in the "Top" node's menu.
+# If true, do not generate a @detailmenu in the 'Top' node's menu.
 #texinfo_no_detailmenu = False
 
 
@@ -379,18 +379,18 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {'https://docs.python.org/': None}
 
 # where is the code
-sys.path.insert(0, "C:\\Users\\Marta\\Desktop\\repositories\\python-package"
-                   "\\linear_inverse")
+sys.path.insert(0, 'C:\\Users\\Marta\\Desktop\\repositories\\python-package'
+                   '\\linear_inverse')
 
-sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy")
+sys.path.insert(0, '/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy')
 
-sys.path.insert(0, "/linvpy")
+sys.path.insert(0, '/linvpy')
 
-sys.path.insert(0, "/linvpy/")
+sys.path.insert(0, '/linvpy/')
 
-sys.path.insert(0, "/linvpy/linvpy")
+sys.path.insert(0, '/linvpy/linvpy')
 
-sys.path.insert(0, "linvpy/linvpy")
+sys.path.insert(0, 'linvpy/linvpy')
 
 sys.path.insert(0, os.path.abspath('.'))
 
@@ -405,4 +405,4 @@ sys.path.insert(0, os.path.abspath('..'))
 #os.path.abspath('/python_project/python-package/linear_inverse')
 
 # A library for rendering nice math formulas in Sphinx
-mathjax_path="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+mathjax_path='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'

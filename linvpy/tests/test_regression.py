@@ -13,15 +13,15 @@ class TestUM(unittest.TestCase):
 
 	# preparing to test
 	def setUp(self):
-		""" Setting up for the test """
-		#print "FooTest:setUp_:end"
+		''' Setting up for the test '''
+		#print 'FooTest:setUp_:end'
 	 
 	# ending the test
 	def tearDown(self):
-		"""Cleaning up after the test"""
-		#print "FooTest:tearDown_:begin"
+		'''Cleaning up after the test'''
+		#print 'FooTest:tearDown_:begin'
 		## do something...
-		#print "FooTest:tearDown_:end"
+		#print 'FooTest:tearDown_:end'
  
 	# Tests least_squares() on random inputs from size 1 to TESTING_ITERATIONS
 	def test_least_squares(self):

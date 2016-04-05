@@ -63,7 +63,7 @@ def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
     '''
 
     if max_iterations < 0 or tolerance < 0 :
-        raise ValueError("max_iterations and tolerance must be zero or positive.")
+        raise ValueError('max_iterations and tolerance must be zero or positive.')
 
     ALPHA = 0.01
 
@@ -139,7 +139,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     '''
 
     if lambda_parameter < 0:
-        raise ValueError("lambda_parameter must be zero or positive.")
+        raise ValueError('lambda_parameter must be zero or positive.')
 
     # Ensures np.matrix type
     matrix_a = np.matrix(matrix_a)
@@ -190,7 +190,7 @@ def huber_loss(input, delta=1.5):
     '''
 
     if delta <= 0 :
-        raise ValueError("delta must be positive.")
+        raise ValueError('delta must be positive.')
 
     if (np.absolute(input) <= delta):
         return math.pow(input, 2)/2
@@ -210,7 +210,7 @@ def phi(input, delta=1.5):
     '''
 
     if delta <= 0 :
-        raise ValueError("delta must be positive.")
+        raise ValueError('delta must be positive.')
 
     if (np.absolute(input) >= delta):
         return delta * np.sign(input)
@@ -320,11 +320,11 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
         vector_x = least_squares(matrix_a_LS, vector_y_LS)
 
         '''
-        print "weight matrix = ", weights_matrix
-        print "vector_x_storage = ", vector_x_storage
-        print "vector_x = ", vector_x
-        print "matrix_a_LS = ", matrix_a_LS
-        print "vector_y_LS = ", vector_y_LS
+        print 'weight matrix = ', weights_matrix
+        print 'vector_x_storage = ', vector_x_storage
+        print 'vector_x = ', vector_x
+        print 'matrix_a_LS = ', matrix_a_LS
+        print 'vector_y_LS = ', vector_y_LS
         '''
 
         # if the difference between iteration n and iteration n+1 is smaller 
@@ -335,10 +335,10 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
                 vector_x
                 )
             ) < TOLERANCE):
-            print("CONVERGED !")
+            print('CONVERGED !')
             return vector_x
 
-    print("DID NOT CONVERGE !")
+    print('DID NOT CONVERGE !')
     return vector_x
 
 
@@ -368,7 +368,7 @@ def lol(a,b):
 
 #print phi([1,2,2])
 
-#print "ITERATIVELY REWEIGHTED = ", iteratively_reweighted_least_squares(A,y)
+#print 'ITERATIVELY REWEIGHTED = ', iteratively_reweighted_least_squares(A,y)
 
 #print scipy.special.bdtr(-1,10,0.3)
 #print scipy.special.huber(1)
@@ -377,42 +377,42 @@ def lol(a,b):
 
 '''
 A_lambda = -1.5
-#print "LEAST SQUARES =", least_squares(y,A)
-#print "LEAST SQUARES GRADIENT =", least_squares_gradient(A,y,100,1)
-#print "TIKHONOV=", tikhonov_regularization(A,y,A_lambda)
+#print 'LEAST SQUARES =', least_squares(y,A)
+#print 'LEAST SQUARES GRADIENT =', least_squares_gradient(A,y,100,1)
+#print 'TIKHONOV=', tikhonov_regularization(A,y,A_lambda)
 B = np.matrix([[0, 1], [0, 0], [1, 1]])
 yy = np.array([0,0.1,1])
 this_lambda = 10
 
-print "RIDGE =", ridge(B,yy,this_lambda)
-print "SCIPY =", scipy.sparse.linalg.lsmr(B,yy,this_lambda)[0]
+print 'RIDGE =', ridge(B,yy,this_lambda)
+print 'SCIPY =', scipy.sparse.linalg.lsmr(B,yy,this_lambda)[0]
 
 
-print "ill conditioned : ", generate_random.generate_random_ill_conditioned(5)[1]
+print 'ill conditioned : ', generate_random.generate_random_ill_conditioned(5)[1]
 
-print "SCIPY TEST : ", scipy.sparse.linalg.lsmr(
+print 'SCIPY TEST : ', scipy.sparse.linalg.lsmr(
     generate_random.generate_random_ill_conditioned(5)[0],
     generate_random.generate_random_ill_conditioned(5)[1],
     this_lambda)[0]
 
 A,y = generate_random.generate_random_ill_conditioned(5)
-print "A=", A
-print "y=", y
+print 'A=', A
+print 'y=', y
 
-print "SCIPY TEST 2 : ", scipy.sparse.linalg.lsmr(A,y,this_lambda)[0]
-print "tikhonov test 2 ", tikhonov_regularization(A,y, this_lambda)
+print 'SCIPY TEST 2 : ', scipy.sparse.linalg.lsmr(A,y,this_lambda)[0]
+print 'tikhonov test 2 ', tikhonov_regularization(A,y, this_lambda)
 
-#print "MY SOLUTION LS = ", least_squares(A,y)
+#print 'MY SOLUTION LS = ', least_squares(A,y)
 # [0] is to take the first returned element of the lstsq function
-#print "numpy'S SOLUTION = " , np.linalg.lstsq(B,yy)[0]
-#print "WEB SOLUTION =", testing(y,A,this_lambda)
+#print 'numpy'S SOLUTION = ' , np.linalg.lstsq(B,yy)[0]
+#print 'WEB SOLUTION =', testing(y,A,this_lambda)
 '''
 
 # Dummy tests 1
 '''
 A = np.matrix([[2,3],[3,4],[4,5]])
 y = [1,2,3]
-print "MY SOLUTION = ", least_squares(A,y)
+print 'MY SOLUTION = ', least_squares(A,y)
 # [0] is to take the first returned element of the lstsq function
-print "np'S SOLUTION = " , np.linalg.lstsq(A,y)[0]
+print 'np'S SOLUTION = ' , np.linalg.lstsq(A,y)[0]
 '''
