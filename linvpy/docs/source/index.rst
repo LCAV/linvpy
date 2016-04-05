@@ -38,6 +38,19 @@ Documentation
 .. autofunction:: iteratively_reweighted_least_squares
 .. autofunction:: phi
 
+Example of use
+==============
+
+If you want to compute the least squares solution of a system : ::
+
+	import numpy as np
+	from linvpy import regression as reg
+
+	A = np.matrix([[1,3],[3,4],[4,5]])
+	y = [-6,1,-2]
+
+	# Returns x_hat, the least squares solution of y = Ax
+	reg.least_squares(A,y)
 
 Develop
 =======
