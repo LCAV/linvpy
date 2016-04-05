@@ -402,8 +402,6 @@ sys.path.insert(0, os.path.abspath('..'))
 
 sys.path.insert(0, os.path.abspath('../..'))
 
-sys.path.insert(os.path.abspath('../..'), 0)
-
 
 # Sets the path dynamically so it works on any computer
 #os.path.abspath('/python_project/python-package/linear_inverse')
