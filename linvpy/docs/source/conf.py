@@ -383,6 +383,8 @@ sys.path.insert(0, os.path.abspath('./linvpy'))
 
 sys.path.insert(0, os.path.abspath('./linvpy/linvpy'))
 
+sys.path.insert(0, os.path.abspath('..'))
+
 
 # Sets the path dynamically so it works on any computer
 #os.path.abspath('/python_project/python-package/linear_inverse')
