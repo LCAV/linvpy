@@ -384,27 +384,8 @@ sys.path.insert(0, 'C:\\Users\\Marta\\Desktop\\repositories\\python-package'
 
 sys.path.insert(0, '/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy')
 
-sys.path.insert(0, '/linvpy')
-
-sys.path.insert(0, '/linvpy/')
-
-sys.path.insert(0, '/linvpy/linvpy')
-
-sys.path.insert(0, 'linvpy/linvpy')
-
-sys.path.insert(0, os.path.abspath('.'))
-
-sys.path.insert(0, os.path.abspath('./linvpy/'))
-
-sys.path.insert(0, os.path.abspath('./linvpy/linvpy'))
-
-sys.path.insert(0, os.path.abspath('..'))
-
 sys.path.insert(0, os.path.abspath('../..'))
 
-
-# Sets the path dynamically so it works on any computer
-#os.path.abspath('/python_project/python-package/linear_inverse')
 
 # A library for rendering nice math formulas in Sphinx
 mathjax_path='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
