@@ -23,7 +23,6 @@ y = [0.83175086, 0.60012918, 0.89405644]
 print reg.tikhonov_regularization(A, y, 50)
 
 # [8.25871731e-05   4.39467106e-05]
-'''
 
 import numpy as np
 from linvpy import regression as reg
@@ -44,3 +43,25 @@ y = [-6,1,-2]
 print reg.least_squares(A,y)
 
 print np.linalg.lstsq(B,t)[0]
+'''
+
+from linvpy import regression as reg
+
+x = [1,2,3,4,5,6,7,8,9]
+
+loss = [reg.phi_huber(e, 4) for e in x]
+
+
+from linvpy import regression as reg
+
+x = [1,2,3,4,5,6,7,8,9]
+
+output = reg.weight_function(x)
+
+print output
+
+
+
+
+
+

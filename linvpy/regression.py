@@ -237,6 +237,18 @@ def huber_loss(input, delta=1.5):
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
+
+    Example : run huber loss on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        loss = [reg.huber_loss(e, 4) for e in x]
+
+        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
     '''
 
     if delta <= 0 :
@@ -248,15 +260,28 @@ def huber_loss(input, delta=1.5):
         return delta * (np.subtract(np.absolute(input),delta/2))
 
 
-def phi(input, delta=1.5):
+def phi_huber(input, delta=1.5):
     '''
-    Phi(x), the derivative of the Huber loss function. Used in the weight 
+    phi_huber(x), the derivative of the Huber loss function. Used in the weight 
     function of the M-estimator.
 
     :param input: (scalar) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
+
+    Example : run huber loss derivative on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        derivative = [reg.phi_huber(e, 4) for e in x]
+
+        # [1, 2, 3, 4, 4, 4, 4, 4, 4]
+
     '''
 
     if delta <= 0 :
@@ -268,17 +293,30 @@ def phi(input, delta=1.5):
         return input
 
 
-def weight_function(input, function=phi, delta=1.5):
+def weight_function(input, function=phi_huber, delta=1.5):
     '''
     Returns an array of [function(x_i)/x_i where x_i != 0, 0 otherwise.]
-    By default the function is phi(x), the derivative of the Huber loss 
-    function.
+    By default the function is phi_huber(x), the derivative of the Huber loss 
+    function. Note that the function passed in argument must support two inputs.
 
     :param input: (array or scalar) vector or scalar to be processed
-    :param function: (optional)(function) f(x) in f(x)/x. phi(x) by default.
+    :param function: (optional)(function) f(x) in f(x)/x. phi_huber(x) default.
     :param delta: (optional) trigger parameter of the huber loss function.
 
     :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
+
+    Example : run the weight function with your own function
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        reg.weight_function(x)
+
+        # [1, 0.75, 0.5, 0.375, 0.3, 0.25, 0.21428571428571427, 0.1875, 0.16666666666666666]
+
     '''
 
     # If the input is a list, the evaluation is run on all values and a list
@@ -313,7 +351,6 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     mitigating the influence of outliers in an otherwise normally-distributed 
     data set. For example, by minimizing the least absolute error rather than 
     the least square error.
-    
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
@@ -340,7 +377,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
         weights_matrix = np.diag(
             np.squeeze(
                 np.asarray(
-                    # w(x) = phi(x)/x = huber_loss(x)/x = huber_loss(y-Ax)/(y-Ax)
+                    # w(x) = phi_huber(x)/x = huber_loss(x)/x = huber_loss(y-Ax)/(y-Ax)
                     weight_function(
                         np.subtract(vector_y,
                             np.dot(matrix_a,
@@ -368,14 +405,6 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
         # vector_x_storage is there to store the previous value to compare
         vector_x_storage = np.copy(vector_x)
         vector_x = least_squares(matrix_a_LS, vector_y_LS)
-
-        '''
-        print 'weight matrix = ', weights_matrix
-        print 'vector_x_storage = ', vector_x_storage
-        print 'vector_x = ', vector_x
-        print 'matrix_a_LS = ', matrix_a_LS
-        print 'vector_y_LS = ', vector_y_LS
-        '''
 
         # if the difference between iteration n and iteration n+1 is smaller 
         # than TOLERANCE, return vector_x
