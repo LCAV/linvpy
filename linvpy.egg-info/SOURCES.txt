@@ -10,4 +10,5 @@ linvpy.egg-info/top_level.txt
 linvpy/tests/__init__.py
 linvpy/tests/generate_random.py
 linvpy/tests/profiling.py
+linvpy/tests/scrap_test.py
 linvpy/tests/test_regression.py

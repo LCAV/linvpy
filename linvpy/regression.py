@@ -15,7 +15,7 @@ def least_squares(matrix_a, vector_y):
 
     :return array: vector x solution of least squares
 
-    Example
+    Example : compute the least squares solution of a system y = Ax
 
     .. code-block:: python
 
@@ -26,8 +26,9 @@ def least_squares(matrix_a, vector_y):
         y = [-6,1,-2]
 
         # Returns x_hat, the least squares solution of y = Ax
-
         reg.least_squares(A,y)
+
+        # [ 3.86666667 -3.18666667]
 
     '''
 
@@ -71,6 +72,22 @@ def least_squares_gradient(matrix_a, vector_y, max_iterations=100,
 
     :raises ValueError: raises an exception if max_iterations < 0
     :raises ValueError: raises an exception if tolerance < 0
+
+    Example : compute the least squares solution of a system y = Ax
+
+    .. code-block:: python
+
+        import numpy as np
+        from linvpy import regression as reg
+
+        A = np.matrix([[1,3],[3,4],[4,5]])
+        y = [-6,1,-2]
+
+        # Returns x_hat, the least squares solution of y = Ax
+        reg.least_squares_gradient(A,y)
+
+        # [ 0.94400729 -1.09905283]
+
     '''
 
     if max_iterations < 0 or tolerance < 0 :
@@ -147,6 +164,28 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     :return array: vector_x solution of Tikhonov regularization
 
     :raises ValueError: raises an exception if lambda_parameter < 0
+
+    Example : compute the solution of a system y = Ax (knowing y,A) which is a
+    tradeoff between the least squares solution and the minimization of x's
+    L2-norm. The greater lambda, the smaller the norm of the given solution. 
+    We take a matrix A which is ill-conditionned.
+
+    .. code-block:: python
+
+        import numpy as np
+        from linvpy import regression as reg
+
+        A = np.matrix([[7142.80730214, 6050.32000196],
+                       [6734.4239248, 5703.48709251],
+                       [4663.22591408, 3949.23319264]])
+
+        y = [0.83175086, 0.60012918, 0.89405644]
+
+        # Returns x_hat, the tradeoff solution of y = Ax
+        print reg.tikhonov_regularization(A, y, 50)
+
+        # [8.25871731e-05   4.39467106e-05]
+
     '''
 
     if lambda_parameter < 0:

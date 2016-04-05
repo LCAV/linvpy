@@ -1,7 +1,7 @@
-#import unittest
+import unittest
 import numpy as np
-#from linvpy import regression
-#import generate_random
+from linvpy import regression
+import generate_random
 import scipy
 
 TESTING_ITERATIONS = 100
@@ -41,6 +41,16 @@ class TestUM(unittest.TestCase):
 				regression.least_squares_gradient(A,y).all(), 
 				np.linalg.lstsq(A,y)[0].all()
 				)
+
+	# Tests the ill-conditoned matrix generator
+	# Checks that the condition number is greather than ILL_CONDITION_CRITERIA
+	def test_ill_conditioned_matrix(self):
+		for i in range(3,TESTING_ITERATIONS):
+			self.assertTrue(
+				np.linalg.cond(
+					generate_random.generate_random_ill_conditioned(i)[0]
+					) > ILL_CONDITION_CRITERIA
+				)
 	
 
 	# Tests Tikhonov regularization against the native Scipy function
@@ -52,16 +62,6 @@ class TestUM(unittest.TestCase):
 			self.assertEquals(
 				regression.tikhonov_regularization(A,y,LAMBDA).all(), 
 				scipy.sparse.linalg.lsmr(A,y,LAMBDA)[0].all()
-				)
-
-	# Tests the ill-conditoned matrix generator
-	# Checks that the condition number is greather than ILL_CONDITION_CRITERIA
-	def test_ill_conditioned_matrix(self):
-		for i in range(3,TESTING_ITERATIONS):
-			self.assertTrue(
-				np.linalg.cond(
-					generate_random.generate_random_ill_conditioned(i)[0]
-					) > ILL_CONDITION_CRITERIA
 				)
 
 if __name__ == '__main__':
