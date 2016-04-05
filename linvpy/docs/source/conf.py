@@ -400,7 +400,9 @@ sys.path.insert(0, os.path.abspath('./linvpy/linvpy'))
 
 sys.path.insert(0, os.path.abspath('..'))
 
-sys.path.insert(os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../..'))
+
+sys.path.insert(os.path.abspath('../..'), 0)
 
 
 # Sets the path dynamically so it works on any computer
