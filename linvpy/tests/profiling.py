@@ -1,8 +1,8 @@
-import profile
-import cProfile
-import re
-from linear_inverse import regression
-import generate_random as gr 
+#import profile
+#import cProfile
+#import re
+#from linear_inverse import regression
+#import generate_random as gr 
 
 # cProfile.run('re.compile("foo|bar")')
 cProfile.run('gr.generate_random(10)')

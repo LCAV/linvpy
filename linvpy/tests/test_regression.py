@@ -1,7 +1,7 @@
-import unittest
+#import unittest
 import numpy as np
-from linear_inverse import regression
-import generate_random
+#from linvpy import regression
+#import generate_random
 import scipy
 
 TESTING_ITERATIONS = 100
