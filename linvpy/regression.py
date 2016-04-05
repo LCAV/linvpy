@@ -15,8 +15,9 @@ def least_squares(matrix_a, vector_y):
 
     :return array: vector x solution of least squares
 
-    Examples
-    ========
+    =======
+    Example
+    =======
 
     Fit a line, ``y = mx + c``, through some noisy data-points: ::
 
