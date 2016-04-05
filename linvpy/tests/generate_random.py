@@ -1,17 +1,17 @@
-"""
+'''
     Generation of some random matrix, vectors etc for test purpose.
-"""
+'''
 
 import numpy as np
 
 CONDITION_NUMBER_LOWERBOUND = 10000
 
 def generate_random(size):
-    """
+    '''
     :param size: (int) size of matrix and vector
 
     :return tuple(np.matrix, array): a random tuple A,y of matching dimensions
-    """
+    '''
 
     if size == 1:
         return np.matrix([[np.random.rand()]]), [np.random.rand()]
@@ -19,7 +19,7 @@ def generate_random(size):
 
 
 def generate_random_ill_conditioned(size):
-    """
+    '''
     For test purpose only. Function generating a random ill-conditioned matrix
     of the size given in parameter.
 
@@ -27,7 +27,7 @@ def generate_random_ill_conditioned(size):
 
     :return tuple(np.matrix, array): a random tuple A,y of matching 
     dimensions with A being an ill-conditioned matrix
-    """
+    '''
 
     # An ill-conditioned matrix of size 1 makes no sense so it calls the
     # normal random generator
