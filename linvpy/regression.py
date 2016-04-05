@@ -1,7 +1,3 @@
-'''
-    Linear regression functions.
-'''
-
 import numpy as np
 import math
 import scipy

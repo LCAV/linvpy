@@ -18,13 +18,13 @@ import os
 
 
 ########### TRICK FOUND ON SOME TUTORIAL : ADD IN THE MOCK_MODULES ANY EXTERNAL MODULE YOU'RE USING IN YOUR PACKAGE.
-
+'''
 import mock
  
 MOCK_MODULES = ['numpy', 'scipy', 'matplotlib', 'matplotlib.pyplot', 'scipy.interpolate', 'scipy.special', 'math']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
-
+'''
 ###########
 
 
