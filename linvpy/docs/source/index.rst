@@ -17,7 +17,7 @@ The first motivation for this project is that Marta Martinez-Camara, PhD student
 Get it
 ======
 
-- how to remotely install the package
+- how to remotely install the package hello Manon !
 
 Documentation
 =============
