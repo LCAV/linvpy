@@ -15,26 +15,27 @@ def least_squares(matrix_a, vector_y):
 
     :return array: vector x solution of least squares
 
-    Notes
-    -----
-    If `b` is a matrix, then all array results are returned as matrices.
     Examples
-    --------
-    Fit a line, ``y = mx + c``, through some noisy data-points:
-    >>> x = np.array([0, 1, 2, 3])
-    >>> y = np.array([-1, 0.2, 0.9, 2.1])
+    ========
+
+    Fit a line, ``y = mx + c``, through some noisy data-points: ::
+
+        >>> x = np.array([0, 1, 2, 3])
+        >>> y = np.array([-1, 0.2, 0.9, 2.1])
+
     By examining the coefficients, we see that the line should have a
     gradient of roughly 1 and cut the y-axis at, more or less, -1.
     We can rewrite the line equation as ``y = Ap``, where ``A = [[x 1]]``
-    and ``p = [[m], [c]]``.  Now use `lstsq` to solve for `p`:
-    >>> A = np.vstack([x, np.ones(len(x))]).T
-    >>> A
-    array([[ 0.,  1.],
-           [ 1.,  1.],
-           [ 2.,  1.],
-           [ 3.,  1.]])
+    and ``p = [[m], [c]]``.  Now use `lstsq` to solve for `p`: ::
 
+        >>> A = np.vstack([x, np.ones(len(x))]).T
+        >>> A
     
+        array([[ 0.,  1.],
+            [ 1.,  1.],
+            [ 2.,  1.],
+            [ 3.,  1.]])
+
     '''
 
     # Ensures np.matrix type
