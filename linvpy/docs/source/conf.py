@@ -373,13 +373,15 @@ sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvp
 
 sys.path.insert(0, "/linvpy")
 
+sys.path.insert(0, "/linvpy/")
+
 sys.path.insert(0, "/linvpy/linvpy")
 
 sys.path.insert(0, "linvpy/linvpy")
 
 sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('./linvpy'))
+sys.path.insert(0, os.path.abspath('./linvpy/'))
 
 sys.path.insert(0, os.path.abspath('./linvpy/linvpy'))
 
