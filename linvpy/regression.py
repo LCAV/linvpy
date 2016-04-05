@@ -404,7 +404,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
 
         # vector_x_storage is there to store the previous value to compare
         vector_x_storage = np.copy(vector_x)
-        vector_x = least_squares(matrix_a_LS, vector_y_LS)
+        vector_x = least_squares(matrix_a_LS, vector_y_LS)≤
 
         # if the difference between iteration n and iteration n+1 is smaller 
         # than TOLERANCE, return vector_x
