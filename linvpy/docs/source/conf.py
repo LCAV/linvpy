@@ -366,13 +366,17 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {'https://docs.python.org/': None}
 
 # where is the code
-# where is the code
 sys.path.insert(0, "C:\\Users\\Marta\\Desktop\\repositories\\python-package"
                    "\\linear_inverse")
 
 sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy")
 
-sys.path.insert(0, "linvpy")
+sys.path.insert(0, "/linvpy")
+
+sys.path.insert(0, "/linvpy/linvpy")
+
+sys.path.insert(0, "linvpy/linvpy")
+
 
 # Sets the path dynamically so it works on any computer
 #os.path.abspath('/python_project/python-package/linear_inverse')
