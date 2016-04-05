@@ -4,8 +4,6 @@
    contain the root `toctree` directive.
 
 
-
-
 Welcome to LinvPy !
 ===================
 
@@ -26,8 +24,6 @@ If you don't have pip installed, run : ::
 	$ sudo easy_install pip
 	$ pip install linvpy
 
-Enjoy !
-
 
 Documentation
 =============
@@ -45,6 +41,8 @@ Documentation
 
 Develop
 =======
+
+If you want to contribute to this project, feel free to create a new branch on our GitHub repository : https://github.com/GuillaumeBeaud/linvpy
 
 Indices and tables
 ==================
