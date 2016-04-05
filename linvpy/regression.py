@@ -4,7 +4,6 @@
 
 import numpy as np
 import math
-from sklearn import linear_model
 import scipy
 from scipy import special
 from tests import generate_random

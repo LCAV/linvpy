@@ -1,9 +1,13 @@
 README.rst
 setup.py
-linear_inverse/__init__.py
-linear_inverse/regression.py
+linvpy/__init__.py
+linvpy/regression.py
 linvpy.egg-info/PKG-INFO
 linvpy.egg-info/SOURCES.txt
 linvpy.egg-info/dependency_links.txt
 linvpy.egg-info/requires.txt
 linvpy.egg-info/top_level.txt
+linvpy/tests/__init__.py
+linvpy/tests/generate_random.py
+linvpy/tests/profiling.py
+linvpy/tests/test_regression.py

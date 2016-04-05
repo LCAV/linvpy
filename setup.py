@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
@@ -10,19 +10,19 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name = "linvpy",
-    version = "0.0.1",
+    version = "0.1.3",
     author = "Guillaume Beaud, Marta Martinez-Camara",
     author_email = "beaudguillaume@gmail.com",
     description = ("Package to solve linear inverse problems."),
     license = "BSD",
     keywords = "linear inverse M-estimator regression",
-    url = "http://packages.python.org/an_example_pypi_project",
-    packages=['linear_inverse'],
+    url = "https://github.com/GuillaumeBeaud/linvpy",
+    packages=find_packages(),
     long_description= long_description,
     classifiers=[
-        "Development Status :: 1 - Planning"
+        "Development Status :: 2 - Pre-Alpha"
     ],
     install_requires=[
-          'numpy', 'scikit-learn', 'scipy'
+          'numpy', 'scipy'
       ]
 )
