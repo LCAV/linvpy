@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: linvpy
-Version: 0.1.433
+Version: 0.1.434
 Summary: Package to solve linear inverse problems.
 Home-page: https://github.com/GuillaumeBeaud/linvpy
 Author: Guillaume Beaud, Marta Martinez-Camara

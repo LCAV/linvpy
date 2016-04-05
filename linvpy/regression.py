@@ -1,7 +1,5 @@
 import numpy as np
 import math
-import scipy
-from scipy import special
 
 def least_squares(matrix_a, vector_y):
     '''
