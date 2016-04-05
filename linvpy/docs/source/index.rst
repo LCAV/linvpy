@@ -17,7 +17,15 @@ The first motivation for this project is that Marta Martinez-Camara, PhD student
 Get it
 ======
 
-- how to remotely install the package hello Manon !
+LinvPy is available from PyPi. If you have pip already installed, simply run
+
+$ pip install linvpy
+
+If you don't have pip installed, run
+
+$ sudo easy_install pip
+$ pip install linvpy
+
 
 Documentation
 =============
