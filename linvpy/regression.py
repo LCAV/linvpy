@@ -17,7 +17,9 @@ def least_squares(matrix_a, vector_y):
 
     Example
 
-    If you want to compute the least squares solution of a system : ::
+    If you want to compute the least squares solution of a system :
+
+    .. code-block:: python
 
         >>> import numpy as np
         >>> from linvpy import regression as reg
