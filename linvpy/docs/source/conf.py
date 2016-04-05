@@ -370,7 +370,7 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 sys.path.insert(0, "C:\\Users\\Marta\\Desktop\\repositories\\python-package"
                    "\\linear_inverse")
 
-sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/python-package/linear_inverse")
+sys.path.insert(0, "/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy")
 
 # Sets the path dynamically so it works on any computer
 #os.path.abspath('/python_project/python-package/linear_inverse')
