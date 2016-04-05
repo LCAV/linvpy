@@ -17,17 +17,16 @@ def least_squares(matrix_a, vector_y):
 
     Example
 
-    If you want to compute the least squares solution of a system :
-
     .. code-block:: python
 
-        >>> import numpy as np
-        >>> from linvpy import regression as reg
+        import numpy as np
+        from linvpy import regression as reg
 
-        >>> A = np.matrix([[1,3],[3,4],[4,5]])
-        >>> y = [-6,1,-2]
+        A = np.matrix([[1,3],[3,4],[4,5]])
+        y = [-6,1,-2]
 
         # Returns x_hat, the least squares solution of y = Ax
+
         reg.least_squares(A,y)
 
     '''
