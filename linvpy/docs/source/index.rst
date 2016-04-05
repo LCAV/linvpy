@@ -36,8 +36,7 @@ Documentation
 .. autofunction:: huber_loss
 .. autofunction:: weight_function
 .. autofunction:: iteratively_reweighted_least_squares
-.. autofunction:: phi
-
+.. autofunction:: phi_huber
 
 Develop
 =======
