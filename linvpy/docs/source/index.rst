@@ -28,7 +28,7 @@ If you don't have pip installed, run : ::
 Documentation
 =============
 
-.. automodule:: regression
+.. module:: regression
 .. autofunction:: least_squares
 .. autofunction:: least_squares_gradient
 .. autofunction:: tikhonov_regularization
