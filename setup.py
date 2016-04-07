@@ -9,9 +9,10 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
+
     name='linvpy',
 
-    version='0.1.512',
+    version='0.1.530',
 
     description='Package to solve linear inverse problems',
     long_description=long_description,
@@ -50,6 +51,10 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
+    # packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+
+    #packages=['linvpy', 'tests'],
+
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
@@ -76,6 +81,7 @@ setup(
     # have to be included in MANIFEST.in as well.
     package_data={
         #'sample': ['package_data.dat'],
+        #'linvpy' : ['linvpy/regression.py']
     },
 
     # Although 'package_data' is the preferred approach, in some case you may

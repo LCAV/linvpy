@@ -342,7 +342,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     by an iterative method in which each step involves solving a weighted least 
     squares problem of the form:
 
-    :math:`\\boldsymbol\\beta^{(t+1)} = \underset{\\boldsymbol\\beta} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol\\beta^{(t)}) \\big| y_i - f_i (\\boldsymbol\\beta) \\big|^2.`
+    :math:`\\boldsymbol\\beta^{(t+1)} = \underset{\\boldsymbol\\beta} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol\\beta^{(t)})\\big| y_i - f_i (\\boldsymbol\\beta) \\big|^2.`
 
     IRLS is used to find the maximum likelihood estimates of a generalized 
     linear model, and in robust regression to find an M-estimator, as a way of 
@@ -353,8 +353,10 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
 
-    :return array: vector x solution of IRLS
+    :return array: vector of x solution of IRLS
+
     '''
+    print("lol")
 
     # Tolerance to estimate that the algorithm has converged
     TOLERANCE = 1e-5
@@ -367,7 +369,7 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     # Generates a ones vector_x with length = matrix_a.columns
     vector_x = np.ones(matrix_a.shape[1])
 
-    for x in xrange(1,MAX_ITERATIONS):
+    for x in range(1,MAX_ITERATIONS):
                 
         # Makes a diagonal matrix with values of w(y-Ax)
         # f(x) on a numpy array applies the function to each element
