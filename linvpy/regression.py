@@ -222,6 +222,11 @@ def rho_huber(input, delta=1.345):
     '''
     The regular huber loss function; the "rho" version.
 
+    :math:`\\rho(x)=\\begin{cases}
+    \\frac{1}{2}{x^2}& \\text{if |x| <=} \\delta, \\\\
+    \\delta (|x| - \\dfrac{1}{2} \\delta)& \\text{otherwise}.
+    \\end{cases}`
+
     :math:`L_\\delta (a) = \\frac{1}{2}{a^2} \\text{ for } |a| \\leq \\delta, \\delta (|a| - \\dfrac{1}{2} \\delta)  \\text{ otherwise }`
 
     This function is quadratic for small values of a, and linear for large 
