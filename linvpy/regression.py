@@ -227,8 +227,6 @@ def rho_huber(input, delta=1.345):
     \\delta (|x| - \\dfrac{1}{2} \\delta)& \\text{otherwise}.
     \\end{cases}`
 
-    :math:`L_\\delta (a) = \\frac{1}{2}{a^2} \\text{ for } |a| \\leq \\delta, \\delta (|a| - \\dfrac{1}{2} \\delta)  \\text{ otherwise }`
-
     This function is quadratic for small values of a, and linear for large 
     values, with equal values and slopes of the different sections at the two
     points where |a|= delta. The variable a often refers to the residuals, 
@@ -305,7 +303,7 @@ def rho_bisquare(input, c=4.685):
     The regular bisquare loss (or Tukey's loss), "rho" version.
 
     :math:`\\rho(x)=\\begin{cases}
-    (c^2 / 6)(1-(1-(x/c)^2)^3)& \\text{if |x| <= 0}, \\\\
+    (c^2 / 6)(1-(1-(x/c)^2)^3)& \\text{if |x|} \\leq 0, \\\\
     c^2 / 6& \\text{if |x| > 0}.
     \\end{cases}`
 
@@ -350,7 +348,7 @@ def psi_bisquare(input, c=4.685):
     The derivative of bisquare loss (or Tukey's loss), "psi" version.
 
     :math:`\\psi(x)=\\begin{cases}
-    x((1-(x/c)^2)^2)& \\text{if |x| <= 0}, \\\\
+    x((1-(x/c)^2)^2)& \\text{if |x|} \\leq 0, \\\\
     0& \\text{if |x| > 0}.
     \\end{cases}`
 
