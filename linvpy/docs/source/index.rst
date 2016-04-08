@@ -33,10 +33,19 @@ Documentation
 .. autofunction:: least_squares
 .. autofunction:: least_squares_gradient
 .. autofunction:: tikhonov_regularization
-.. autofunction:: huber_loss
+.. autofunction:: rho_huber
+.. autofunction:: psi_huber
+.. autofunction:: rho_bisquare
+.. autofunction:: psi_bisquare
+.. autofunction:: rho_cauchy
+.. autofunction:: psi_cauchy
+.. autofunction:: rho_optimal
+.. autofunction:: weights
+.. autofunction:: irls
+
+
 .. autofunction:: weight_function
 .. autofunction:: iteratively_reweighted_least_squares
-.. autofunction:: phi_huber
 
 Develop
 =======

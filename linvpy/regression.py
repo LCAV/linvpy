@@ -218,10 +218,9 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     return vector_x
 
 
-def huber_loss(input, delta=1.5):
+def rho_huber(input, delta=1.345):
     '''
-    The Huber loss function describes the penalty incurred by an estimation 
-    procedure f.
+    The regular huber loss function; the "rho" version.
 
     :math:`L_\\delta (a) = \\frac{1}{2}{a^2} \\text{ for } |a| \\leq \\delta, \\delta (|a| - \\dfrac{1}{2} \\delta)  \\text{ otherwise }`
 
@@ -231,7 +230,7 @@ def huber_loss(input, delta=1.5):
     that is to the difference between the observed and predicted values 
     a=y-f(x)
 
-    :param input: (scalar) residual to be evaluated
+    :param input: (float) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
@@ -244,10 +243,13 @@ def huber_loss(input, delta=1.5):
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.huber_loss(e, 4) for e in x]
+        loss = [reg.rho_huber(e, 4) for e in x]
 
         # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
     '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
 
     if delta <= 0 :
         raise ValueError('delta must be positive.')
@@ -258,12 +260,12 @@ def huber_loss(input, delta=1.5):
         return delta * (np.subtract(np.absolute(input),delta/2))
 
 
-def phi_huber(input, delta=1.5):
+def psi_huber(input, delta=1.345):
     '''
-    phi_huber(x), the derivative of the Huber loss function. Used in the weight 
+    Derivative of the Huber loss function; the "psi" version. Used in the weight 
     function of the M-estimator.
 
-    :param input: (scalar) residual to be evaluated
+    :param input: (float) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
 
     :return float: penalty incurred by the estimation
@@ -276,11 +278,14 @@ def phi_huber(input, delta=1.5):
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        derivative = [reg.phi_huber(e, 4) for e in x]
+        derivative = [reg.psi_huber(e, 4) for e in x]
 
         # [1, 2, 3, 4, 4, 4, 4, 4, 4]
 
     '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
 
     if delta <= 0 :
         raise ValueError('delta must be positive.')
@@ -290,15 +295,201 @@ def phi_huber(input, delta=1.5):
     else :
         return input
 
+def rho_bisquare(input, c=4.685):
+    '''
+    The regular bisquare loss (or Tukey's loss), "rho" version.
 
-def weight_function(input, function=phi_huber, delta=1.5):
+    :math:`\\rho(x)=\\begin{cases}
+    (c^2 / 6)(1-(1-(x/c)^2)^3)& \\text{if |x| <= 0}, \\\\
+    c^2 / 6& \\text{if |x| > 0}.
+    \\end{cases}`
+
+    :param input: (float) residual to be evaluated
+    :param c: (optional)(float) trigger parameter
+
+    :return float: result of bisquare function
+
+    Example : run huber loss on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        loss = [reg.rho_huber(e, 4) for e in x]
+
+        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+    '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if c <= 0 :
+        raise ValueError('constant c must be positive.')
+
+    if (np.absolute(input) <= c):
+        return (
+            (c**2.0)/6.0)*(
+                1-(
+                    (1-(
+                        input/c)**2)
+                    **3)
+                )
+    else :
+        return (c**2)/6.0
+
+
+def psi_bisquare(input, c=4.685):
+    '''
+    The derivative of bisquare loss (or Tukey's loss), "psi" version.
+
+    :math:`\\psi(x)=\\begin{cases}
+    x((1-(x/c)^2)^2)& \\text{if |x| <= 0}, \\\\
+    0& \\text{if |x| > 0}.
+    \\end{cases}`
+
+    :param input: (float) residual to be evaluated
+    :param c: (optional)(float) trigger parameter
+
+    :return float: result of bisquare function
+
+    Example : run huber loss on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        loss = [reg.rho_huber(e, 4) for e in x]
+
+        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+    '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if c <= 0 :
+        raise ValueError('constant c must be positive.')
+
+    if (np.absolute(input) <= c):
+        return input*((1-(input/c)**2)**2)
+    else :
+        return 0.0
+
+def rho_cauchy(input, c=2.3849):
+    '''
+    Cauchy loss function; the "rho" version.
+
+    :math:`\\rho(x)=(c^2/2)log(1+(x/c)^2)`
+
+    :param input: (float) residual to be evaluated
+    :param c: (optional)(float) trigger parameter 
+
+    :return float: result of the cauchy function
+
+    Example : run huber loss on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        loss = [reg.rho_huber(e, 4) for e in x]
+
+        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+    '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if c <= 0 :
+        raise ValueError('constant c must be positive.')
+
+    return (
+        (c**2)/2
+        )*math.log(
+        1+(
+            input/c)**2)
+
+def psi_cauchy(input, c=2.3849):
+    '''
+    Derivative of Cauchy loss function; the "psi" version.
+
+    :math:`\\psi(x)=\\frac{x}{1+(x/c)^2}`
+
+    :param input: (float) residual to be evaluated
+    :param c: (optional)(float) trigger parameter 
+
+    :return float: result of the cauchy's derivative function
+
+    Example : run huber loss on a vector
+
+    .. code-block:: python
+
+        from linvpy import regression as reg
+
+        x = [1,2,3,4,5,6,7,8,9]
+
+        loss = [reg.rho_huber(e, 4) for e in x]
+
+        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+    '''
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if c <= 0 :
+        raise ValueError('constant c must be positive.')
+
+    return input/(
+        1+(
+            input/c
+            )**2)
+
+def rho_optimal(input, c=3.270):
+    '''
+    The Fast-Tau Estimator for Regression, Matias SALIBIAN-BARRERA, Gert WILLEMS, and Ruben ZAMAR.
+
+    www.tandfonline.com/doi/pdf/10.1198/106186008X343785
+
+    The equation is found p. 611. To get the exact formula, it is necessary to use 3*c instead of c.
+
+    :param input: (float) residual to be evaluated
+    :param delta: (optional)(float) trigger parameter 
+
+    :return float: result of the optimal function
+    '''
+
+    # To get the exact formula, it is necessary to use 3*c instead of c.
+    c = 3*c
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if c <= 0 :
+        raise ValueError('constant c must be positive.')
+
+    if abs(input/c) <= 2.0/3.0 :
+        return 1.38 * (input/c)**2
+    elif abs(input/c) <= 1.0 :
+        return 0.55 - (2.69 * (input/c)**2) + (
+            10.76 * (input/c)**4) - (
+            11.66 * (input/c)**6) + (
+            4.04 * (input/c)**8)
+    elif abs(input/c) > 1 :
+        return 1.0
+
+def weights(input, function=psi_huber, delta=3):
     '''
     Returns an array of [function(x_i)/x_i where x_i != 0, 0 otherwise.]
-    By default the function is phi_huber(x), the derivative of the Huber loss 
+    By default the function is psi_huber(x), the derivative of the Huber loss 
     function. Note that the function passed in argument must support two inputs.
 
-    :param input: (array or scalar) vector or scalar to be processed
-    :param function: (optional)(function) f(x) in f(x)/x. phi_huber(x) default.
+    :param input: (array or float) vector or float to be processed
+    :param function: (optional)(function) f(x) in f(x)/x. psi_huber(x) default.
     :param delta: (optional) trigger parameter of the huber loss function.
 
     :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
@@ -311,14 +502,14 @@ def weight_function(input, function=phi_huber, delta=1.5):
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        reg.weight_function(x)
+        reg.weights(x)
 
         # [1, 0.75, 0.5, 0.375, 0.3, 0.25, 0.21428571428571427, 0.1875, 0.16666666666666666]
 
     '''
 
     # If the input is a list, the evaluation is run on all values and a list
-    # is returned. If it's a scalar, a scalar is returned.
+    # is returned. If it's a float, a float is returned.
     if isinstance(input, (int, float)):
         return function(input, delta)
     else :
@@ -329,10 +520,10 @@ def weight_function(input, function=phi_huber, delta=1.5):
                         input
                         )
                     )
-        return [0 if (i == 0) else function(i, delta)/i for i in input]
+        return [0 if (i == 0) else function(i, delta)/float(i) for i in input]
 
 
-def iteratively_reweighted_least_squares(matrix_a, vector_y):
+def irls(matrix_a, vector_y):
     '''
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
@@ -356,7 +547,6 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
     :return array: vector of x solution of IRLS
 
     '''
-    print("lol")
 
     # Tolerance to estimate that the algorithm has converged
     TOLERANCE = 1e-5
@@ -377,8 +567,8 @@ def iteratively_reweighted_least_squares(matrix_a, vector_y):
         weights_matrix = np.diag(
             np.squeeze(
                 np.asarray(
-                    # w(x) = phi_huber(x)/x = huber_loss(x)/x = huber_loss(y-Ax)/(y-Ax)
-                    weight_function(
+                    # w(x) = psi_huber(x)/x = rho_huber(x)/x = rho_huber(y-Ax)/(y-Ax)
+                    weights(
                         np.subtract(vector_y,
                             np.dot(matrix_a,
                                 vector_x
@@ -437,61 +627,3 @@ y = np.array([-6,1,-2])
 
 def lol(a,b):
     return b*a
-
-#print weight_function(-1000,huber_loss,332)
-
-#print weight_function([4,0,2,0], phi)
-#print phi(0)
-
-#print huber_loss(-1,0.1)
-
-#print phi([1,2,2])
-
-#print 'ITERATIVELY REWEIGHTED = ', iteratively_reweighted_least_squares(A,y)
-
-#print scipy.special.bdtr(-1,10,0.3)
-#print scipy.special.huber(1)
-
-#print scipy.special.huber()
-
-'''
-A_lambda = -1.5
-#print 'LEAST SQUARES =', least_squares(y,A)
-#print 'LEAST SQUARES GRADIENT =', least_squares_gradient(A,y,100,1)
-#print 'TIKHONOV=', tikhonov_regularization(A,y,A_lambda)
-B = np.matrix([[0, 1], [0, 0], [1, 1]])
-yy = np.array([0,0.1,1])
-this_lambda = 10
-
-print 'RIDGE =', ridge(B,yy,this_lambda)
-print 'SCIPY =', scipy.sparse.linalg.lsmr(B,yy,this_lambda)[0]
-
-
-print 'ill conditioned : ', generate_random.generate_random_ill_conditioned(5)[1]
-
-print 'SCIPY TEST : ', scipy.sparse.linalg.lsmr(
-    generate_random.generate_random_ill_conditioned(5)[0],
-    generate_random.generate_random_ill_conditioned(5)[1],
-    this_lambda)[0]
-
-A,y = generate_random.generate_random_ill_conditioned(5)
-print 'A=', A
-print 'y=', y
-
-print 'SCIPY TEST 2 : ', scipy.sparse.linalg.lsmr(A,y,this_lambda)[0]
-print 'tikhonov test 2 ', tikhonov_regularization(A,y, this_lambda)
-
-#print 'MY SOLUTION LS = ', least_squares(A,y)
-# [0] is to take the first returned element of the lstsq function
-#print 'numpy'S SOLUTION = ' , np.linalg.lstsq(B,yy)[0]
-#print 'WEB SOLUTION =', testing(y,A,this_lambda)
-'''
-
-# Dummy tests 1
-'''
-A = np.matrix([[2,3],[3,4],[4,5]])
-y = [1,2,3]
-print 'MY SOLUTION = ', least_squares(A,y)
-# [0] is to take the first returned element of the lstsq function
-print 'np'S SOLUTION = ' , np.linalg.lstsq(A,y)[0]
-'''
