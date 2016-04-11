@@ -18,13 +18,13 @@ def least_squares(matrix_a, vector_y):
     .. code-block:: python
 
         import numpy as np
-        from linvpy import regression as reg
+        import linvpy as lp
 
         A = np.matrix([[1,3],[3,4],[4,5]])
         y = [-6,1,-2]
 
         # Returns x_hat, the least squares solution of y = Ax
-        reg.least_squares(A,y)
+        lp.least_squares(A,y)
 
         # [ 3.86666667 -3.18666667]
 
@@ -92,7 +92,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     .. code-block:: python
 
         import numpy as np
-        from linvpy import regression as reg
+        import linvpy as lp
 
         A = np.matrix([[7142.80730214, 6050.32000196],
                        [6734.4239248, 5703.48709251],
@@ -101,7 +101,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
         y = [0.83175086, 0.60012918, 0.89405644]
 
         # Returns x_hat, the tradeoff solution of y = Ax
-        print reg.tikhonov_regularization(A, y, 50)
+        print lp.tikhonov_regularization(A, y, 50)
 
         # [8.25871731e-05   4.39467106e-05]
 
@@ -163,11 +163,11 @@ def rho_huber(input, delta=1.345):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.rho_huber(e, 4) for e in x]
+        loss = [lp.rho_huber(e, 4) for e in x]
 
         # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
     '''
@@ -189,6 +189,11 @@ def psi_huber(input, delta=1.345):
     Derivative of the Huber loss function; the "psi" version. Used in the weight 
     function of the M-estimator.
 
+    :math:`\\psi(x)=\\begin{cases}
+    \\x& \\text{if |x| <=} \\delta, \\\\
+    \\delta sign(x) & \\text{otherwise}.
+    \\end{cases}`
+
     :param input: (float) residual to be evaluated
     :param delta: (optional)(float) trigger parameter 
 
@@ -198,11 +203,11 @@ def psi_huber(input, delta=1.345):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        derivative = [reg.psi_huber(e, 4) for e in x]
+        derivative = [lp.psi_huber(e, 4) for e in x]
 
         # [1, 2, 3, 4, 4, 4, 4, 4, 4]
 
@@ -237,13 +242,13 @@ def rho_bisquare(input, c=4.685):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.rho_huber(e, 4) for e in x]
+        result = [lp.rho_bisquare(e, 4) for e in x]
 
-        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+        # [0.46940104166666663, 1.5416666666666665, 2.443359375, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665]
     '''
 
     # Casting input to float to avoid divisions rounding
@@ -282,13 +287,13 @@ def psi_bisquare(input, c=4.685):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.rho_huber(e, 4) for e in x]
+        result = [lp.psi_bisquare(e, 4) for e in x]
 
-        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+        # [0.87890625, 1.125, 0.57421875, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     '''
 
     # Casting input to float to avoid divisions rounding
@@ -317,13 +322,13 @@ def rho_cauchy(input, c=2.3849):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.rho_huber(e, 4) for e in x]
+        result = [lp.rho_cauchy(e, 4) for e in x]
 
-        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+        # [0.4849969745314787, 1.7851484105136781, 3.5702968210273562, 5.545177444479562, 7.527866755716213, 9.42923997073317, 11.214388381246847, 12.875503299472802, 14.416978050108813]
     '''
 
     # Casting input to float to avoid divisions rounding
@@ -353,13 +358,13 @@ def psi_cauchy(input, c=2.3849):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        loss = [reg.rho_huber(e, 4) for e in x]
+        result = [lp.psi_cauchy(e, 4) for e in x]
 
-        # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
+        # [0.9411764705882353, 1.6, 1.92, 2.0, 1.951219512195122, 1.8461538461538463, 1.7230769230769232, 1.6, 1.4845360824742269]
     '''
 
     # Casting input to float to avoid divisions rounding
@@ -422,11 +427,11 @@ def weights(input, function=psi_huber, delta=3):
 
     .. code-block:: python
 
-        from linvpy import regression as reg
+        import linvpy as lp
 
         x = [1,2,3,4,5,6,7,8,9]
 
-        reg.weights(x)
+        lp.weights(x)
 
         # [1, 0.75, 0.5, 0.375, 0.3, 0.25, 0.21428571428571427, 0.1875, 0.16666666666666666]
 

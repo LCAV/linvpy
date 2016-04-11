@@ -53,7 +53,6 @@ print "marta's score : ", opt.scoreoptimal(y,2)
 #print reg.rho_optimal(2,3)
 
 print "mine : ", [lp.rho_optimal(i) for i in y]
-'''
 
 
 A,y = gen.generate_random(4)
@@ -65,7 +64,16 @@ LAMBDA=0.2
 print lp.tikhonov_regularization(A,y,LAMBDA)
 print lsmr(A,y,LAMBDA)[0]
 
+'''
 
+import linvpy as lp
 
+x = [1,2,3,4,5,6,7,8,9]
+
+result = [lp.psi_cauchy(e, 4) for e in x]
+
+# [0.9411764705882353, 1.6, 1.92, 2.0, 1.951219512195122, 1.8461538461538463, 1.7230769230769232, 1.6, 1.4845360824742269]
+
+print result
 
 

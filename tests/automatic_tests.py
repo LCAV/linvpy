@@ -2,13 +2,15 @@ import unittest
 import numpy as np
 import linvpy as lp
 import generate_random
-import scipy
 from scipy.sparse.linalg import lsmr
+import matplotlib.pyplot as plt
 
 TESTING_ITERATIONS = 100
 # For a matrix to be ill-conditioned, its condition number must be equal to or
 # greather than ILL_CONDITION_CRITERIA
-ILL_CONDITION_CRITERIA = 1000 
+ILL_CONDITION_CRITERIA = 1000
+
+PLOT_INTERVAL = 20
 
 class TestUM(unittest.TestCase):
 
@@ -57,6 +59,25 @@ class TestUM(unittest.TestCase):
 				)
 
 
+
+# Plots loss functions
+def plot_loss_functions():
+	plt.plot([lp.rho_huber(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="rho_huber")
+	plt.plot([lp.psi_huber(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="psi_huber")
+	plt.plot([lp.rho_bisquare(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="rho_bisquare")
+	plt.plot([lp.psi_bisquare(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="psi_bisquare")
+	plt.plot([lp.rho_cauchy(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="rho_cauchy")
+	plt.plot([lp.psi_cauchy(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="psi_cauchy")
+
+	# Puts a legend box above the plots
+	plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
+	           ncol=2, mode="expand", borderaxespad=0.)
+
+	# Displays the plots
+	plt.show()
+
+# Uncomment the following line to display plots :
+#plot_loss_functions()
+
 if __name__ == '__main__':
 	unittest.main()
-
