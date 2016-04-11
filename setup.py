@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='0.1.535',
+    version='0.1.536',
 
     description='Package to solve linear inverse problems',
     long_description=long_description,
@@ -53,7 +53,7 @@ setup(
     # simple. Or you can use find_packages().
     # packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
-    #packages=['linvpy', 'tests'],
+    #packages=['linvpy'],
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
