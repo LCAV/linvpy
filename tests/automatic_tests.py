@@ -1,8 +1,9 @@
 import unittest
 import numpy as np
-from linvpy as lp
+import linvpy as lp
 import generate_random
 import scipy
+from scipy.sparse.linalg import lsmr
 
 TESTING_ITERATIONS = 100
 # For a matrix to be ill-conditioned, its condition number must be equal to or
@@ -32,15 +33,6 @@ class TestUM(unittest.TestCase):
 				np.linalg.lstsq(A,y)[0].all()
 				)
 
-	
-	# Tests least_squares_gradient() on inputs from size 1 to TESTING_ITERATIONS
-	def test_least_squares_gradient(self):
-		for i in range(1,TESTING_ITERATIONS):
-			A,y = generate_random.generate_random(i)      
-			self.assertAlmostEquals(
-				lp.least_squares_gradient(A,y).all(), 
-				np.linalg.lstsq(A,y)[0].all()
-				)
 
 	# Tests the ill-conditoned matrix generator
 	# Checks that the condition number is greather than ILL_CONDITION_CRITERIA
@@ -61,8 +53,9 @@ class TestUM(unittest.TestCase):
 			A,y = generate_random.generate_random_ill_conditioned(i)
 			self.assertEquals(
 				lp.tikhonov_regularization(A,y,LAMBDA).all(), 
-				scipy.sparse.linalg.lsmr(A,y,LAMBDA)[0].all()
+				lsmr(A,y,LAMBDA)[0].all()
 				)
+
 
 if __name__ == '__main__':
 	unittest.main()

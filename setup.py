@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='0.1.544',
+    version='0.1.545',
 
     description='Package to solve linear inverse problems',
     long_description=long_description,
@@ -55,11 +55,11 @@ setup(
 
     #packages=['linvpy'],
 
-    #packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
-    py_modules=['linvpy'],
+    #py_modules=['linvpy'],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's

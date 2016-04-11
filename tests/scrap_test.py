@@ -4,7 +4,7 @@ import generate_random as gen
 import numpy as np
 import matplotlib.pyplot as plt
 import optimal as opt
-
+from scipy.sparse.linalg import lsmr
 
 A = np.matrix([[1,3],[3,4]])
 y = np.array([-6,1,-2])
@@ -41,7 +41,6 @@ plt.plot([reg.psi_cauchy(i) for i in range(-20,20)])
 plt.show()
 
 print [reg.psi_bisquare(i,5) for i in x]
-'''
 
 marta_list = opt.rhooptimal(y,2)
 my_list = [lp.rho_optimal(i) for i in y]
@@ -54,4 +53,19 @@ print "marta's score : ", opt.scoreoptimal(y,2)
 #print reg.rho_optimal(2,3)
 
 print "mine : ", [lp.rho_optimal(i) for i in y]
+'''
+
+
+A,y = gen.generate_random(4)
+#print "my gradient= ", lp.least_squares_gradient(A,y)
+#print "my matrice form= ", lp.least_squares(A,y) 
+#print "numpy's =", np.linalg.lstsq(A,y)[0]
+
+LAMBDA=0.2
+print lp.tikhonov_regularization(A,y,LAMBDA)
+print lsmr(A,y,LAMBDA)[0]
+
+
+
+
 

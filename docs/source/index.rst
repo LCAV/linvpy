@@ -35,7 +35,6 @@ Documentation
 .. module::
 .. automodule:: linvpy
 .. autofunction:: least_squares
-.. autofunction:: least_squares_gradient
 .. autofunction:: tikhonov_regularization
 .. autofunction:: rho_huber
 .. autofunction:: psi_huber
