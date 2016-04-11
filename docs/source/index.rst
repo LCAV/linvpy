@@ -17,12 +17,16 @@ Get it
 
 LinvPy is available from PyPi. If you have pip already installed, simply run : ::
 
-	$ pip install linvpy
+	$ sudo pip install linvpy
 
 If you don't have pip installed, run : ::
 
 	$ sudo easy_install pip
-	$ pip install linvpy
+	$ sudo pip install linvpy
+
+To upgrade linvpy to the latest version : ::
+
+	$ sudo pip install --upgrade linvpy
 
 
 Documentation
