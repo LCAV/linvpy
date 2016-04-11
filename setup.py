@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='0.1.541',
+    version='0.1.542',
 
     description='Package to solve linear inverse problems',
     long_description=long_description,
