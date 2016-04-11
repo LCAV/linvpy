@@ -29,7 +29,7 @@ Documentation
 =============
 
 .. module::
-.. automodule:: regression
+.. automodule:: linvpy
 .. autofunction:: least_squares
 .. autofunction:: least_squares_gradient
 .. autofunction:: tikhonov_regularization
@@ -42,10 +42,8 @@ Documentation
 .. autofunction:: rho_optimal
 .. autofunction:: weights
 .. autofunction:: irls
-
-
-.. autofunction:: weight_function
-.. autofunction:: iteratively_reweighted_least_squares
+.. autofunction:: weights
+.. autofunction:: irls
 
 Develop
 =======

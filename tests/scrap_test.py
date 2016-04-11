@@ -1,4 +1,4 @@
-from linvpy import regression as reg
+import linvpy as lp
 import mestimator_marta as marta
 import generate_random as gen
 import numpy as np
@@ -44,7 +44,7 @@ print [reg.psi_bisquare(i,5) for i in x]
 '''
 
 marta_list = opt.rhooptimal(y,2)
-my_list = [reg.rho_optimal(i) for i in y]
+my_list = [lp.rho_optimal(i) for i in y]
 
 marta_numpy = np.array(marta_list)
 my_numpy = np.array(my_list)
@@ -53,5 +53,5 @@ print "marta's rho : ", opt.rhooptimal(y,2)
 print "marta's score : ", opt.scoreoptimal(y,2)
 #print reg.rho_optimal(2,3)
 
-print "mine : ", [reg.rho_optimal(i) for i in y]
+print "mine : ", [lp.rho_optimal(i) for i in y]
 

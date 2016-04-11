@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from linvpy import regression
+from linvpy as lp
 import generate_random
 import scipy
 
@@ -28,7 +28,7 @@ class TestUM(unittest.TestCase):
 		for i in range(1,TESTING_ITERATIONS):
 			A,y = generate_random.generate_random(i)      
 			self.assertEquals(
-				regression.least_squares(A,y).all(), 
+				lp.least_squares(A,y).all(), 
 				np.linalg.lstsq(A,y)[0].all()
 				)
 
@@ -38,7 +38,7 @@ class TestUM(unittest.TestCase):
 		for i in range(1,TESTING_ITERATIONS):
 			A,y = generate_random.generate_random(i)      
 			self.assertAlmostEquals(
-				regression.least_squares_gradient(A,y).all(), 
+				lp.least_squares_gradient(A,y).all(), 
 				np.linalg.lstsq(A,y)[0].all()
 				)
 
@@ -60,7 +60,7 @@ class TestUM(unittest.TestCase):
 			LAMBDA = np.random.rand(1)
 			A,y = generate_random.generate_random_ill_conditioned(i)
 			self.assertEquals(
-				regression.tikhonov_regularization(A,y,LAMBDA).all(), 
+				lp.tikhonov_regularization(A,y,LAMBDA).all(), 
 				scipy.sparse.linalg.lsmr(A,y,LAMBDA)[0].all()
 				)
 

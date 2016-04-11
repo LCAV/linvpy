@@ -1,1 +1,1 @@
-__all__ = ['regression']
+__all__ = ['linvpy']
