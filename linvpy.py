@@ -416,13 +416,10 @@ def weights(input, function=psi_huber, delta=3):
     Returns an array of :
 
     :math:`\\begin{cases}
-    \\frac{function(x_i)}{x_i}& \\text{if} x_i \\neq 0, \\\\
+    \\frac{function(x_i)}{x_i}& \\text{if } x_i \\neq 0, \\\\
     0& \\text{otherwise}.
     \\end{cases}`
 
-    :math:`\\frac{function(x_i)}{x_i}`
-
-     [function(x_i)/x_i where x_i != 0, 0 otherwise.]
     By default the function is psi_huber(x), the derivative of the Huber loss 
     function. Note that the function passed in argument must support two inputs.
 
