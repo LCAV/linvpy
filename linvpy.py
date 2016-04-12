@@ -413,7 +413,16 @@ def rho_optimal(input, c=3.270):
 
 def weights(input, function=psi_huber, delta=3):
     '''
-    Returns an array of [function(x_i)/x_i where x_i != 0, 0 otherwise.]
+    Returns an array of :
+
+    :math:`\\begin{cases}
+    \\frac{function(x_i)}{x_i}& \\text{if} x_i \\neq 0, \\\\
+    0& \\text{otherwise}.
+    \\end{cases}`
+
+    :math:`\\frac{function(x_i)}{x_i}`
+
+     [function(x_i)/x_i where x_i != 0, 0 otherwise.]
     By default the function is psi_huber(x), the derivative of the Huber loss 
     function. Note that the function passed in argument must support two inputs.
 
@@ -440,7 +449,7 @@ def weights(input, function=psi_huber, delta=3):
     # If the input is a list, the evaluation is run on all values and a list
     # is returned. If it's a float, a float is returned.
     if isinstance(input, (int, float)):
-        return function(input, delta)
+        return function(input, delta)/float(input)
     else :
         # Ensures the input is an array and not a matrix. 
         # Turns [[a b c]] into [a b c].
