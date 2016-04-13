@@ -4,6 +4,7 @@ import linvpy as lp
 import generate_random
 from scipy.sparse.linalg import lsmr
 import matplotlib.pyplot as plt
+import optimal as opt
 
 TESTING_ITERATIONS = 100
 # For a matrix to be ill-conditioned, its condition number must be equal to or
@@ -58,6 +59,21 @@ class TestUM(unittest.TestCase):
 				lsmr(A,y,LAMBDA)[0].all()
 				)
 
+'''
+	# Tests my rho_optimal function against Marta's
+	def test_rho_optimal(self):
+		for i in range(2,TESTING_ITERATIONS):
+			# Generates random lambda
+			LAMBDA = np.random.rand(1)
+			A,y = generate_random.generate_random_ill_conditioned(i)
+			self.assertAlmostEquals(1.1, 1.0, places=0)
+			self.assertAlmostEquals(
+				np.asarray([lp.rho_optimal(i,LAMBDA) for i in y]).all(), 
+				opt.rhooptimal(y,LAMBDA).all(),
+				places=0
+				)
+'''
+
 
 
 # Plots loss functions
@@ -77,7 +93,7 @@ def plot_loss_functions():
 	plt.show()
 
 # Uncomment the following line to display plots :
-#plot_loss_functions()
+plot_loss_functions()
 
 if __name__ == '__main__':
 	unittest.main()

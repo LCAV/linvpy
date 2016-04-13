@@ -139,23 +139,23 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     return vector_x
 
 
-def rho_huber(input, delta=1.345):
+def rho_huber(input, clipping=1.345):
     '''
     The regular huber loss function; the "rho" version.
 
     :math:`\\rho(x)=\\begin{cases}
-    \\frac{1}{2}{x^2}& \\text{if |x| <=} \\delta, \\\\
-    \\delta (|x| - \\dfrac{1}{2} \\delta)& \\text{otherwise}.
+    \\frac{1}{2}{x^2}& \\text{if |x| <=} clipping, \\\\
+    clipping (|x| - \\dfrac{1}{2} clipping)& \\text{otherwise}.
     \\end{cases}`
 
-    This function is quadratic for small values of a, and linear for large 
-    values, with equal values and slopes of the different sections at the two
-    points where |a|= delta. The variable a often refers to the residuals, 
+    This function is quadratic for small inputs, and linear for large 
+    inputs, with equal values and slopes of the different sections at the two
+    points where |input|= clipping. The variable a often refers to the residuals, 
     that is to the difference between the observed and predicted values 
     a=y-f(x)
 
     :param input: (float) residual to be evaluated
-    :param delta: (optional)(float) trigger parameter 
+    :param clipping: (optional)(float) clipping parameter 
 
     :return float: penalty incurred by the estimation
 
@@ -175,27 +175,27 @@ def rho_huber(input, delta=1.345):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if delta <= 0 :
-        raise ValueError('delta must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
-    if (np.absolute(input) <= delta):
+    if (np.absolute(input) <= clipping):
         return math.pow(input, 2)/2
     else :
-        return delta * (np.subtract(np.absolute(input),delta/2))
+        return clipping * (np.subtract(np.absolute(input),clipping/2))
 
 
-def psi_huber(input, delta=1.345):
+def psi_huber(input, clipping=1.345):
     '''
     Derivative of the Huber loss function; the "psi" version. Used in the weight 
     function of the M-estimator.
 
     :math:`\\psi(x)=\\begin{cases}
-    \\x& \\text{if |x| <=} \\delta, \\\\
-    \\delta sign(x) & \\text{otherwise}.
+    x& \\text{if |x| <=} clipping, \\\\
+    clipping sign(x) & \\text{otherwise}.
     \\end{cases}`
 
     :param input: (float) residual to be evaluated
-    :param delta: (optional)(float) trigger parameter 
+    :param clipping: (optional)(float) clipping parameter 
 
     :return float: penalty incurred by the estimation
 
@@ -216,15 +216,15 @@ def psi_huber(input, delta=1.345):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if delta <= 0 :
-        raise ValueError('delta must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
-    if (np.absolute(input) >= delta):
-        return delta * np.sign(input)
+    if (np.absolute(input) >= clipping):
+        return clipping * np.sign(input)
     else :
         return input
 
-def rho_bisquare(input, c=4.685):
+def rho_bisquare(input, clipping=4.685):
     '''
     The regular bisquare loss (or Tukey's loss), "rho" version.
 
@@ -234,7 +234,7 @@ def rho_bisquare(input, c=4.685):
     \\end{cases}`
 
     :param input: (float) residual to be evaluated
-    :param c: (optional)(float) trigger parameter
+    :param clipping: (optional)(float) clipping parameter
 
     :return float: result of bisquare function
 
@@ -254,22 +254,22 @@ def rho_bisquare(input, c=4.685):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if c <= 0 :
-        raise ValueError('constant c must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
-    if (np.absolute(input) <= c):
+    if (np.absolute(input) <= clipping):
         return (
-            (c**2.0)/6.0)*(
+            (clipping**2.0)/6.0)*(
                 1-(
                     (1-(
-                        input/c)**2)
+                        input/clipping)**2)
                     **3)
                 )
     else :
-        return (c**2)/6.0
+        return (clipping**2)/6.0
 
 
-def psi_bisquare(input, c=4.685):
+def psi_bisquare(input, clipping=4.685):
     '''
     The derivative of bisquare loss (or Tukey's loss), "psi" version.
 
@@ -279,7 +279,7 @@ def psi_bisquare(input, c=4.685):
     \\end{cases}`
 
     :param input: (float) residual to be evaluated
-    :param c: (optional)(float) trigger parameter
+    :param clipping: (optional)(float) clipping parameter
 
     :return float: result of bisquare function
 
@@ -299,22 +299,22 @@ def psi_bisquare(input, c=4.685):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if c <= 0 :
-        raise ValueError('constant c must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
-    if (np.absolute(input) <= c):
-        return input*((1-(input/c)**2)**2)
+    if (np.absolute(input) <= clipping):
+        return input*((1-(input/clipping)**2)**2)
     else :
         return 0.0
 
-def rho_cauchy(input, c=2.3849):
+def rho_cauchy(input, clipping=2.3849):
     '''
     Cauchy loss function; the "rho" version.
 
     :math:`\\rho(x)=(c^2/2)log(1+(x/c)^2)`
 
     :param input: (float) residual to be evaluated
-    :param c: (optional)(float) trigger parameter 
+    :param clipping: (optional)(float) clipping parameter 
 
     :return float: result of the cauchy function
 
@@ -334,23 +334,23 @@ def rho_cauchy(input, c=2.3849):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if c <= 0 :
-        raise ValueError('constant c must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
     return (
-        (c**2)/2
+        (clipping**2)/2
         )*math.log(
         1+(
-            input/c)**2)
+            input/clipping)**2)
 
-def psi_cauchy(input, c=2.3849):
+def psi_cauchy(input, clipping=2.3849):
     '''
     Derivative of Cauchy loss function; the "psi" version.
 
     :math:`\\psi(x)=\\frac{x}{1+(x/c)^2}`
 
     :param input: (float) residual to be evaluated
-    :param c: (optional)(float) trigger parameter 
+    :param clipping: (optional)(float) clipping parameter 
 
     :return float: result of the cauchy's derivative function
 
@@ -370,15 +370,15 @@ def psi_cauchy(input, c=2.3849):
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if c <= 0 :
-        raise ValueError('constant c must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
     return input/(
         1+(
-            input/c
+            input/clipping
             )**2)
 
-def rho_optimal(input, c=3.270):
+def rho_optimal(input, clipping=3.270):
     '''
     The Fast-Tau Estimator for Regression, Matias SALIBIAN-BARRERA, Gert WILLEMS, and Ruben ZAMAR.
 
@@ -387,31 +387,50 @@ def rho_optimal(input, c=3.270):
     The equation is found p. 611. To get the exact formula, it is necessary to use 3*c instead of c.
 
     :param input: (float) residual to be evaluated
-    :param delta: (optional)(float) trigger parameter 
+    :param clipping: (optional)(float) clipping parameter 
 
     :return float: result of the optimal function
     '''
 
     # To get the exact formula, it is necessary to use 3*c instead of c.
-    c = 3*c
+    clipping = 3*clipping
 
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
-    if c <= 0 :
-        raise ValueError('constant c must be positive.')
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
 
-    if abs(input/c) <= 2.0/3.0 :
-        return 1.38 * (input/c)**2
-    elif abs(input/c) <= 1.0 :
-        return 0.55 - (2.69 * (input/c)**2) + (
-            10.76 * (input/c)**4) - (
-            11.66 * (input/c)**6) + (
-            4.04 * (input/c)**8)
-    elif abs(input/c) > 1 :
+    if abs(input/clipping) <= 2.0 :
+        return 1.38 * (input/clipping)**2
+    elif abs(input/clipping) <= 1.0 :
+        return 0.55 - (2.69 * (input/clipping)**2) + (
+            10.76 * (input/clipping)**4) - (
+            11.66 * (input/clipping)**6) + (
+            4.04 * (input/clipping)**8)
+    elif abs(input/clipping) > 1 :
         return 1.0
 
-def weights(input, function=psi_huber, delta=3):
+def psi_optimal(input, clipping=3.270):
+    '''
+
+    :param input: (float) residual to be evaluated
+    :param clipping: (optional)(float) clipping parameter 
+
+    :return float: result of the optimal function
+    '''
+
+    # To get the exact formula, it is necessary to use 3*c instead of c.
+    clipping = 3*clipping
+
+    # Casting input to float to avoid divisions rounding
+    input = float(input)
+
+    if clipping <= 0 :
+        raise ValueError('clipping must be positive.')
+
+
+def weights(input, function, *clipping):
     '''
     Returns an array of :
 
@@ -420,33 +439,41 @@ def weights(input, function=psi_huber, delta=3):
     0& \\text{otherwise}.
     \\end{cases}`
 
-    By default the function is psi_huber(x), the derivative of the Huber loss 
-    function. Note that the function passed in argument must support two inputs.
+    Weights function designed to be used with loss functions like rho_huber, 
+    psi_huber, rho_cauchy... Note that the function passed in argument must
+    support two inputs.
 
-    :param input: (array or float) vector or float to be processed
-    :param function: (optional)(function) f(x) in f(x)/x. psi_huber(x) default.
-    :param delta: (optional) trigger parameter of the huber loss function.
+    :param input: (array or float) vector or float to be processed, x_i's
+    :param function: (function) f(x) in f(x)/x.
+    :param clipping: (optional) clipping parameter of the huber loss function.
 
     :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
 
-    Example : run the weight function with your own function
+    Example : run the weight function with the psi_huber with default
+    clipping or with another function like rho_cauchy and another clipping.
 
     .. code-block:: python
 
         import linvpy as lp
 
-        x = [1,2,3,4,5,6,7,8,9]
+        x = [1,2,3,4,5]
 
-        lp.weights(x)
+        # psi_huber, default clipping
+        lp.weights(x, lp.psi_huber)
 
-        # [1, 0.75, 0.5, 0.375, 0.3, 0.25, 0.21428571428571427, 0.1875, 0.16666666666666666]
+        # [1.0, 0.67249999999999999, 0.44833333333333331, 0.33624999999999999, 0.26900000000000002]
+
+        # rho_cauchy, clipping=2.5
+        lp.weights(x, lp.rho_cauchy, 2.5)
+
+        # [0.46381251599460444, 0.7729628778689174, 0.9291646242761568, 0.9920004256749526, 1.0058986952713127]
 
     '''
 
     # If the input is a list, the evaluation is run on all values and a list
     # is returned. If it's a float, a float is returned.
     if isinstance(input, (int, float)):
-        return function(input, delta)/float(input)
+        return function(input, *clipping)/float(input)
     else :
         # Ensures the input is an array and not a matrix. 
         # Turns [[a b c]] into [a b c].
@@ -455,10 +482,10 @@ def weights(input, function=psi_huber, delta=3):
                         input
                         )
                     )
-        return [0 if (i == 0) else function(i, delta)/float(i) for i in input]
+        return [0 if (i == 0) else function(i, *clipping)/float(i) for i in input]
 
 
-def irls(matrix_a, vector_y):
+def irls(matrix_a, vector_y, loss_function, *clipping):
     '''
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
@@ -478,6 +505,8 @@ def irls(matrix_a, vector_y):
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
+    :param loss_function: the loss function to be used
+    :param clipping: clipping parameter for the loss function
 
     :return array: vector of x solution of IRLS
 
@@ -508,7 +537,7 @@ def irls(matrix_a, vector_y):
                             np.dot(matrix_a,
                                 vector_x
                                 )
-                            )
+                            ), loss_function, *clipping
                         )
                     )
                 )
@@ -560,5 +589,3 @@ def irls(matrix_a, vector_y):
 A = np.matrix([[1,3],[3,4],[4,5]])
 y = np.array([-6,1,-2])
 
-def lol(a,b):
-    return b*a
