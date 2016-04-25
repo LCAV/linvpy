@@ -163,8 +163,8 @@ print toolboxutilities.weights(y, 'M', 'squared', 3, 0)
 
 
 
-
-# TEST RHO OPTIMAL => SAME NUMBERS BUT 100 0R 1000 TIMES SMALLER
+'''
+# TEST RHO OPTIMAL
 
 A,y = gen.generate_random(5)
 
@@ -172,6 +172,18 @@ print "my rho = ", [lp.rho_optimal(i, 3) for i in y]
 
 print "marta's rho = ", opt.rhooptimal(y,3)
 
+'''
 
+
+
+
+
+
+
+# TEST WEIGHTS => SAME BUT DIVIDED BY 2
+
+print "my weights =", lp.weights(y, lp.psi_huber, 1.5)
+
+print "marta's weights = ", marta.weights(y, 'M', 'huber', 1.5, 0)
 
 
