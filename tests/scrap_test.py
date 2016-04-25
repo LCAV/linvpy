@@ -100,10 +100,8 @@ print [lp.psi_huber(i,1.5) for i in x]
 print toolboxinverse.ridge(y,A,0.5)
 print lp.tikhonov_regularization(A,y,0.5)
 
-A,y = gen.generate_random(5)
 B,x =gen.generate_random(4)
 
-'''
 print np.ones(4)
 print "y= ", y
 print "A = ", A
@@ -111,7 +109,11 @@ print "dot result = ", np.dot(A, np.ones(3))
 
 print lp.irls(A,y, lp.psi_huber)
 
-print toolboxinverse.mestimator(y,A, 'huber', 3, np.ones(3))
+print lp.irls()
+'''
+
+
+#print toolboxinverse.mestimator(y,A, 'huber', 3, np.ones(3))
 
 #print toolboxinverse.irls(y,A,'M', 'huber', 'none', 0.5, np.ones(3), 0,1.5)
 
@@ -153,6 +155,23 @@ y = np.array(x)
 print lp.weights(x, lp.psi_huber,3)
 print toolboxutilities.weights(y, 'M', 'squared', 3, 0)
 '''
+
+
+
+
+
+
+
+
+
+# TEST RHO OPTIMAL => SAME NUMBERS BUT 100 0R 1000 TIMES SMALLER
+
+A,y = gen.generate_random(5)
+
+print "my rho = ", [lp.rho_optimal(i, 3) for i in y]
+
+print "marta's rho = ", opt.rhooptimal(y,3)
+
 
 
 

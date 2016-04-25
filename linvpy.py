@@ -191,7 +191,7 @@ def psi_huber(input, clipping=1.345):
 
     :math:`\\psi(x)=\\begin{cases}
     x& \\text{if |x| <=} clipping, \\\\
-    clipping sign(x) & \\text{otherwise}.
+    clipping * sign(x) & \\text{otherwise}.
     \\end{cases}`
 
     :param input: (float) residual to be evaluated
