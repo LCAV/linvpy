@@ -1,3 +1,5 @@
+from __future__ import division  # take the division operator from future versions
+
 import numpy as np
 import toolboxutilities as util
 import sys
@@ -12,11 +14,11 @@ def scorefunction(u, kind, clipping):
     elif kind == 'squared':
         score = u
     elif kind == 'optimal':
-        score = scoreoptimal(u, clipping)
+        score = util.scoreoptimal(u, clipping)
     elif kind == 'tau':
-        weighttau = tauweights(u, 'optimal', clipping)
+        weighttau = util.tauweights(u, 'optimal', clipping)
         score = (
-            weighttau * scoreoptimal(u, clipping[0]) + scoreoptimal(
+            weighttau * util.scoreoptimal(u, clipping[0]) + util.scoreoptimal(
                 u, clipping[1]
             )
         )
@@ -139,14 +141,18 @@ def mestimator(y, a, lossfunction, clipping):
     m, n = a.shape
     initialx = np.ones((n, 1))  # initial solution
     xhat, k, w, steps = irls(y, a, lossfunction, initialx, clipping)
-    return xhat
+    return xhat, steps
 
 
 def main():
     # usage
-    y = np.ones((3, 1))
-    a = np.ones((3, 2))
-    out = mestimator(y, a, 'huber', 1.3)
+    y = np.ones((8, 1))
+    a = np.ones((8, 2))
+    # for a large clipping parameter, LS and M outputs should be the same
+    out, steps = mestimator(y, a, 'huber', 6)
+    outls = leastsquares(y,a)
+    print out
+    print outls
 
 if __name__ == '__main__':
     main()

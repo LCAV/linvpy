@@ -38,7 +38,7 @@ def least_squares(matrix_a, vector_y):
         np.dot(
             np.linalg.inv(
                 np.dot(
-                    matrix_a.T, #A.T returns the transpose of A
+                    matrix_a.T, # A.T returns the transpose of A
                     matrix_a
                     )
             ),
@@ -171,7 +171,6 @@ def rho_huber(input, clipping=1.345):
 
         # [0.5, 2.0, 4.5, 8.0, 12, 16, 20, 24, 28]
     '''
-
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
@@ -212,7 +211,6 @@ def psi_huber(input, clipping=1.345):
         # [1, 2, 3, 4, 4, 4, 4, 4, 4]
 
     '''
-
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
@@ -250,7 +248,6 @@ def rho_bisquare(input, clipping=4.685):
 
         # [0.46940104166666663, 1.5416666666666665, 2.443359375, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665, 2.6666666666666665]
     '''
-
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
@@ -295,7 +292,6 @@ def psi_bisquare(input, clipping=4.685):
 
         # [0.87890625, 1.125, 0.57421875, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     '''
-
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
@@ -330,8 +326,7 @@ def rho_cauchy(input, clipping=2.3849):
 
         # [0.4849969745314787, 1.7851484105136781, 3.5702968210273562, 5.545177444479562, 7.527866755716213, 9.42923997073317, 11.214388381246847, 12.875503299472802, 14.416978050108813]
     '''
-
-    # Casting input to float to avoid divisions rounding
+  # Casting input to float to avoid divisions rounding
     input = float(input)
 
     if clipping <= 0 :
@@ -469,9 +464,10 @@ def weights(input, function, *clipping):
         # [0.46381251599460444, 0.7729628778689174, 0.9291646242761568, 0.9920004256749526, 1.0058986952713127]
 
     '''
-
+    # TODO: why are we passing the clipping argument as a list? (*clipping)
     # If the input is a list, the evaluation is run on all values and a list
     # is returned. If it's a float, a float is returned.
+    # TODO: we can have input=0 as well in the scalar case.
     if isinstance(input, (int, float)):
         return function(input, *clipping)/float(input)
     else :
@@ -505,13 +501,14 @@ def irls(matrix_a, vector_y, loss_function, *clipping):
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
-    :param loss_function: the loss function to be used
+    :param loss_function: the loss function to be used in the M estimator
     :param clipping: clipping parameter for the loss function
 
     :return array: vector of x solution of IRLS
 
     '''
-
+    # TODO: we can pass tolerance and max_iterations as default parameters in the function. Then we give the user the
+    # option of changing them
     # Tolerance to estimate that the algorithm has converged
     TOLERANCE = 1e-5
     MAX_ITERATIONS = 100
@@ -522,12 +519,13 @@ def irls(matrix_a, vector_y, loss_function, *clipping):
 
     # Generates a ones vector_x with length = matrix_a.columns
     vector_x = np.ones(matrix_a.shape[1])
-
+    # TODO: x is not a good name. It can be confused with vector x
     for x in range(1,MAX_ITERATIONS):
                 
         # Makes a diagonal matrix with values of w(y-Ax)
         # f(x) on a numpy array applies the function to each element
         # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
+        # TODO: I think it is better to define a function that generates the weights
         weights_matrix = np.diag(
             np.squeeze(
                 np.asarray(
@@ -543,7 +541,7 @@ def irls(matrix_a, vector_y, loss_function, *clipping):
                 )
             )
 
-
+        # TODO: call y_LS y_weighted or something like that. y_LS does not say much...
         # y_LS = W^1/2 y
         vector_y_LS = np.dot(
             np.sqrt(weights_matrix),
