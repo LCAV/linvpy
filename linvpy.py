@@ -425,7 +425,7 @@ def psi_optimal(input, clipping=3.270):
         raise ValueError('clipping must be positive.')
 
 
-def weights(input, function, *clipping):
+def weights(input, function, clipping=None):
     '''
     Returns an array of :
 
@@ -464,24 +464,38 @@ def weights(input, function, *clipping):
         # [0.46381251599460444, 0.7729628778689174, 0.9291646242761568, 0.9920004256749526, 1.0058986952713127]
 
     '''
-    # TODO: why are we passing the clipping argument as a list? (*clipping)
-    # If the input is a list, the evaluation is run on all values and a list
-    # is returned. If it's a float, a float is returned.
-    # TODO: we can have input=0 as well in the scalar case.
+
+    # kwargs = keyword arguments : if clipping is not specified, kwargs=None
+    # and we use the default loss function's clipping, otherwise we use the one
+    # passed in weights() with **kwargs
+    kwargs = {}
+    if clipping != None:
+        kwargs['clipping'] = clipping
+
     if isinstance(input, (int, float)):
-        return function(input, *clipping)/float(input)
+        if (input == 0) :
+            return 0.0
+        return function(input, **kwargs)/float(input)
     else :
         # Ensures the input is an array and not a matrix. 
         # Turns [[a b c]] into [a b c].
+
         input = np.squeeze(
                     np.asarray(
                         input
                         )
-                    )
-        return [0 if (i == 0) else function(i, *clipping)/float(i) for i in input]
+                    ).flatten()
+
+        output = [0 if (i == 0) else 0.5*function(i, **kwargs)/float(i) for i in input]
+        return np.array(output)
 
 
-def irls(matrix_a, vector_y, loss_function, *clipping):
+
+# scale = sigma that divides; if sigma if given in parameter => preliminary scale
+# lmb = lambda for tikhonov => if lambda is given : regularized m-estimator
+# if lamb and scale are given : regularized m-estimator with preliminary scale
+def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, 
+    tolerance=1e-5, max_iterations=100):
     '''
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
@@ -507,65 +521,75 @@ def irls(matrix_a, vector_y, loss_function, *clipping):
     :return array: vector of x solution of IRLS
 
     '''
-    # TODO: we can pass tolerance and max_iterations as default parameters in the function. Then we give the user the
-    # option of changing them
-    # Tolerance to estimate that the algorithm has converged
-    TOLERANCE = 1e-5
-    MAX_ITERATIONS = 100
+
+    # If a scale parameter is given, m-estimator runs with preliminary scale.
+    # This checks that scale is int or float and nonzero.
+    # If no scale is given, scale = 1.0
+    if (scale != None) :
+        if (isinstance(scale, float) or isinstance(scale, int)) == False :
+            raise ValueError('scale must be a scalar.')
+        elif scale == 0 :
+            raise ValueError('scale must be nonzero.')
+    else : scale = 1.0
+
+    print "scale = ", scale
+
+    # kwargs = keyword arguments : if clipping is not specified, kwargs=None
+    # and we use the default loss function's clipping, otherwise we use the one
+    # passed in weights() with **kwargs
+    kwargs = {}
+    if clipping != None:
+        kwargs['clipping'] = clipping
 
     # Ensures numpy types
     matrix_a = np.matrix(matrix_a)
-    vector_y = np.array(vector_y)
+    vector_y = np.array(vector_y).flatten()
 
     # Generates a ones vector_x with length = matrix_a.columns
     vector_x = np.ones(matrix_a.shape[1])
-    # TODO: x is not a good name. It can be confused with vector x
-    for x in range(1,MAX_ITERATIONS):
-                
+
+    # Residuals = y - Ax, difference between measured values and model
+    residuals = vector_y - np.dot(matrix_a, vector_x)
+    residuals = residuals / scale
+
+    for i in range(1,max_iterations):
+        
+        # weights(y-Ax, loss_function, clipping)
+        weights_vector = weights(residuals, loss_function, **kwargs)
+
         # Makes a diagonal matrix with values of w(y-Ax)
-        # f(x) on a numpy array applies the function to each element
         # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
-        # TODO: I think it is better to define a function that generates the weights
         weights_matrix = np.diag(
             np.squeeze(
-                np.asarray(
-                    # w(x) = psi_huber(x)/x = rho_huber(x)/x = rho_huber(y-Ax)/(y-Ax)
-                    weights(
-                        np.subtract(vector_y,
-                            np.dot(matrix_a,
-                                vector_x
-                                )
-                            ), loss_function, *clipping
-                        )
-                    )
+                np.asarray(weights_vector)
                 )
             )
 
-        # TODO: call y_LS y_weighted or something like that. y_LS does not say much...
-        # y_LS = W^1/2 y
-        vector_y_LS = np.dot(
-            np.sqrt(weights_matrix),
-            vector_y
-            )
+        # Square root of the weights matrix, sqwm = W^1/2
+        sqwm = np.sqrt(weights_matrix)
 
-        # A_LS = W^1/2 A
-        matrix_a_LS = np.dot(
-            np.sqrt(weights_matrix),
-            matrix_a
-            )
+        # y_weighted = diagonal of W^1/2 y
+        y_weighted = np.diagonal(sqwm * vector_y)
 
-        # vector_x_storage is there to store the previous value to compare
-        vector_x_storage = np.copy(vector_x)
-        vector_x = least_squares(matrix_a_LS, vector_y_LS)
+        # A_weighted = W^1/2 A
+        a_weighted = sqwm * matrix_a
+
+        # vector_x_new is there to keep the previous value to compare
+        vector_x_new = tikhonov_regularization(a_weighted, y_weighted, lamb)
+
+        # Normalized distance between previous and current iteration
+        xdis = np.linalg.norm(vector_x - vector_x_new)
+
+        # New residuals
+        residuals = vector_y - np.dot(matrix_a, vector_x_new)
+
+        # Divided by the specified optional scale, otherwise scale = 1
+        residuals = residuals / scale
+        vector_x = vector_x_new
 
         # if the difference between iteration n and iteration n+1 is smaller 
-        # than TOLERANCE, return vector_x
-        if (np.linalg.norm(
-            np.subtract(
-                vector_x_storage, 
-                vector_x
-                )
-            ) < TOLERANCE):
+        # than tolerance, return vector_x
+        if (xdis < tolerance):
             print('CONVERGED !')
             return vector_x
 
@@ -576,14 +600,20 @@ def irls(matrix_a, vector_y, loss_function, *clipping):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 #===============================================================================
 #===================================TESTING AREA================================
 #===============================================================================
-
-
-
-# Dummy tests 2
-
-A = np.matrix([[1,3],[3,4],[4,5]])
-y = np.array([-6,1,-2])
 

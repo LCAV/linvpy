@@ -6,16 +6,16 @@ import numpy as np
 
 CONDITION_NUMBER_LOWERBOUND = 10000
 
-def generate_random(size):
+def generate_random(rows,columns):
     '''
     :param size: (int) size of matrix and vector
 
     :return tuple(np.matrix, array): a random tuple A,y of matching dimensions
     '''
 
-    if size == 1:
-        return np.matrix([[np.random.rand()]]), [np.random.rand()]
-    return np.matrix(np.random.rand(size,size-1)) , np.random.rand(size)
+    if rows == 1:
+        return np.array([[np.random.rand()]]), [np.random.rand()]
+    return np.array(np.random.rand(rows,columns)) , np.random.rand(rows)
 
 
 def generate_random_ill_conditioned(size):
