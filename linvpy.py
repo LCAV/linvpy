@@ -378,7 +378,7 @@ def rho_optimal(input, clipping=3.270):
 
     :math:`\\rho(x)=\\begin{cases}
     1.38(x/c)^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 <|x/c| leq 1}, \\\\
+    0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 }<|x/c| leq 1, \\\\
     1 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
