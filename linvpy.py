@@ -375,11 +375,12 @@ def psi_cauchy(input, clipping=2.3849):
 
 def rho_optimal(input, clipping=3.270):
     '''
-    The Fast-Tau Estimator for Regression, Matias SALIBIAN-BARRERA, Gert WILLEMS, and Ruben ZAMAR.
 
-    www.tandfonline.com/doi/pdf/10.1198/106186008X343785
-
-    The equation is found p. 611. To get the exact formula, it is necessary to use 3*c instead of c.
+    :math:`\\rho(x)=\\begin{cases}
+    1.38(x/c)^2 & \\text{if |x/c|} \\leq 2/3, \\\\
+    0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 <|x/c| leq 1}, \\\\
+    1 &  \\text{if |x/c| > 1}.
+    \\end{cases}`
 
     :param input: (float) residual to be evaluated
     :param clipping: (optional)(float) clipping parameter 
@@ -387,6 +388,7 @@ def rho_optimal(input, clipping=3.270):
     :return float: result of the optimal function
     '''
 
+    # TODO: ignore this (c = 3c). Implement the formula as it is
     # To get the exact formula, it is necessary to use 3*c instead of c.
     clipping = 3*clipping
 
@@ -395,7 +397,7 @@ def rho_optimal(input, clipping=3.270):
 
     if clipping <= 0 :
         raise ValueError('clipping must be positive.')
-
+    # TODO: the implementation does not agrees with the formula, right?
     if abs(input/clipping) <= 2.0 :
         return 1.38 * (input/clipping)**2
     elif abs(input/clipping) <= 1.0 :
