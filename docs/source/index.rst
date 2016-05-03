@@ -57,12 +57,14 @@ If you want to contribute to this project, feel free to fork our GitHub main rep
 
 2. Clone this copy of the repository in your local disk.
 
-3. Create a branch to develop the new feature: ::
+3. Create a branch to develop the new feature : ::
+
 	$ git checkout -b new_feature
 	
  Work in this branch, never in the master branch.
  
-4. To upload your changes to the repository: ::
+4. To upload your changes to the repository : ::
+
 	$ git add modified_files
 	$ git commit -m "what did you implement in this commit"
 	$ git push origin new_feature
