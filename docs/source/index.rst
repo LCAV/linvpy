@@ -48,10 +48,27 @@ Documentation
 .. autofunction:: weights
 .. autofunction:: irls
 
-Develop
+Contribute
 =======
 
-If you want to contribute to this project, feel free to create a new branch on our GitHub repository : https://github.com/GuillaumeBeaud/linvpy
+If you want to contribute to this project, feel free to fork our GitHub main repository repository : https://github.com/GuillaumeBeaud/linvpy. Then, submit a 'pull request'. Please follow this workflow, step by step:
+
+1. Fork the project repository: click on the 'Fork' button near the top of the page. This creates a copy of the repository in your GitHub account.
+
+2. Clone this copy of the repository in your local disk.
+
+3. Create a branch to develop the new feature: ::
+	$ git checkout -b new_feature
+	
+ Work in this branch, never in the master branch.
+ 
+4. To upload your changes to the repository: ::
+	$ git add modified_files
+	$ git commit -m "what did you implement in this commit"
+	$ git push origin new_feature
+	
+When your are done, go to the webpage of the main repository, and click 'Pull request' to send your changes for review.
+	
 
 Indices and tables
 ==================
