@@ -433,21 +433,21 @@ def psi_optimal(input, clipping=3.270):
         raise ValueError('clipping must be positive.')
 
 
-def weights(input, function, clipping=None):
+def weights(input, loss_function, clipping=None):
     '''
     Returns an array of :
 
     :math:`\\begin{cases}
-    \\frac{function(x_i)}{x_i}& \\text{if } x_i \\neq 0, \\\\
+    \\frac{loss_function(x_i)}{x_i}& \\text{if } x_i \\neq 0, \\\\
     0& \\text{otherwise}.
     \\end{cases}`
 
     Weights function designed to be used with loss functions like rho_huber, 
-    psi_huber, rho_cauchy... Note that the function passed in argument must
+    psi_huber, rho_cauchy... Note that the loss_function passed in argument must
     support two inputs.
 
     :param input: (array or float) vector or float to be processed, x_i's
-    :param function: (function) f(x) in f(x)/x.
+    :param loss_function: (loss_function) f(x) in f(x)/x.
     :param clipping: (optional) clipping parameter of the huber loss function.
 
     :return array or float: element-wise result of f(x)/x if x!=0, 0 otherwise
@@ -483,7 +483,7 @@ def weights(input, function, clipping=None):
     if isinstance(input, (int, float)):
         if (input == 0) :
             return 0.0
-        return function(input, **kwargs)/float(input)
+        return loss_function(input, **kwargs)/float(input)
     else :
         # Ensures the input is an array and not a matrix. 
         # Turns [[a b c]] into [a b c].
@@ -494,7 +494,7 @@ def weights(input, function, clipping=None):
                         )
                     ).flatten()
 
-        output = [0 if (i == 0) else 0.5*function(i, **kwargs)/float(i) for i in input]
+        output = [0 if (i == 0) else 0.5*loss_function(i, **kwargs)/float(i) for i in input]
         return np.array(output)
 
 
