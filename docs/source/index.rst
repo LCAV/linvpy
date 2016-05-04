@@ -43,8 +43,7 @@ Documentation
 .. autofunction:: rho_cauchy
 .. autofunction:: psi_cauchy
 .. autofunction:: rho_optimal
-.. autofunction:: weights
-.. autofunction:: irls
+.. autofunction:: psi_optimal
 .. autofunction:: weights
 .. autofunction:: irls
 
