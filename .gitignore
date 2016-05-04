@@ -60,3 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#Custom rules (Guillaume)
+*.xml
+*.iml

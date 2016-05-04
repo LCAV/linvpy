@@ -67,7 +67,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'linpy'
+project = u'linvpy'
 copyright = u'2016, Guillaume Beaud, Marta Martinez-Camara'
 author = u'Guillaume Beaud, Marta Martinez-Camara'
 

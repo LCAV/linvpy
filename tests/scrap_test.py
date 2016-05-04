@@ -40,8 +40,8 @@ print "MARTA's IRLS = ", marta.irls(new_y, new_a, 'huber', initialx, 0.5)[0]
 last_y = [2,3]
 last_a = np.array([[3,3],[2,3]])
 
-print "My m-estimator = ", lp.irls(last_a, last_y, lp.psi_huber, clipping=1.2,
-	lamb=0, scale=300)
+print "My m-estimator = ", lp.irls(last_a, last_y, lp.psi_huber, clipping=1.5,
+	lamb=0, scale=100)
 
 
 
