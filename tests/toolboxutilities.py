@@ -105,6 +105,8 @@ def scorefunction(u, kind, clipping):
   elif kind == 'optimal':
     score = scoreoptimal(u, clipping)
   elif kind == 'tau':
+    # here we compute the score function for the tau.
+    # psi_tau = weighttau * psi_1 + psi_2
     weighttau = tauweights(u, 'optimal', clipping)
     score = weighttau * scoreoptimal(u, clipping[0]) + scoreoptimal(u, clipping[1])
   else:  # unknown method
@@ -181,6 +183,15 @@ def rhooptimal(u, clipping):
 # Weight for the score in the tau
 # -------------------------------------------------------------------
 def tauweights(u, lossfunction, clipping):
+    """
+    This routine computes the 'weighttau', necessary to build the psi_tau function
+    :param u: vector with all arguments we pass to the weights. so we just need to compute to compute this value once
+              to find the psi_tau
+    :param lossfunction: huber, bisquare, optimal, etc
+    :param clipping: the two values of the clipping parameters corresponding to rho_1, rho_2
+    :return:
+    """
+
     import numpy as np
     import sys
     if lossfunction == 'optimal':  # weights for the rho tau.
@@ -216,12 +227,17 @@ def weights(u, kind, lossfunction, clipping, nmeasurements):
     else:  # unknown loss function
       sys.exit('unknown type of loss function %s' % lossfunction)  # die gracefully
   elif kind == 'tau':  # if tau estimator
+    # I called scorefunction to our psi function
     z = scorefunction(u, 'tau', clipping)
     w = np.zeros(u.shape)
+
+    # only for the non zero u elements
     i = np.nonzero(u)
-    w[i] = z[i] / (2 * nmeasurements * u[i])  # only for the non zero u elements
-  else:  # unknown method
+    w[i] = z[i] / (2 * nmeasurements * u[i])
+  else:
+    # unknown method
     sys.exit('unknown type of weights %s' % kind)  # die gracefully
+
   return w
 
 
