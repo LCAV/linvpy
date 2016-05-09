@@ -438,7 +438,7 @@ def weights(input, loss_function, clipping=None):
     Returns an array of :
 
     :math:`\\begin{cases}
-    \\frac{loss_function(x_i)}{x_i}& \\text{if } x_i \\neq 0, \\\\
+    \\frac{loss\\_function(x_i)}{x_i}& \\text{if } x_i \\neq 0, \\\\
     0& \\text{otherwise}.
     \\end{cases}`
 
@@ -508,7 +508,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0,
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
 
-    :math:`\underset{ \\boldsymbol\\beta } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - f_i (\\boldsymbol\\beta)|^p`
+    :math:`\underset{ \\boldsymbolx } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - f_i (\\boldsymbolx)|^p`
 
     by an iterative method in which each step involves solving a weighted least 
     squares problem of the form:
