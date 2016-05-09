@@ -508,7 +508,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0,
     The method of iteratively reweighted least squares (IRLS) is used to solve
     certain optimization problems with objective functions of the form:
 
-    :math:`\underset{ \\boldsymbol x } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - f_i (\\boldsymbol x)|^p`
+    :math:`\underset{ \\boldsymbol x } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - loss\\_function_i (\\boldsymbol x)|^p`
 
     by an iterative method in which each step involves solving a weighted least 
     squares problem of the form:
