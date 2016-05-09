@@ -66,7 +66,7 @@ def getmeasurements(a, x, noisetype, var=1, outlierproportion=0):
   import pickle
   import sys  # to be able to exit
   import matplotlib.pyplot as plt
-  import statistics as st
+   # import statistics as st
   measurementsize = a.shape[0]  # number of measurements
   y = np.dot(a, x)  # noiseless measurements
   if noisetype == 'none':  # noiseless case
