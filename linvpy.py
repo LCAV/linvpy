@@ -526,7 +526,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0,
     :param loss_function: the loss function to be used in the M estimator
     :param clipping: clipping parameter for the loss function
 
-    :return array: vector of x solution of IRLS
+    :return array: vector x solution of IRLS
 
     '''
 
