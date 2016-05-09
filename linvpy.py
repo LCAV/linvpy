@@ -513,7 +513,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0,
     by an iterative method in which each step involves solving a weighted least 
     squares problem of the form:
 
-    :math:`\\boldsymbol\\beta^{(t+1)} = \underset{\\boldsymbol\\beta} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol\\beta^{(t)})\\big| y_i - f_i (\\boldsymbol\\beta) \\big|^2.`
+    :math:`\\boldsymbol x^{(t+1)} = \underset{\\boldsymbol x} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol x^{(t)})\\big| y_i - f_i (\\boldsymbol x) \\big|^2.`
 
     IRLS is used to find the maximum likelihood estimates of a generalized 
     linear model, and in robust regression to find an M-estimator, as a way of 
