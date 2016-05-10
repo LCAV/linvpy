@@ -89,14 +89,15 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   Iterative Re-weighted Least Squares algorithm
 
   Input arguments:
-  y: measurements
-  a: model matrix
-  kind: type of method (M)
-  lossfunction: type of loss function that we want (squared, huber)
+  y: vector y in y - Ax
+  a: matrix a in y - Ax
+  kind: type of method (M or tau)
+  lossfunction: type of rho function that we want (squared, huber, optimal)
   regularization: type of regularization. Options: none, l2
   initialx: initial solution
-  initialscale: initial scale. For the M estimator the scale is fixed, so in this case this is the preliminary scale
-  clipping: clipping parameter for the loss function
+  initialscale: initial scale.
+  clipping: clipping parameter for the rho function. In the case of tau estimator, we need two values! (we have two rhos
+            functions)
   lmbd: regularization parameter
   tolerance: if two consecutive iterations give two solutions closer than tolerance, the algorithm stops
   maxiter: maximum number of iterations. If the algorithm reaches this, it stops
@@ -105,25 +106,52 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   import toolboxutilities as util
   import sys
   # ------- Initialization -------------------------------
-  m, n = a.shape  # number of measurements and number of unknowns
-  y = np.array(y)  # cast to numpy array
-  res = y - np.dot(a, initialx)  # initial residuals
-  x = initialx  # initialize solution
-  scale = initialscale  # for the moment, preliminary scale
-  xdis = 2 * tolerance  # minimum distance between two consecutive solutions
-  k = 0  # iterations counter initialization
-  w = 0  # initialization
+
+  # number of measurements and number of unknowns
+  m, n = a.shape
+
+  # cast to numpy array
+  y = np.array(y)
+
+  # initial residuals
+  res = y - np.dot(a, initialx)
+
+  # initialize solution
+  x = initialx
+
+  # for the moment, preliminary scale
+  scale = initialscale
+
+  # minimum distance between two consecutive solutions
+  xdis = 2 * tolerance
+
+  # iterations counter initialization
+  k = 0
+
+  # initialization weights
+  w = 0
   steps = np.zeros((maxiter, 1))
+
   # ------- Iterating -----------------------------------------
-  while xdis > tolerance and k < maxiter:  # while we do not reach any stop condition
+  while xdis > tolerance and k < maxiter:
+    # while we do not reach any stop condition
     if kind == 'tau':
-      scale *= np.sqrt(np.mean(util.rhofunction(res / scale, lossfunction, clipping[0])) / b)  # approximate M-scale
-      #  update with respect to new residuals
-    rhat = res / scale  # normalized residual
-    w = util.weights(rhat, kind, lossfunction, clipping, m)  # getting the weights we need
+      # if we are computing the tau estimator, we need to upgrade the estimation of the scale in each iteration
+      # approximation of the  M-scale
+      scale *= np.sqrt(np.mean(util.rhofunction(res / scale, lossfunction, clipping[0])) / b)
+
+    #  normalize residuals ((y - Ax)/ scale)
+    rhat = res / scale
+
+    # getting the weights we need (different if we have an M or a tau estimator)
+    w = util.weights(rhat, kind, lossfunction, clipping, m)
+
+    # once we have the weights, we solved the least squares problem
     sqw = np.sqrt(w)  # to convert it to a matrix multiplication
     aw = a * sqw
     yw = y * sqw  # now these are the LS arguments
+
+    # use the corresponding function, depending on the regularization
     if regularization == 'none':
       newx = leastsquares(yw, aw)  # solving the weighted LS system
     elif regularization == 'l2':
@@ -131,15 +159,31 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
     elif regularization == 'l1':
       newx = lasso(yw, aw, lmbd)
     else:
-       sys.exit('unknown type of regularization' % regularization)  # die gracefully
+       # die gracefully
+       sys.exit('unknown type of regularization' % regularization)
+
     # if np.any(np.isnan(newx)):  # this is a catch because sometimes the algorithm diverges
     #   newx = x  # reset to the result of the last iteration
-    xdis = np.linalg.norm(x - newx)  # normalized distance
-    steps[k] = xdis  # step in this iteration. To check convergence
-    res = y - np.dot(a, newx)  # new residual
-    x = newx  # update x
-    k += 1  # update iter
-    # ---------- Wrapping up ----------------------------------------
+
+    # distance between the last x that we found and the new one. If they are too similar, we assume convergence and
+    # we stop the algorithm (condition in while)
+    xdis = np.linalg.norm(x - newx)
+
+    # store the distance for further analysis and debugging
+    steps[k] = xdis
+
+    # new residual with the new x
+    res = y - np.dot(a, newx)
+
+    # update x
+    x = newx
+
+    # update counter
+    k += 1
+  # ---------- Wrapping up ----------------------------------------
+
+  # return the estimate x, the scale, number of iterations k and distances between solutions (
+  # to analyzse convergence later)
   return x, scale, k, w, steps
 
 
@@ -182,32 +226,97 @@ def mlasso(y, a, lossfunction, clipping, preliminaryscale, lmbd):
 # -------------------------------------------------------------------
 # basic tau - estimator
 # -------------------------------------------------------------------
-def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nmin=1, initialx=0, b=0.5):
+def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5):
+
+  """
+  This rutine minimazes the objective function associated with the tau-estimator.
+  This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
+  the initial x that we use for our minimization, we will end up in a different local minimum (for the m-estimator is
+  not like this; the function in that case is convex and we always arrive to it, independently of the initial solution)
+
+  In this algorithm we take the 'brute force' approach: let's try many different initial solutions, and let's pick the
+  minimum with smallest value. The output of basictau are the best nbest minima (we will need them later)
+
+  :param y: vector y in y - Ax
+  :param a: matrix A in y - Ax
+  :param lossfunction: type of the rho function we are using
+  :param clipping: clipping parameters. In this case we need two, because the rho function for the tau is composed two rho functions.
+  :param ninitialx: how many different solutions do we want to use to find the global minimum (this function is not convex!)
+                    if ninitialx=0, means the user introduced a predefined initial solution
+  :param maxiter: maximum number of iteration for the irls algorithm
+  :param nbest: we return the best nbest solutions. This will be necessary for the fast algorithm
+  :param initialx: the user can define here the initial x he wants
+  :param b: this is a parameter to estimate the scale
+
+  :return xhat: contains the best nmin estimations of x
+  :return mintauscale: value of the objective function when x = xhat
+  """
+
   import numpy as np
   import toolboxutilities as util
-  mintauscale = np.empty((nmin, 1))
-  mintauscale[:] = float("inf")  # initializing objective function with infinite
-  k = 0  # iteration counter
-  xhat = np.zeros((a.shape[1], nmin))  # to store the best nmin minima
-  givenx = 0  # to know if we have predefined initial solutions or not
-  if ninitialx == 0:  # if we introduce the initialx predefined
-    ninitialx = initialx.shape[1]
-    givenx = 1  # variable to know if there are given initial solutions
-  while k < ninitialx:
-    initx = util.getinitialsolution(y, a)  # getting a new initial solution
-    if givenx == 1:
-      initx = np.expand_dims(initialx[:, k], axis=1)  # take the given initial solution instead
-    initialres = y - np.dot(a, initx)
-    initials = np.median(np.abs(initialres)) / .6745  # initial MAD estimation of the scale
-    xhattmp, scaletmp, ni, w, steps = irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
-    # getting the new local minimum
-    res = y - np.dot(a, xhattmp)  # new residuals for the local minimum
-    tscalesquare = util.tauscale(res, lossfunction, clipping[0], b)  # objective function in the local minimum
-    k += 1  # update number of iterations
-    if tscalesquare < np.amax(mintauscale):  # is it among the best nmin minima?
-      mintauscale[np.argmax(mintauscale)] = tscalesquare  # keep it!
-      xhat[:, np.argmax(mintauscale)] = np.squeeze(xhattmp)  # new global minimum
 
+  #  to store the minimum values of the objective function (in this case is the scale)
+  mintauscale = np.empty((nbest, 1))
+
+  # initializing objective function with infinite. When we have a x that gives a smaller value for the obj. function,
+  # we store the value of the objective function here
+  mintauscale[:] = float("inf")
+
+  # count how many initial solutions are we trying
+  k = 0
+
+  # store here the best xhat (nbest of them)
+  xhat = np.zeros((a.shape[1], nbest))  # to store the best nmin minima
+
+  # auxiliary variable to check if the user introduced a predefined initial solution.
+  # = 0 if we do not have initial x. =1 if we have a given initial x
+  givenx = 0
+
+
+  if ninitialx == 0:
+    # we have a predefined initial x
+    ninitialx = initialx.shape[1]
+    # set givenx to 1
+    givenx = 1
+
+  while k < ninitialx:
+    # if still we did not reach the number of initial solutions that we want to try,
+    # get a new initial solution initx (randomly)
+    initx = util.getinitialsolution(y, a)
+
+    if givenx == 1:
+      # if we have a given initial solution initx, we take it
+      initx = np.expand_dims(initialx[:, k], axis=1)
+
+    # compute the residual y - Ainitx
+    initialres = y - np.dot(a, initx)
+
+    # estimate the scale using initialres
+    initials = np.median(np.abs(initialres)) / .6745
+
+    # solve irls using y, a, the tau weights, initx and initals. We get an estimation of x, xhattmp
+    xhattmp, scaletmp, ni, w, steps = irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
+
+    # compute the value of the objective function using xhattmp
+    # we compute the res first
+    res = y - np.dot(a, xhattmp)
+
+    # Value of the objective function using xhattmp
+    tscalesquare = util.tauscale(res, lossfunction, clipping[0], b)
+
+    # update counter
+    k += 1
+
+    # we checks if the objective function has a smaller value that then ones we found before
+    if tscalesquare < np.amax(mintauscale):
+      # it is smaller, so we keep it!
+      # store value for the objective function
+      mintauscale[np.argmax(mintauscale)] = tscalesquare
+
+      # store value of xhat
+      xhat[:, np.argmax(mintauscale)] = np.squeeze(xhattmp)
+
+  # we return the best solutions we found, with the value of the objective function associated with the xhats
   return xhat, mintauscale
 
 

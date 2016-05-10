@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import optimal as opt
 from scipy.sparse.linalg import lsmr
-import toolboxutilities
-import toolboxinverse
+import toolboxutilities as util
+import toolboxinverse as inv
 
 
 
@@ -15,6 +15,56 @@ import toolboxinverse
 
 #28.04.16
 
+# I fix here the number of measurements of vector y
+nmeasurements = 10
+
+# I define a vector x to use it in my functions to generate the matrix A and vector y
+x = np.ones((2, 1))  # fixed source
+
+# I generate the matrix A
+a = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
+
+# I generate the vector y
+y = util.getmeasurements(a, x, 'gaussian')
+
+# check the dimensions are ok
+print y.shape
+print x.shape
+print a.shape
+
+# define parameters necessary for basic tau...
+lossfunction = 'optimal'
+
+# we need two because in the tau estimator we build the rho functin wiht other two
+clipping_parameters = (0.4, 1.09)
+
+# how many initial solutions do we want to try
+n_initial_solutions = 10
+
+# max number of iterations for irls
+max_iter = 10
+
+# how many solutions do we keep
+n_best = 3
+
+# called the basic tau estimator
+xhat, shat = inv.basictau(
+  y,
+  a,
+  lossfunction,
+  clipping_parameters,
+  n_initial_solutions,
+  max_iter,
+  n_best
+)
+
+# check what we got back. we should get n_best xhats
+print xhat.shape
+print shat.shape
+
+
+
+'''
 c = np.ones((2, 1))
 d = np.ones((2, 2))
 
@@ -50,7 +100,7 @@ print "My m-estimator = ", lp.irls(last_a, last_y, lp.psi_huber, clipping=1.5,
 # def mestimator(y, a, lossfunction, clipping):
 
 # for a large clipping parameter, LS and M outputs should be the same
-
+'''
 
 
 '''

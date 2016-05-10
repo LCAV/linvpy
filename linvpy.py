@@ -3,15 +3,15 @@ import math
 
 def least_squares(matrix_a, vector_y):
     '''
-    Method computing the least squares solution
+    This method computes the least squares solution
     :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2`.
-    Basic algorithm to solve a linear inverse problem of the form y = Ax, where
+    This is the simplest algorithm to solve a linear inverse problem of the form y = Ax, where
     y (vector) and A (matrix) are known and x (vector) is unknown.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
 
-    :return array: vector x solution of least squares
+    :return vector_x: solution of least squares
 
     Example : compute the least squares solution of a system y = Ax
 
@@ -55,12 +55,9 @@ def least_squares(matrix_a, vector_y):
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
     '''
-    The standard approach to solve Ax=y (x is unknown) is ordinary least squares
-    linear regression. However if no x satisfies the equation or more than one x
-    does -- that is the solution is not unique -- the problem is said to be
-    ill-posed. In such cases, ordinary least squares estimation leads to an
-    overdetermined (over-fitted), or more often an underdetermined 
-    (under-fitted) system of equations.
+    The standard approach to solve Ax=y (x is unknown) is to use the  ordinary least squares
+    method. However if your matrix A is a fat matrix (it has more columns than rows) or it has a large condition number,
+    then you should use a regularization to your problem in order to get a meaningful estimation of x.
 
     The Tikhonov regularization is a tradeoff between the least squares 
     solution and the minimization of the L2-norm of the output x (L2-norm = 
@@ -84,7 +81,7 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
 
     :raises ValueError: raises an exception if lambda_parameter < 0
 
-    Example : compute the solution of a system y = Ax (knowing y,A) which is a
+    Example : compute the solution of a system y = Ax (knowing y, A) which is a
     tradeoff between the least squares solution and the minimization of x's
     L2-norm. The greater lambda, the smaller the norm of the given solution. 
     We take a matrix A which is ill-conditionned.
