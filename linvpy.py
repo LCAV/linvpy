@@ -375,7 +375,7 @@ def rho_optimal(input, clipping=3.270):
     The so-called optimal 'rho' function is given by
     :math:`\\rho(x)=\\begin{cases}
     1.38(x/c)^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 }<|x/c| leq 1, \\\\
+    0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
     1 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
@@ -385,17 +385,12 @@ def rho_optimal(input, clipping=3.270):
     :return float: result of the optimal function
     '''
 
-    # TODO: ignore this (c = 3c). Implement the formula as it is
-    # To get the exact formula, it is necessary to use 3*c instead of c.
-    clipping = 3*clipping
-
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
     if clipping <= 0 :
         raise ValueError('clipping must be positive.')
-    # TODO: the implementation does not agrees with the formula, right?
-    if abs(input/clipping) <= 2.0 :
+    if abs(input/clipping) <= 2.0 / 3.0 :
         return 1.38 * (input/clipping)**2
     elif abs(input/clipping) <= 1.0 :
         return 0.55 - (2.69 * (input/clipping)**2) + (
@@ -405,12 +400,13 @@ def rho_optimal(input, clipping=3.270):
     elif abs(input/clipping) > 1 :
         return 1.0
 
+
 def psi_optimal(input, clipping=3.270):
     '''
     The derivative of the optimal 'rho' function is given by
     :math:`\\rho(x)=\\begin{cases}
-    2 1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    0.55 - 2 2.69x / c^2 + 4 10.76x^3 / c^4 - 6 11.66x^5/ c^6 + 8 4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| leq 1, \\\\
+    2 * 1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
+    2*2.69x / c^2 + 4*10.76x^3 / c^4 - 6*11.66x^5/ c^6 + 8*4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| leq 1, \\\\
     0 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
@@ -420,14 +416,18 @@ def psi_optimal(input, clipping=3.270):
     :return float: result of the optimal function
     '''
 
-    # To get the exact formula, it is necessary to use 3*c instead of c.
-    clipping = 3*clipping
-
-    # Casting input to float to avoid divisions rounding
-    input = float(input)
-
-    if clipping <= 0 :
+    if clipping <= 0:
         raise ValueError('clipping must be positive.')
+
+    if abs(input / clipping) <= 2.0 / 3.0:
+        return 2 * 1.38 * (input / clipping ** 2)
+    elif abs(input / clipping) <= 1.0:
+        return (- 2 * 2.69 * (input / clipping ** 2)) + (
+            4 * 10.76 * (input ** 3 / clipping ** 4)) - (
+                   6 * 11.66 * (input ** 5 / clipping ** 6)) + (
+                   8 * 4.04 * (input ** 7 / clipping ** 8))
+    elif abs(input / clipping) > 1:
+        return 0
 
 
 def weights(input, loss_function, clipping=None):
