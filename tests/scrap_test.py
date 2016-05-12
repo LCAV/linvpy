@@ -25,21 +25,36 @@ print "My m-estimator = ", lp.irls(last_a, y_noise, lp.psi_huber, clipping=1.5, 
 
 '''
 # I fix here the number of measurements of vector y
-nmeasurements = 10
+nmeasurements = 5
 
 # I define a vector x to use it in my functions to generate the matrix A and vector y
-x = np.ones((2, 1))  # fixed source
+x_marta = np.ones((2, 1))  # fixed source
 
 # I generate the matrix A
-a = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
+a_marta = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
 
 # I generate the vector y
-y = util.getmeasurements(a, x, 'gaussian')
+y_marta = util.getmeasurements(a_marta, x_marta, 'gaussian')
 
 # check the dimensions are ok
-print y.shape
-print x.shape
-print a.shape
+print y_marta.shape
+print x_marta.shape
+print a_marta.shape
+
+print "MARTA'S INPUTS : "
+print y_marta
+print x_marta
+print a_marta
+
+
+y_gui = np.array(y_marta).flatten()
+a_gui = np.matrix(a_marta)
+
+print "GUILLAUME'S INPUTS : "
+print y_gui
+print a_gui
+
+
 
 # define parameters necessary for basic tau...
 lossfunction = 'optimal'
@@ -58,8 +73,8 @@ n_best = 3
 
 # called the basic tau estimator
 xhat, shat = inv.basictau(
-  y,
-  a,
+  y_marta,
+  a_marta,
   lossfunction,
   clipping_parameters,
   n_initial_solutions,
@@ -67,13 +82,44 @@ xhat, shat = inv.basictau(
   n_best
 )
 
+
+
+
 # check what we got back. we should get n_best xhats
-print xhat.shape
-print shat.shape
+print "MARTA's tau : "
+print xhat
+print shat
+
+
+xhat2, shat2 = lp.basictau(
+  y_gui,
+  a_gui,
+  lossfunction,
+  clipping_parameters,
+  n_initial_solutions,
+  max_iter,
+  n_best
+)
+
+
+xhat2, shat2 = lp.basictau(
+	y_gui,
+  a_gui,
+  lossfunction,
+  clipping=clipping_parameters,
+  ninitialx=n_initial_solutions,
+  nbest=n_best)
+
+
+print "GUILLAUME's tau : "
+print xhat2
+print shat2
+print (xhat.all() == xhat2.all()) and (shat2.all() == shat.all())
 
 '''
 
 '''
+
 c = np.ones((2, 1))
 d = np.ones((2, 2))
 
@@ -99,17 +145,29 @@ print "MARTA's IRLS = ", marta.irls(new_y, new_a, 'huber', initialx, 0.5)[0]
 last_y = [2,3]
 last_a = np.array([[3,3],[2,3]])
 
-print "My m-estimator = ", lp.irls(last_a, last_y, lp.psi_huber, clipping=1.5,
-	lamb=0, scale=100)
+new_y = [1,1]
+new_a = np.array([[1,1],[1,1]])
+
+# print "My m-estimator = ", lp.irls(last_a, last_y, lp.psi_huber, clipping=1.5,
+#	lamb=0, scale=100, initial_x=[1,4])
 
 
+print "My m-estimator = ", lp.irls(last_a, last_y, lp.rho_optimal, clipping=1.5,
+	lamb=0, scale=4, initial_x=[-5,4], kind=None)
 
 
 
 # def mestimator(y, a, lossfunction, clipping):
 
 # for a large clipping parameter, LS and M outputs should be the same
+
+
 '''
+
+
+
+
+
 
 
 '''

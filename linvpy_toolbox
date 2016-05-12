@@ -1,0 +1,19 @@
+# -------------------------------------------------------------------
+# Score functions for the robust regressors
+# -------------------------------------------------------------------
+def scorefunction(u, kind, clipping):
+  import sys  # to tbe able to exit
+  if kind == 'huber':  # least squares
+    score = huber(u, clipping)  # get the estimate
+  elif kind == 'squared':
+    score = u
+  elif kind == 'optimal':
+    score = scoreoptimal(u, clipping)
+  elif kind == 'tau':
+    # here we compute the score function for the tau.
+    # psi_tau = weighttau * psi_1 + psi_2
+    weighttau = tauweights(u, 'optimal', clipping)
+    score = weighttau * scoreoptimal(u, clipping[0]) + scoreoptimal(u, clipping[1])
+  else:  # unknown method
+    sys.exit('unknown method %s' % kind)  # die gracefully
+  return score  # return the score function that we need
