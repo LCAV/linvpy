@@ -46,6 +46,7 @@ Documentation
 .. autofunction:: psi_optimal
 .. autofunction:: weights
 .. autofunction:: irls
+.. autofunction:: basictau
 
 Contribute
 =======

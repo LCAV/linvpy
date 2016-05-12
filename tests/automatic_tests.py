@@ -5,6 +5,8 @@ import generate_random
 from scipy.sparse.linalg import lsmr
 import matplotlib.pyplot as plt
 import optimal as opt
+import mestimator_marta as marta
+import random
 
 TESTING_ITERATIONS = 100
 # For a matrix to be ill-conditioned, its condition number must be equal to or
@@ -30,7 +32,7 @@ class TestUM(unittest.TestCase):
 	# Tests least_squares() on random inputs from size 1 to TESTING_ITERATIONS
 	def test_least_squares(self):
 		for i in range(1,TESTING_ITERATIONS):
-			A,y = generate_random.generate_random(i)      
+			A,y = generate_random.generate_random(i,i)      
 			self.assertEquals(
 				lp.least_squares(A,y).all(), 
 				np.linalg.lstsq(A,y)[0].all()
@@ -59,20 +61,31 @@ class TestUM(unittest.TestCase):
 				lsmr(A,y,LAMBDA)[0].all()
 				)
 
-'''
-	# Tests my rho_optimal function against Marta's
-	def test_rho_optimal(self):
-		for i in range(2,TESTING_ITERATIONS):
-			# Generates random lambda
-			LAMBDA = np.random.rand(1)
-			A,y = generate_random.generate_random_ill_conditioned(i)
-			self.assertAlmostEquals(1.1, 1.0, places=0)
-			self.assertAlmostEquals(
-				np.asarray([lp.rho_optimal(i,LAMBDA) for i in y]).all(), 
-				opt.rhooptimal(y,LAMBDA).all(),
-				places=0
-				)
-'''
+	# Tests LinvPy's m-estimator against Marta's version
+	def test_mestimator(self):
+		for i in range(2, TESTING_ITERATIONS):
+			A,y = generate_random.generate_random(i,i)
+			y_marta = y.reshape(i,1)
+
+			# random float clipping between 0 and 10
+			clipping_test = random.uniform(0.0, 10.0)
+
+			xhat_linvpy = lp.irls(
+				A,
+				y,
+				lp.psi_huber,
+				clipping=clipping_test)
+
+			xhat_marta = marta.mestimator(
+				y_marta,
+				A,
+				'huber',
+				clipping=clipping_test)[0]
+
+			#print "LinvPy's xhat = ", xhat_linvpy
+			#print "Marta's xhat = ", xhat_marta
+
+			self.assertEquals(xhat_linvpy.all(), xhat_marta.all())
 
 
 
@@ -93,7 +106,7 @@ def plot_loss_functions():
 	plt.show()
 
 # Uncomment the following line to display plots :
-plot_loss_functions()
+#plot_loss_functions()
 
 if __name__ == '__main__':
 	unittest.main()

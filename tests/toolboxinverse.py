@@ -56,8 +56,8 @@ def leastsquares(y, a):
 # Least squares with l1 regularization using cvxpy
 # -------------------------------------------------------------------
 def lasso(y, a, lmbd):
-  import cvxpy as cvx
   import numpy as np
+  import cvxpy as cvx
   gamma = cvx.Parameter(sign="positive")
   measurementsize, sourcesize = a.shape
   # Construct the problem.
@@ -113,6 +113,8 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   # cast to numpy array
   y = np.array(y)
 
+  print "Marta's initial x = ", initialx
+
   # initial residuals
   res = y - np.dot(a, initialx)
 
@@ -132,6 +134,8 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   w = 0
   steps = np.zeros((maxiter, 1))
 
+  print "Marta's residuals = ", res
+
   # ------- Iterating -----------------------------------------
   while xdis > tolerance and k < maxiter:
     # while we do not reach any stop condition
@@ -140,16 +144,26 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
       # approximation of the  M-scale
       scale *= np.sqrt(np.mean(util.rhofunction(res / scale, lossfunction, clipping[0])) / b)
 
+      print "Marta's scale = ", scale
+
     #  normalize residuals ((y - Ax)/ scale)
     rhat = res / scale
+
+    print "Marta's rhat = ", rhat
 
     # getting the weights we need (different if we have an M or a tau estimator)
     w = util.weights(rhat, kind, lossfunction, clipping, m)
 
+    print "Marta's weights matrix = ", w
+
     # once we have the weights, we solved the least squares problem
     sqw = np.sqrt(w)  # to convert it to a matrix multiplication
+    print "Marta's A matrix = ", a
+    print "Marta's square weight matrix = ", sqw
     aw = a * sqw
     yw = y * sqw  # now these are the LS arguments
+
+    print "Marta's a_weighted = ", aw
 
     # use the corresponding function, depending on the regularization
     if regularization == 'none':
@@ -288,6 +302,8 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
       # if we have a given initial solution initx, we take it
       initx = np.expand_dims(initialx[:, k], axis=1)
 
+    print "Marta's initx in tau = ", initx
+
     # compute the residual y - Ainitx
     initialres = y - np.dot(a, initx)
 
@@ -296,6 +312,8 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
 
     # solve irls using y, a, the tau weights, initx and initals. We get an estimation of x, xhattmp
     xhattmp, scaletmp, ni, w, steps = irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
+
+    print "xhat Marta after irls = ", xhattmp
 
     # compute the value of the objective function using xhattmp
     # we compute the res first

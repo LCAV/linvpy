@@ -303,3 +303,9 @@ def tauscale(u, lossfunction, clipping, b, tolerance=1e-5):
  mscale = mscaleestimator(u, tolerance, b, clipping, lossfunction)  # M scale
  tscale = mscale ** 2 * (1 / m) * np.sum(rhofunction(u / mscale, lossfunction, clipping))  # (tau scale) ** 2
  return tscale
+
+def tauscale_linvpy(u, loss_function, clipping, b, tolerance=1e-5):
+  m, n = u.shape
+  mscale = mscaleestimator(u, tolerance, b, clipping, lossfunction)  # M scale
+  tscale = mscale ** 2 * (1 / m) * np.sum(rhofunction(u / mscale, lossfunction, clipping))  # (tau scale) ** 2
+  return tscale
