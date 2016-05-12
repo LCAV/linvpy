@@ -9,12 +9,21 @@ import toolboxutilities as util
 import toolboxinverse as inv
 
 
-
 #genA, geny = gen.generate_random(4,5)
 #print "test =", lp.irls(genA, geny, lp.psi_huber)
 
 #28.04.16
+last_x = np.array([1, 1])
+last_a = np.random.rand(5, 2)
+last_y = np.dot(last_a, last_x)
+last_y = np.reshape(last_y, (5, 1))
+y_noise = 0.5 * np.random.rand(5, 1) + last_y
 
+print "My m-estimator = ", lp.irls(last_a, y_noise, lp.psi_huber, clipping=1.5, lamb=0, scale=2)
+
+
+
+'''
 # I fix here the number of measurements of vector y
 nmeasurements = 10
 
@@ -62,7 +71,7 @@ xhat, shat = inv.basictau(
 print xhat.shape
 print shat.shape
 
-
+'''
 
 '''
 c = np.ones((2, 1))
