@@ -377,13 +377,13 @@ epub_exclude_files = ['search.html']
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-#intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/': None}
 
 # where is the code
-sys.path.insert(0, 'C:\\Users\\Marta\\Desktop\\repositories\\python-package'
-                   '\\linear_inverse')
+#sys.path.insert(0, 'C:\\Users\\Marta\\Desktop\\repositories\\python-package'
+#                   '\\linear_inverse')
 
-sys.path.insert(0, '/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy')
+#sys.path.insert(0, '/Users/GuillaumeBeaud/EPFL/Informatique/python_project/linvpy/linvpy')
 
 sys.path.insert(0, os.path.abspath('../..'))
 
