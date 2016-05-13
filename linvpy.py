@@ -409,11 +409,7 @@ def rho_optimal(input, clipping=3.270):
 def psi_optimal(input, clipping=3.270):
     '''
     The derivative of the optimal 'rho' function is given by
-    :math:`\\rho(x)=\\begin{cases}
-    2*1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    2*2.69x / c^2 + 4*10.76x^3 / c^4 - 6*11.66x^5/ c^6 + 8*4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
-    0 &  \\text{if |x/c| > 1}.
-    \\end{cases}`
+
 
     :param input: (float) residual to be evaluated
     :param clipping: (optional)(float) clipping parameter 
