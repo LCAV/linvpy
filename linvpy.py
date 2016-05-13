@@ -178,9 +178,9 @@ def rho_huber(input, clipping=1.345):
         raise ValueError('clipping must be positive.')
 
     if (np.absolute(input) <= clipping):
-        return math.pow(input, 2)/2
+        return math.pow(input, 2)/2.0
     else :
-        return clipping * (np.subtract(np.absolute(input),clipping/2))
+        return clipping * (np.subtract(np.absolute(input),clipping/2.0))
 
 
 def psi_huber(input, clipping=1.345):
