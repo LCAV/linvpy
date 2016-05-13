@@ -168,6 +168,7 @@ def rhooptimal(u, clipping):
 
   The equation is found p. 611. To get the exact formula, it is necessary to use 3*c instead of c.
   """
+
   import numpy as np
   y = np.abs(u / clipping)
   r = np.ones(u.shape)

@@ -8,11 +8,12 @@ from scipy.sparse.linalg import lsmr
 import toolboxutilities as util
 import toolboxinverse as inv
 import copy
+import random
 
 
 #genA, geny = gen.generate_random(4,5)
 #print "test =", lp.irls(genA, geny, lp.psi_huber)
-
+'''
 #28.04.16
 last_x = np.array([1, 1])
 last_a = np.random.rand(5, 2)
@@ -22,11 +23,11 @@ y_noise = 0.5 * np.random.rand(5, 1) + last_y
 
 print "My m-estimator = ", lp.irls(last_a, y_noise, lp.psi_huber, clipping=1.5, lamb=0, scale=2)
 
-
-
 '''
+
+
 # I fix here the number of measurements of vector y
-nmeasurements = 5
+nmeasurements = 15
 
 # I define a vector x to use it in my functions to generate the matrix A and vector y
 x_base = np.ones((2, 1))  # fixed source
@@ -34,66 +35,36 @@ x_base = np.ones((2, 1))  # fixed source
 # I generate the matrix A
 a_base = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
 
-b_base = np.matrix([[0.18556994, 0.85051253],
-	[-0.10116954, 1.27607103],
- [-1.21054471, 0.78025321],
- [ 0.41563372, 1.01907658],
- [ 0.77237054, -0.33484395]])
-
 # I generate the vector y
 y_base = util.getmeasurements(a_base, x_base, 'gaussian')
 
-'''
-y_base = np.matrix([[-3.30284787],
- [-0.82014103],
- [ 1.26663908],
- [-0.04444286],
- [-0.82479587]])
 
-a_base = np.matrix([[-1.29147407, -1.96845515],
- [-0.55629565, 0.09258146],
- [ 1.09840683, 0.73997283],
- [ 0.06732681, -0.6932167 ],
- [ 1.83309306, -1.08687388]])
-'''
+a_base, y_base = gen.generate_random(5,2)
 
 y_gui = copy.deepcopy(y_base)
 a_gui = copy.deepcopy(a_base)
 
 
-y_marta = copy.deepcopy(y_base)
+y_marta = copy.deepcopy(y_base.reshape(-1,1))
 a_marta = copy.deepcopy(a_base)
-
-
-print "MARTA'S INPUTS : "
-print y_marta
-print a_marta
-
-
-#y_gui = np.copy(y_marta)
-#a_gui = np.copy(a_marta)
-
-
-print "GUILLAUME'S INPUTS : "
-print y_gui
-print a_gui
-
-
 
 # define parameters necessary for basic tau...
 lossfunction = 'optimal'
 
 # we need two because in the tau estimator we build the rho functin wiht other two
-clipping_parameters = (0.4, 1.09)
+clipping_parameters = (random.uniform(0.1, 5.0), random.uniform(2.0, 10.0))
 
 # how many initial solutions do we want to try
-n_initial_solutions = 10
+n_initial_solutions = random.randint(1,20)
+
+#n_initial_solutions = 10
 
 # max number of iterations for irls
-max_iter = 10
+max_iter = random.randint(1,100)
 
 # how many solutions do we keep
-n_best = 3
+n_best = random.randint(1,20)
+
 
 # called the basic tau estimator
 xhat, shat = inv.basictau(
@@ -107,15 +78,6 @@ xhat, shat = inv.basictau(
 )
 
 
-
-
-# check what we got back. we should get n_best xhats
-print "MARTA's tau : "
-print xhat
-print shat
-
-print "Guillaume's y,a -1 = ", y_gui, a_gui 
-
 xhat2, shat2 = lp.basictau(
   y_gui,
   a_gui,
@@ -127,15 +89,53 @@ xhat2, shat2 = lp.basictau(
 )
 
 
+# check what we got back. we should get n_best xhats
+print "MARTA's tau : "
+print xhat
+print shat
 
 print "GUILLAUME's tau : "
 print xhat2
 print shat2
-print (xhat.all() == xhat2.all()) and (shat2.all() == shat.all())
+print "BASIC TAU MATCHING = ", (xhat.all() == xhat2.all()) and (shat2.all() == shat.all())
+
+
+a_base2, y_base2 = gen.generate_random(5,2)
+
+y_gui = copy.deepcopy(y_base2)
+a_gui = copy.deepcopy(a_base2)
+
+y_marta = copy.deepcopy(y_base2.reshape(-1,1))
+a_marta = copy.deepcopy(a_base2)
+
+
+# called the basic tau estimator
+xfinal_marta, tscalefinal_marta = inv.fasttau(
+  y_marta,
+  a_marta,
+  lossfunction,
+  clipping_parameters,
+  n_initial_solutions
+)
+
+# called the basic tau estimator
+xfinal_lp, tscalefinal_lp = lp.fasttau(
+  y_marta,
+  a_marta,
+  lossfunction,
+  clipping_parameters,
+  n_initial_solutions
+)
+
+print "MARTA's fastau : ", xfinal_marta, tscalefinal_marta
+print "LinvPy's fastau : ", xfinal_lp, tscalefinal_lp
+
+print "FAST TAU MATCHING = ", (xfinal_marta.all() == xfinal_lp.all()) and (tscalefinal_marta.all() == tscalefinal_lp.all())
+
+
 
 '''
 
-'''
 
 c = np.ones((2, 1))
 d = np.ones((2, 2))

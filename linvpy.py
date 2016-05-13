@@ -1,3 +1,4 @@
+from __future__ import division  # take the division operator from future versions
 import numpy as np
 import math
 import toolboxutilities as util
@@ -302,6 +303,7 @@ def psi_bisquare(input, clipping=4.685):
     else :
         return 0.0
 
+
 def rho_cauchy(input, clipping=2.3849):
     '''
     Cauchy loss function; the "rho" version.
@@ -337,7 +339,8 @@ def rho_cauchy(input, clipping=2.3849):
         1+(
             input/clipping)**2)
 
-def psi_cauchy():
+
+def psi_cauchy(input, clipping=2.3849):
     '''
     Derivative of Cauchy loss function; the "psi" version.
 
@@ -386,8 +389,6 @@ def rho_optimal(input, clipping=3.270):
 
     :return float: result of the optimal function
     '''
-
-    print "input in rho : ", input
 
     # Casting input to float to avoid divisions rounding
     input = float(input)
@@ -494,7 +495,6 @@ def weights(input, loss_function, clipping=None, nmeasurements=None):
         # only for the non zero u elements
         i = np.nonzero(input)
         w[i] = z[i] / (2 * nmeasurements * input[i])
-        print "w = ", w
         return w
 
     else :
@@ -509,7 +509,6 @@ def weights(input, loss_function, clipping=None, nmeasurements=None):
 
         output = [0 if (i == 0) else 0.5*loss_function(i, **kwargs)/float(i) for i in input]
         return np.array(output)
-
 
 
 # scale = sigma that divides; if sigma if given in parameter => preliminary scale
@@ -553,8 +552,6 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     else : scale = 1.0
     scale = float(scale)
 
-    print "my initial x 1 = ", initial_x
-
     # kwargs = keyword arguments : if clipping is not specified, kwargs=None
     # and we use the default loss function's clipping, otherwise we use the one
     # passed in weights() with **kwargs
@@ -569,6 +566,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     else :
         # Generates a ones vector_x with length = matrix_a.columns
         vector_x = np.ones(matrix_a.shape[1])
+        initial_x = np.ones(matrix_a.shape[1])
     
     # number of measurements and unknowns; by default None, if tau is used it
     # takes value m,n = matrix_a.shape
@@ -578,13 +576,8 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     matrix_a = np.matrix(matrix_a)
     vector_y = vector_y.reshape(-1,1)
 
-    print "Guillaume's initial vector x = ", vector_x
-    print "Guillaume's vector y = ", vector_y
-    print "Guillaume's initial matrix a = ", matrix_a
-    print "Guillaume's initial x 2 = ", initial_x
     # Residuals = y - Ax, difference between measured values and model
-    residuals = vector_y - np.dot(matrix_a, initial_x)
-    print "residuals guillaume 1 = ", residuals
+    residuals = vector_y - np.dot(matrix_a, initial_x).reshape(-1,1)
 
     for i in range(1,max_iterations):
 
@@ -592,34 +585,22 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         if kind == 'tau':
 
             m,n = matrix_a.shape
-            print "residuals guillaume 2 = ", residuals
 
-            print "clipping[1] = ", clipping[1]
-            print "input x for rho_optimal = ", residuals/scale
-
+            residuals = np.asarray(residuals.reshape(-1)).flatten()
             scaled_residuals = map(lambda x: x/scale, residuals)
-
-            print "scaled residuals = ", scaled_residuals
 
             # scale = scale * (mean(loss_function(residuals/scale))/b)^1/2
             scale  *= np.sqrt(
                 np.mean(
-                map(lambda x: loss_function(x, clipping[1]), scaled_residuals)
-                ) / b
+                    array_loss(scaled_residuals, loss_function, clipping[0])
+                    ) / b
                 )
-                
-            print "My scale = ", scale
-
         
         # normalize residuals ((y - Ax)/ scale)
         rhat = np.array(residuals / scale).flatten()
 
-        print "rhat guillaume = ", rhat
-
         # weights(y-Ax, loss_function, clipping)
         weights_vector = weights(rhat, loss_function, nmeasurements=m, **kwargs)
-
-        print "weights vector = ", weights_vector
 
         # Makes a diagonal matrix with values of w(y-Ax)
         # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
@@ -637,12 +618,6 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         sqwm = np.sqrt(weights_matrix)
 
 
-        #matrix_a = matrix_a.reshape(-1,2)
-
-        print "Guillaume's matrix_a = ", matrix_a
-        print "Guillaume square weight matrix = ", sqwm
-
-
         # A_weighted = W^1/2 A
         a_weighted = np.dot(sqwm,matrix_a)
 
@@ -651,8 +626,6 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
 
         y_weighted = np.dot(sqwm, vector_y)
 
-        print "guillaume's a_weighted = ", a_weighted
-
         # vector_x_new is there to keep the previous value to compare
         vector_x_new = regularization(a_weighted, y_weighted, lamb)
 
@@ -660,7 +633,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         xdis = np.linalg.norm(vector_x - vector_x_new)
 
         # New residuals
-        residuals = vector_y - np.dot(matrix_a, vector_x_new)
+        residuals = vector_y.reshape(-1) - np.dot(matrix_a, vector_x_new).reshape(-1)
 
         # Divided by the specified optional scale, otherwise scale = 1
         #residuals = np.array(residuals / scale).flatten()
@@ -670,17 +643,12 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         # if the difference between iteration n and iteration n+1 is smaller 
         # than tolerance, return vector_x
         if (xdis < tolerance):
-            print('CONVERGED !')
             return vector_x
 
-    print('DID NOT CONVERGE !')
     return vector_x
 
 
 def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5):
-
-    print "Guillaume's y,a 0 = ", y,a 
-
     '''
     This routine minimizes the objective function associated with the tau-estimator.
     This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
@@ -705,7 +673,6 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     :return mintauscale: value of the objective function when x = xhat
     '''
 
-    import toolboxutilities as util
     import toolboxinverse as inv
 
     # to store the minimum values of the objective function (in this case is
@@ -741,15 +708,11 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
             # if we have a given initial solution initx, we take it
             initx = np.expand_dims(initialx[:, k], axis=1)
 
-        print "my initx in tau = ", initx
-
         # compute the residual y - Ainitx
         initialres = y.reshape(-1, 1) - np.dot(a, initx)
 
         # estimate the scale using initialres
         initials = np.median(np.abs(initialres)) / .6745
-
-        print "POINT 1 !"
 
         # ADAPTER TO ADAPT A STRING LOSSFUNCTION TO REFERENCE LOSSFUNCTION
         # To add new loss functions : add a line here with a "if" statement testing
@@ -767,8 +730,6 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
         else:
             raise ValueError(lossfunction, ' is not a valid loss function.')
 
-        print "Guillaume's y,a 1 = ", y,a 
-
         # solve irls using y, a, the tau weights, initx and initals. We get an
         # estimation of x, xhattmp
         xhattmp = irls(
@@ -782,19 +743,17 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
             b=0.5,
             max_iterations=maxiter)
 
-        print "Guillaume's Xhat after irls : ", xhattmp
-
         # last working version
         # xhattmp, scaletmp, ni, w, steps = inv.irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
 
         # compute the value of the objective function using xhattmp
         # we compute the res first
-        res = y.reshape(-1, 1) - np.dot(a, xhattmp)
+        res = y.reshape(-1, 1) - np.dot(a, xhattmp).reshape(-1, 1)
 
         # Value of the objective function using xhattmp
         #tscalesquare = util.tauscale(res, lossfunction, clipping, b)
 
-        tscalesquare = util.tauscale(res, 'optimal', clipping, b)
+        tscalesquare = util.tauscale(res, 'optimal', clipping[0], b)
 
         # update counter
         k += 1
@@ -813,7 +772,26 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     # function associated with the xhats
     return xhat, mintauscale
 
+# TODO : need doc here
+def fasttau(y, a, lossfunction, clipping, ninitialx, nmin=5, initialiter=5):
+  xhat, mintauscale = basictau(y, a, lossfunction, clipping, ninitialx, initialiter, nmin)  # first round: only
+  # initialiter iterations. We keep the nmin best solutions
+  xfinal, tauscalefinal = basictau(y, a, lossfunction, clipping, 0, 100, 1, xhat)  # iterate the best solutions
+  # until convergence
 
+  return xfinal, tauscalefinal
+
+
+# function to apply a loss function to any data structure; scalar, array or matrix
+# returns the exact same data structure with the loss function applied element-wise
+def array_loss(values, loss_function, clipping=None):
+
+    kwargs = {}
+    if clipping != None:
+        kwargs['clipping'] = clipping
+
+    vfunc = np.vectorize(loss_function)
+    return vfunc(values, **kwargs)
 
 
 

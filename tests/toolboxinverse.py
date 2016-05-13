@@ -107,16 +107,11 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   import sys
   # ------- Initialization -------------------------------
 
-  print "Marta's y,a 3 = ", y,a
-
   # number of measurements and number of unknowns
   m, n = a.shape
 
   # cast to numpy array
   y = np.array(y)
-
-  print "Marta's initial x = ", initialx
-  print "Marta's y,a 2 = ", y,a
 
   # initial residuals
   res = y - np.dot(a, initialx)
@@ -137,17 +132,14 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
   w = 0
   steps = np.zeros((maxiter, 1))
 
-  print "Marta's residuals = ", res
-
   # ------- Iterating -----------------------------------------
   while xdis > tolerance and k < maxiter:
     # while we do not reach any stop condition
     if kind == 'tau':
       # if we are computing the tau estimator, we need to upgrade the estimation of the scale in each iteration
       # approximation of the  M-scale
-      scale *= np.sqrt(np.mean(util.rhofunction(res / scale, lossfunction, clipping[0])) / b)
 
-      #print "Marta's scale = ", scale
+      scale *= np.sqrt(np.mean(util.rhofunction(res / scale, lossfunction, clipping[0])) / b)
 
     #  normalize residuals ((y - Ax)/ scale)
     rhat = res / scale
@@ -289,8 +281,6 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     # = 0 if we do not have initial x. =1 if we have a given initial x
     givenx = 0
 
-    print "Marta's y,a 1 = ", y, a
-
     if ninitialx == 0:
         # we have a predefined initial x
         ninitialx = initialx.shape[1]
@@ -306,22 +296,16 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
             # if we have a given initial solution initx, we take it
             initx = np.expand_dims(initialx[:, k], axis=1)
 
-        print "Marta's initx in tau = ", initx
-
         # compute the residual y - Ainitx
         initialres = y - np.dot(a, initx)
 
         # estimate the scale using initialres
         initials = np.median(np.abs(initialres)) / .6745
 
-        print "Marta's y,a 2 = ", y, a
-
         # solve irls using y, a, the tau weights, initx and initals. We get an
         # estimation of x, xhattmp
         xhattmp, scaletmp, ni, w, steps = irls(
             y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
-
-        print "xhat Marta after irls = ", xhattmp
 
         # compute the value of the objective function using xhattmp
         # we compute the res first

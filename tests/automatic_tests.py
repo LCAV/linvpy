@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 import optimal as opt
 import mestimator_marta as marta
 import random
+import copy
+import toolboxinverse as inv
 
-TESTING_ITERATIONS = 100
+TESTING_ITERATIONS = 10
 # For a matrix to be ill-conditioned, its condition number must be equal to or
 # greather than ILL_CONDITION_CRITERIA
 ILL_CONDITION_CRITERIA = 1000
@@ -82,10 +84,63 @@ class TestUM(unittest.TestCase):
 				'huber',
 				clipping=clipping_test)[0]
 
-			#print "LinvPy's xhat = ", xhat_linvpy
-			#print "Marta's xhat = ", xhat_marta
+			#print "Marta's xhat for m-estimator = ", xhat_marta
+			#print "LinvPy's xhat for m-estimator = ", xhat_linvpy
 
 			self.assertEquals(xhat_linvpy.all(), xhat_marta.all())
+
+	# Tests LinvPy's basictau against Marta's version
+	def test_basictau(self):
+		for i in range(2, TESTING_ITERATIONS):
+			A,y = generate_random.generate_random(i,2)
+			
+			# clones the matrix A and vector y not to work on the same in memory
+			y_gui = copy.deepcopy(y)
+			a_gui = copy.deepcopy(A)
+
+			y_marta = copy.deepcopy(y.reshape(-1,1))
+			a_marta = copy.deepcopy(A)
+
+			# random float clipping tuple between 0 and 10
+			clipping = (random.uniform(0.1, 10.0), random.uniform(0.1, 10.0))
+			
+			# define parameters necessary for basic tau...
+			lossfunction = 'optimal'
+
+			# how many initial solutions do we want to try
+			n_initial_solutions = random.randint(1,20)
+
+			# max number of iterations for irls
+			max_iter = random.randint(1,100)
+
+			# how many solutions do we keep
+			n_best = random.randint(1,20)
+
+			# calls Marta's basic tau estimator
+			xhat_marta, shat_marta = inv.basictau(
+			  y_marta,
+			  a_marta,
+			  lossfunction,
+			  clipping,
+			  n_initial_solutions,
+			  max_iter,
+			  n_best
+			)
+
+			# calls linvpy's basic tau estimator
+			xhat_lp, shat_lp = lp.basictau(
+			  y_gui,
+			  a_gui,
+			  lossfunction,
+			  clipping,
+			  n_initial_solutions,
+			  max_iter,
+			  n_best
+			)
+
+			# asserts that xhat's are equals and shat's are equals
+			self.assertEquals(xhat_lp.all(), xhat_marta.all())
+			self.assertEquals(shat_lp.all(), shat_marta.all())
 
 
 
