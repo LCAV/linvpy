@@ -274,6 +274,10 @@ def mscaleestimator(u, tolerance, b, clipping, kind):
 # -------------------------------------------------------------------
 def getinitialsolution(y, a):
   import numpy as np
+
+  # line added to keep a constant initialx for testing purpose. remove this later
+  return np.array([-0.56076046, -2.96528342]).reshape(-1,1)
+
   import toolboxinverse as inv
   import sys
   m = a.shape[0]  # getting dimensions

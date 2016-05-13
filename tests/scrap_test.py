@@ -7,6 +7,7 @@ import optimal as opt
 from scipy.sparse.linalg import lsmr
 import toolboxutilities as util
 import toolboxinverse as inv
+import copy
 
 
 
@@ -19,27 +20,50 @@ import toolboxinverse as inv
 nmeasurements = 5
 
 # I define a vector x to use it in my functions to generate the matrix A and vector y
-x_marta = np.ones((2, 1))  # fixed source
+x_base = np.ones((2, 1))  # fixed source
 
 # I generate the matrix A
-a_marta = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
+a_base = util.getmatrix(2, 'random', nmeasurements)  # get the sensing matrix
+
+b_base = np.matrix([[0.18556994, 0.85051253],
+	[-0.10116954, 1.27607103],
+ [-1.21054471, 0.78025321],
+ [ 0.41563372, 1.01907658],
+ [ 0.77237054, -0.33484395]])
 
 # I generate the vector y
-y_marta = util.getmeasurements(a_marta, x_marta, 'gaussian')
+y_base = util.getmeasurements(a_base, x_base, 'gaussian')
 
-# check the dimensions are ok
-print y_marta.shape
-print x_marta.shape
-print a_marta.shape
+'''
+y_base = np.matrix([[-3.30284787],
+ [-0.82014103],
+ [ 1.26663908],
+ [-0.04444286],
+ [-0.82479587]])
+
+a_base = np.matrix([[-1.29147407, -1.96845515],
+ [-0.55629565, 0.09258146],
+ [ 1.09840683, 0.73997283],
+ [ 0.06732681, -0.6932167 ],
+ [ 1.83309306, -1.08687388]])
+'''
+
+y_gui = copy.deepcopy(y_base)
+a_gui = copy.deepcopy(a_base)
+
+
+y_marta = copy.deepcopy(y_base)
+a_marta = copy.deepcopy(a_base)
+
 
 print "MARTA'S INPUTS : "
 print y_marta
-print x_marta
 print a_marta
 
 
-y_gui = np.array(y_marta).flatten()
-a_gui = np.matrix(a_marta)
+#y_gui = np.copy(y_marta)
+#a_gui = np.copy(a_marta)
+
 
 print "GUILLAUME'S INPUTS : "
 print y_gui
@@ -81,6 +105,7 @@ print "MARTA's tau : "
 print xhat
 print shat
 
+print "Guillaume's y,a -1 = ", y_gui, a_gui 
 
 xhat2, shat2 = lp.basictau(
   y_gui,
@@ -92,14 +117,6 @@ xhat2, shat2 = lp.basictau(
   n_best
 )
 
-
-xhat2, shat2 = lp.basictau(
-	y_gui,
-  a_gui,
-  lossfunction,
-  clipping=clipping_parameters,
-  ninitialx=n_initial_solutions,
-  nbest=n_best)
 
 
 print "GUILLAUME's tau : "

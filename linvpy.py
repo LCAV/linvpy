@@ -337,6 +337,7 @@ def rho_cauchy(input, clipping=2.3849):
         1+(
             input/clipping)**2)
 
+def psi_cauchy():
     '''
     Derivative of Cauchy loss function; the "psi" version.
 
@@ -386,6 +387,8 @@ def rho_optimal(input, clipping=3.270):
     :return float: result of the optimal function
     '''
 
+    print "input in rho : ", input
+
     # Casting input to float to avoid divisions rounding
     input = float(input)
 
@@ -406,8 +409,8 @@ def psi_optimal(input, clipping=3.270):
     '''
     The derivative of the optimal 'rho' function is given by
     :math:`\\rho(x)=\\begin{cases}
-    2 \\cdot 1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    2 \\cdot 2.69x / c^2 + 4\\cdot10.76x^3 / c^4 - 6 \\cdot 11.66x^5/ c^6 + 8 \\cdot 4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
+    2 * 1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
+    2 * 2.69x / c^2 + 4 * 10.76x^3 / c^4 - 6 * 11.66x^5/ c^6 + 8 * 4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
     0 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
@@ -550,7 +553,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     else : scale = 1.0
     scale = float(scale)
 
-    print "my initial x = ", initial_x
+    print "my initial x 1 = ", initial_x
 
     # kwargs = keyword arguments : if clipping is not specified, kwargs=None
     # and we use the default loss function's clipping, otherwise we use the one
@@ -573,12 +576,15 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
 
     # Ensures numpy types
     matrix_a = np.matrix(matrix_a)
-    vector_y = np.array(vector_y).flatten()
+    vector_y = vector_y.reshape(-1,1)
 
-    print "My initial vector x = ", vector_x
-
+    print "Guillaume's initial vector x = ", vector_x
+    print "Guillaume's vector y = ", vector_y
+    print "Guillaume's initial matrix a = ", matrix_a
+    print "Guillaume's initial x 2 = ", initial_x
     # Residuals = y - Ax, difference between measured values and model
-    residuals = vector_y.reshape(-1,1) - np.dot(matrix_a, vector_x)
+    residuals = vector_y - np.dot(matrix_a, initial_x)
+    print "residuals guillaume 1 = ", residuals
 
     for i in range(1,max_iterations):
 
@@ -586,12 +592,19 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         if kind == 'tau':
 
             m,n = matrix_a.shape
-            print "residuals guillaume = ", residuals
+            print "residuals guillaume 2 = ", residuals
+
+            print "clipping[1] = ", clipping[1]
+            print "input x for rho_optimal = ", residuals/scale
+
+            scaled_residuals = map(lambda x: x/scale, residuals)
+
+            print "scaled residuals = ", scaled_residuals
 
             # scale = scale * (mean(loss_function(residuals/scale))/b)^1/2
             scale  *= np.sqrt(
                 np.mean(
-                map(lambda x: loss_function(x, clipping[1]), residuals/scale)
+                map(lambda x: loss_function(x, clipping[1]), scaled_residuals)
                 ) / b
                 )
                 
@@ -666,136 +679,139 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
 
 def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5):
 
-  '''
-  This routine minimizes the objective function associated with the tau-estimator.
-  This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
-  the initial x that we use for our minimization, we will end up in a different local minimum (for the m-estimator is
-  not like this; the function in that case is convex and we always arrive to it, independently of the initial solution)
+    print "Guillaume's y,a 0 = ", y,a 
 
-  In this algorithm we take the 'brute force' approach: let's try many different initial solutions, and let's pick the
-  minimum with smallest value. The output of basictau are the best nbest minima (we will need them later)
+    '''
+    This routine minimizes the objective function associated with the tau-estimator.
+    This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
+    the initial x that we use for our minimization, we will end up in a different local minimum (for the m-estimator is
+    not like this; the function in that case is convex and we always arrive to it, independently of the initial solution)
 
-  :param y: vector y in y - Ax
-  :param a: matrix A in y - Ax
-  :param lossfunction: type of the rho function we are using
-  :param clipping: clipping parameters. In this case we need two, because the rho function for the tau is composed two rho functions.
-  :param ninitialx: how many different solutions do we want to use to find the global minimum (this function is not convex!)
-                    if ninitialx=0, means the user introduced a predefined initial solution
-  :param maxiter: maximum number of iteration for the irls algorithm
-  :param nbest: we return the best nbest solutions. This will be necessary for the fast algorithm
-  :param initialx: the user can define here the initial x he wants
-  :param b: this is a parameter to estimate the scale
+    In this algorithm we take the 'brute force' approach: let's try many different initial solutions, and let's pick the
+    minimum with smallest value. The output of basictau are the best nbest minima (we will need them later)
 
-  :return xhat: contains the best nmin estimations of x
-  :return mintauscale: value of the objective function when x = xhat
-  '''
+    :param y: vector y in y - Ax
+    :param a: matrix A in y - Ax
+    :param lossfunction: type of the rho function we are using
+    :param clipping: clipping parameters. In this case we need two, because the rho function for the tau is composed two rho functions.
+    :param ninitialx: how many different solutions do we want to use to find the global minimum (this function is not convex!)
+                      if ninitialx=0, means the user introduced a predefined initial solution
+    :param maxiter: maximum number of iteration for the irls algorithm
+    :param nbest: we return the best nbest solutions. This will be necessary for the fast algorithm
+    :param initialx: the user can define here the initial x he wants
+    :param b: this is a parameter to estimate the scale
 
-  import toolboxutilities as util
-  import toolboxinverse as inv
+    :return xhat: contains the best nmin estimations of x
+    :return mintauscale: value of the objective function when x = xhat
+    '''
 
-  #  to store the minimum values of the objective function (in this case is the scale)
-  mintauscale = np.empty((nbest, 1))
+    import toolboxutilities as util
+    import toolboxinverse as inv
 
-  # initializing objective function with infinite. When we have a x that gives a smaller value for the obj. function,
-  # we store the value of the objective function here
-  mintauscale[:] = float("inf")
+    # to store the minimum values of the objective function (in this case is
+    # the scale)
+    mintauscale = np.empty((nbest, 1))
 
-  # count how many initial solutions are we trying
-  k = 0
+    # initializing objective function with infinite. When we have a x that gives a smaller value for the obj. function,
+    # we store the value of the objective function here
+    mintauscale[:] = float("inf")
 
-  # store here the best xhat (nbest of them)
-  xhat = np.zeros((a.shape[1], nbest))  # to store the best nmin minima
+    # count how many initial solutions are we trying
+    k = 0
 
-  # auxiliary variable to check if the user introduced a predefined initial solution.
-  # = 0 if we do not have initial x. =1 if we have a given initial x
-  givenx = 0
+    # store here the best xhat (nbest of them)
+    xhat = np.zeros((a.shape[1], nbest))  # to store the best nmin minima
 
+    # auxiliary variable to check if the user introduced a predefined initial solution.
+    # = 0 if we do not have initial x. =1 if we have a given initial x
+    givenx = 0
 
-  if ninitialx == 0:
-    # we have a predefined initial x
-    ninitialx = initialx.shape[1]
-    # set givenx to 1
-    givenx = 1
+    if ninitialx == 0:
+        # we have a predefined initial x
+        ninitialx = initialx.shape[1]
+        # set givenx to 1
+        givenx = 1
 
-  while k < ninitialx:
-    # if still we did not reach the number of initial solutions that we want to try,
-    # get a new initial solution initx (randomly)
-    initx = util.getinitialsolution(y.reshape(-1,1), a)
+    while k < ninitialx:
+        # if still we did not reach the number of initial solutions that we want to try,
+        # get a new initial solution initx (randomly)
+        initx = util.getinitialsolution(y.reshape(-1, 1), a)
 
+        if givenx == 1:
+            # if we have a given initial solution initx, we take it
+            initx = np.expand_dims(initialx[:, k], axis=1)
 
-    if givenx == 1:
-      # if we have a given initial solution initx, we take it
-      initx = np.expand_dims(initialx[:, k], axis=1)
+        print "my initx in tau = ", initx
 
-    print "my initx in tau = ", initx
+        # compute the residual y - Ainitx
+        initialres = y.reshape(-1, 1) - np.dot(a, initx)
 
-    # compute the residual y - Ainitx
-    initialres = y.reshape(-1,1) - np.dot(a, initx)
+        # estimate the scale using initialres
+        initials = np.median(np.abs(initialres)) / .6745
 
-    # estimate the scale using initialres
-    initials = np.median(np.abs(initialres)) / .6745
+        print "POINT 1 !"
 
-    print "POINT 1 !"
+        # ADAPTER TO ADAPT A STRING LOSSFUNCTION TO REFERENCE LOSSFUNCTION
+        # To add new loss functions : add a line here with a "if" statement testing
+        # the string and assigning loss_function_ref to the correct function's
+        # reference.
 
-    # ADAPTER TO ADAPT A STRING LOSSFUNCTION TO REFERENCE LOSSFUNCTION
-    # To add new loss functions : add a line here with a "if" statement testing
-    # the string and assigning loss_function_ref to the correct function's
-    # reference.
+        if (lossfunction == 'optimal'):
+            loss_function_ref = rho_optimal
+        elif (lossfunction == 'huber'):
+            loss_function_ref = rho_huber
+        elif (lossfunction == 'cauchy'):
+            loss_function_ref = rho_cauchy
+        elif (lossfunction == 'bisquare'):
+            loss_function_ref = rho_bisquare
+        else:
+            raise ValueError(lossfunction, ' is not a valid loss function.')
 
-    if (lossfunction=='optimal'):
-        loss_function_ref = rho_optimal
-    elif (lossfunction=='huber'):
-        loss_function_ref = rho_huber
-    elif (lossfunction=='cauchy'):
-        loss_function_ref = rho_cauchy
-    elif (lossfunction=='bisquare'):
-        loss_function_ref = rho_bisquare
-    else :
-        raise ValueError(lossfunction , ' is not a valid loss function.')
+        print "Guillaume's y,a 1 = ", y,a 
 
+        # solve irls using y, a, the tau weights, initx and initals. We get an
+        # estimation of x, xhattmp
+        xhattmp = irls(
+            a,
+            y,
+            loss_function_ref,
+            clipping,
+            scale=initials,
+            initial_x=initx,
+            kind='tau',
+            b=0.5,
+            max_iterations=maxiter)
 
-    # solve irls using y, a, the tau weights, initx and initals. We get an estimation of x, xhattmp
-    xhattmp = irls(
-        a,
-        y,
-        loss_function_ref,
-        clipping,
-        scale=initials,
-        initial_x=initx,
-        kind='tau',
-        b=0.5,
-        max_iterations=maxiter)
+        print "Guillaume's Xhat after irls : ", xhattmp
 
-    print "Guillaume's Xhat after irls : ", xhattmp
+        # last working version
+        # xhattmp, scaletmp, ni, w, steps = inv.irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
 
-    # last working version
-    # xhattmp, scaletmp, ni, w, steps = inv.irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
+        # compute the value of the objective function using xhattmp
+        # we compute the res first
+        res = y.reshape(-1, 1) - np.dot(a, xhattmp)
 
-    # compute the value of the objective function using xhattmp
-    # we compute the res first
-    res = y.reshape(-1,1) - np.dot(a, xhattmp)
+        # Value of the objective function using xhattmp
+        #tscalesquare = util.tauscale(res, lossfunction, clipping, b)
 
-    # Value of the objective function using xhattmp
-    #tscalesquare = util.tauscale(res, lossfunction, clipping, b)
+        tscalesquare = util.tauscale(res, 'optimal', clipping, b)
 
-    tscalesquare = util.tauscale(res, 'optimal', clipping, b)
+        # update counter
+        k += 1
 
+        # we checks if the objective function has a smaller value that then
+        # ones we found before
+        if tscalesquare < np.amax(mintauscale):
+            # it is smaller, so we keep it!
+            # store value for the objective function
+            mintauscale[np.argmax(mintauscale)] = tscalesquare
 
-    # update counter
-    k += 1
+            # store value of xhat
+            xhat[:, np.argmax(mintauscale)] = np.squeeze(xhattmp)
 
-    # we checks if the objective function has a smaller value that then ones we found before
-    if tscalesquare < np.amax(mintauscale):
-      # it is smaller, so we keep it!
-      # store value for the objective function
-      mintauscale[np.argmax(mintauscale)] = tscalesquare
-
-      # store value of xhat
-      xhat[:, np.argmax(mintauscale)] = np.squeeze(xhattmp)
-
-  # we return the best solutions we found, with the value of the objective function associated with the xhats
-  return xhat, mintauscale
-
+    # we return the best solutions we found, with the value of the objective
+    # function associated with the xhats
+    return xhat, mintauscale
 
 
 
