@@ -770,9 +770,8 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
 
 # TODO : need doc here
 def fasttau(y, a, lossfunction, clipping, ninitialx, nmin=5, initialiter=5):
-  xhat, mintauscale = basictau(y, a, lossfunction, clipping, ninitialx, initialiter, nmin)  # first round: only
-  # initialiter iterations. We keep the nmin best solutions
-  xfinal, tauscalefinal = basictau(y, a, lossfunction, clipping, 0, 100, 1, xhat)  # iterate the best solutions
+  xhat, mintauscale = basictau(y, a, lossfunction, clipping, ninitialx, maxiter=initialiter, nbest=nmin)  # first round: only initialiter iterations. We keep the nmin best solutions
+  xfinal, tauscalefinal = basictau(y, a, lossfunction, clipping, ninitialx=0, maxiter=100, nbest=1, initialx=xhat)  # iterate the best solutions
   # until convergence
 
   return xfinal, tauscalefinal
