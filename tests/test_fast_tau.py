@@ -55,14 +55,6 @@ class TestUM(unittest.TestCase):
 			  n_initial_solutions
 			)
 
-			xfinal_marta2, tscalefinal_marta2 = inv.fasttau(
-			  y_marta2,
-			  a_marta2,
-			  lossfunction,
-			  clipping,
-			  n_initial_solutions
-			)
-
 			xfinal_lp, tscalefinal_lp = lp.fasttau(
 			  y_gui,
 			  a_gui,
@@ -71,20 +63,11 @@ class TestUM(unittest.TestCase):
 			  n_initial_solutions
 			)
 
-			xfinal_lp2, tscalefinal_lp2 = lp.fasttau(
-			  y_gui2,
-			  a_gui2,
-			  lossfunction,
-			  clipping,
-			  n_initial_solutions
-			)
-
 			# this test calls twice the same function with the same values to
 			# check that two executions give exactly the same result.
-			print "MARTA's fastau1 : ", xfinal_marta.reshape(-1), tscalefinal_marta
-			print "MARTA's fastau2 : ", xfinal_marta2.reshape(-1), tscalefinal_marta2
-			print "LinvPy's fastau1 : ", xfinal_lp.reshape(-1), tscalefinal_lp
-			print "LinvPy's fastau1 : ", xfinal_lp2.reshape(-1), tscalefinal_lp2
+			print "MARTA's fastau : ", xfinal_marta.reshape(-1), tscalefinal_marta
+			
+			print "LinvPy's fastau : ", xfinal_lp.reshape(-1), tscalefinal_lp
 
 			print "==================="
 

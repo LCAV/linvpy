@@ -485,7 +485,7 @@ def weights(input, loss_function, clipping=None, nmeasurements=None):
 
     # only used for the tau estimator
     elif (nmeasurements!=None) :
-        z = toolbox.scorefunction(input, 'tau', **kwargs)
+        z = util.scorefunction(input, 'tau', **kwargs)
         w = np.zeros(input.shape)
 
         # only for the non zero u elements
@@ -551,8 +551,10 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     # kwargs = keyword arguments : if clipping is not specified, kwargs=None
     # and we use the default loss function's clipping, otherwise we use the one
     # passed in weights() with **kwargs
+    # If the tau option is used, the function needs a clipping as tuple,
+    # otherwise only one clipping is given.
     kwargs = {}
-    if clipping != None:
+    if clipping != None :
         kwargs['clipping'] = clipping
     
     # if an initial value for x is specified, use it, otherwise generate a
@@ -591,12 +593,16 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
                     array_loss(scaled_residuals, loss_function, clipping[0])
                     ) / b
                 )
+
         
         # normalize residuals ((y - Ax)/ scale)
         rhat = np.array(residuals / scale).flatten()
 
         # weights(y-Ax, loss_function, clipping)
         weights_vector = weights(rhat, loss_function, nmeasurements=m, **kwargs)
+
+        #weights_vector = util.weights(rhat, kind, 'huber', clipping, m)
+
 
         # Makes a diagonal matrix with values of w(y-Ax)
         # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
