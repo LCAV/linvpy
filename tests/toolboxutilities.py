@@ -9,6 +9,7 @@ Marta Martinez-Camara, EPFL
 
 # take the division operator from future versions
 from __future__ import division
+import linvpy as lp
 
 
 # -------------------------------------------------------------------
@@ -115,6 +116,9 @@ def scorefunction(u, kind, clipping):
         # here we compute the score function for the tau.
         # psi_tau = weighttau * psi_1 + psi_2
         weighttau = tauweights(u, 'optimal', clipping)
+
+        #weighttau = lp.tau_weights_new(u, clipping)
+
         score = weighttau * \
             scoreoptimal(u, clipping[0]) + scoreoptimal(u, clipping[1])
     else:  # unknown method

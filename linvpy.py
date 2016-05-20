@@ -2,8 +2,6 @@ from __future__ import division  # take the division operator from future versio
 import numpy as np
 import math
 import toolboxutilities as util
-import toolboxinverse as inv
-import sys
 
 def least_squares(matrix_a, vector_y):
     '''
@@ -797,9 +795,10 @@ def array_loss(values, loss_function, clipping=None):
 
 
 def tau_weights_new(input, clipping, loss_function=rho_optimal):
+
     weights = 2.0 * array_loss(input, loss_function, clipping[1]) 
     weights -= (util.scoreoptimal(input, clipping[1]) * input)
-    scaling = np.sum(util.scoreoptimal(input, clipping[0]) * u)
+    scaling = np.sum(util.scoreoptimal(input, clipping[0]) * input)
 
     if (scaling == 0):
         scaling = 1.0
