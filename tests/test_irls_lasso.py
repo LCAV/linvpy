@@ -28,13 +28,13 @@ class TestUM(unittest.TestCase):
 
 	# Tests LinvPy's m-estimator against Marta's version
 	def test_irls(self):
-		for i in range(3, TESTING_ITERATIONS):
+		for i in range(5, TESTING_ITERATIONS):
 
 			NOISE = 0
 
 			columns = random.randint(2,i)
 
-			A, x, y, initial_x, scale = generate_random.gen_noise(i,columns,NOISE)
+			A,x,y,initial_vector,initial_scale = generate_random.gen_noise(i,columns, NOISE)
 
 			y_gui = copy.deepcopy(y)
 			a_gui = copy.deepcopy(A)
@@ -43,36 +43,37 @@ class TestUM(unittest.TestCase):
 			a_marta = copy.deepcopy(A)
 
 			# random float clipping between 0 and 10
-			clipping_tau = (random.uniform(0.1, 4.0), random.uniform(0.1, 4.0))
+			clipping_single = random.uniform(0.1, 4.0)
 
-			test_kind='tau'
+			test_kind='M'
 
-			lambda_parameter = 0
+			lamb=0
 
 			xhat_marta = inv.irls(
 				y=y_marta,
 				a=a_marta,
 				kind=test_kind,
-				lossfunction='optimal',
-				regularization='none',
-				lmbd=lambda_parameter,
-				initialx=initial_x.reshape(-1,1),
-				initialscale=scale.reshape(-1,1),
-				clipping=clipping_tau)[0][:,0].reshape(-1)
+				lossfunction='huber',
+				regularization='l1',
+				lmbd=lamb,
+				initialx=initial_vector.reshape(-1,1),
+				initialscale=initial_scale,
+				clipping=clipping_single)[0][:,0]
 
-			print "Marta's xhat for tau irls = ", xhat_marta
+			print "Marta's xhat for irls = ", xhat_marta
 
 			xhat_linvpy = lp.irls(
 				matrix_a=a_gui,
 				vector_y=y_gui,
-				loss_function=lp.rho_optimal,
-				clipping=clipping_tau,
-				scale=scale,
-				lamb=lambda_parameter,
-				initial_x=initial_x,
-				kind=test_kind)
+				loss_function=lp.psi_huber,
+				clipping=clipping_single,
+				scale=initial_scale,
+				lamb=lamb,
+				initial_x=initial_vector,
+				kind=test_kind,
+				regularization=inv.lasso)
 
-			print "LinvPy's xhat for tau irls = ", xhat_linvpy
+			print "LinvPy's xhat for irls = ", xhat_linvpy
 			print "real xhat = ", x
 			print "=================================="
 

@@ -2,7 +2,8 @@ from __future__ import division  # take the division operator from future versio
 import numpy as np
 import math
 import toolboxutilities as util
-import linvpy_toolbox as toolbox
+import toolboxinverse as inv
+import sys
 
 def least_squares(matrix_a, vector_y):
     '''
@@ -109,6 +110,8 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
 
     if lambda_parameter < 0:
         raise ValueError('lambda_parameter must be zero or positive.')
+    if lambda_parameter == 0 :
+        return np.linalg.lstsq(matrix_a, vector_y)[0].reshape(-1)
 
     # Ensures np.matrix type
     matrix_a = np.matrix(matrix_a)
@@ -119,24 +122,31 @@ def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
     # matrix of the same size as the number of columns of A and rows of A'.
     identity_matrix = np.identity(matrix_a.shape[1])
 
-    # x = (A' A + lambda^2 I)^-1 A' y
-    vector_x = np.dot(
-        np.dot(
-            np.linalg.inv(
-                np.add(
-                    np.dot(matrix_a.T, matrix_a), # A.T transpose of A
-                    np.dot(math.pow(lambda_parameter,2), identity_matrix)
+    try:
+        # x = (A' A + lambda^2 I)^-1 A' y
+        vector_x = np.dot(
+            np.dot(
+                np.linalg.inv(
+                    np.add(
+                        np.dot(matrix_a.T, matrix_a), # A.T transpose of A
+                        np.dot(math.pow(lambda_parameter,2), identity_matrix)
+                    ),
                 ),
+                matrix_a.T
             ),
-            matrix_a.T
-        ),
-        vector_y
-    )
+            vector_y
+        )
 
-    # Flattens result into an array
-    vector_x = np.squeeze(np.asarray(vector_x))
+        # Flattens result into an array
+        vector_x = np.squeeze(np.asarray(vector_x))
+        return vector_x
 
-    return vector_x
+    # catches Singular matrix error (or any other error), prints the trace
+    except :
+        print("Lambda parameter may be too small.")
+        raise
+
+
 
 
 def rho_huber(input, clipping=1.345):
@@ -540,13 +550,8 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     # If a scale parameter is given, m-estimator runs with preliminary scale.
     # This checks that scale is int or float and nonzero.
     # If no scale is given, scale = 1.0
-    if (scale != None) :
-        if (isinstance(scale, float) or isinstance(scale, int)) == False :
-            raise ValueError('scale must be a scalar.')
-        elif scale == 0 :
-            raise ValueError('scale must be nonzero.')
-    else : scale = 1.0
-    scale = float(scale)
+    if (scale == None) or (scale == 0):
+        scale = 1.0
 
     # kwargs = keyword arguments : if clipping is not specified, kwargs=None
     # and we use the default loss function's clipping, otherwise we use the one
@@ -586,34 +591,23 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
 
             residuals = np.asarray(residuals.reshape(-1)).flatten()
 
-            print "residuals = ", residuals
-            print "residuals / 2 = ", residuals / 2
-            print "scale = ", scale
-
-            if (scale != 0) :
-                #scaled_residuals = map(lambda x: x/scale, residuals)
-                scaled_residuals = residuals / scale
-
-            print "scaled residuals = ", scaled_residuals
-            print "mean input = ", array_loss(scaled_residuals, loss_function, clipping[0])/ b
-
             # scale = scale * (mean(loss_function(residuals/scale))/b)^1/2
-            scale  *= np.sqrt(
-                np.mean(
-                    array_loss(scaled_residuals, loss_function, clipping[0])
-                    ) / b
-                )
-
+            if (scale != 0) :
+                scale  *= np.sqrt(
+                    np.mean(
+                        array_loss(residuals / scale, loss_function, clipping[0])
+                        ) / b
+                    )
         
         # normalize residuals ((y - Ax)/ scale)
         if (scale != 0) :
             rhat = np.array(residuals / scale).flatten()
+        else :
+            rhat = np.array(residuals).flatten()
+
 
         # weights(y-Ax, loss_function, clipping)
         weights_vector = weights(rhat, loss_function, nmeasurements=m, **kwargs)
-
-        #weights_vector = util.weights(rhat, kind, 'huber', clipping, m)
-
 
         # Makes a diagonal matrix with values of w(y-Ax)
         # np.squeeze(np.asarray()) is there to flatten the matrix into a vector
@@ -648,8 +642,6 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         # New residuals
         residuals = vector_y.reshape(-1) - np.dot(matrix_a, vector_x_new).reshape(-1)
 
-        print "residuals 2 = ", residuals
-
         # Divided by the specified optional scale, otherwise scale = 1
         #residuals = np.array(residuals / scale).flatten()
 
@@ -663,7 +655,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     return vector_x
 
 
-def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5, regularization=tikhonov_regularization, lamb=0):
+def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, initialx=None, b=0.5, regularization=tikhonov_regularization, lamb=0):
     '''
     This routine minimizes the objective function associated with the tau-estimator.
     This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
@@ -673,9 +665,9 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     In this algorithm we take the 'brute force' approach: let's try many different initial solutions, and let's pick the
     minimum with smallest value. The output of basictau are the best nbest minima (we will need them later)
 
-    :param y: vector y in y - Ax
     :param a: matrix A in y - Ax
-    :param lossfunction: type of the rho function we are using
+    :param y: vector y in y - Ax
+    :param loss_function: type of the rho function we are using
     :param clipping: clipping parameters. In this case we need two, because the rho function for the tau is composed two rho functions.
     :param ninitialx: how many different solutions do we want to use to find the global minimum (this function is not convex!)
                       if ninitialx=0, means the user introduced a predefined initial solution
@@ -687,8 +679,6 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     :return xhat: contains the best nmin estimations of x
     :return mintauscale: value of the objective function when x = xhat
     '''
-
-    import toolboxinverse as inv
 
     # to store the minimum values of the objective function (in this case is
     # the scale)
@@ -707,6 +697,9 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     # auxiliary variable to check if the user introduced a predefined initial solution.
     # = 0 if we do not have initial x. =1 if we have a given initial x
     givenx = 0
+
+    if (initialx == None) :
+        initialx = np.ones(a.shape[1])
 
     if ninitialx == 0:
         # we have a predefined initial x
@@ -729,28 +722,12 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
         # estimate the scale using initialres
         initials = np.median(np.abs(initialres)) / .6745
 
-        # ADAPTER TO ADAPT A STRING LOSSFUNCTION TO REFERENCE LOSSFUNCTION
-        # To add new loss functions : add a line here with a "if" statement testing
-        # the string and assigning loss_function_ref to the correct function's
-        # reference.
-
-        if (lossfunction == 'optimal'):
-            loss_function_ref = rho_optimal
-        elif (lossfunction == 'huber'):
-            loss_function_ref = rho_huber
-        elif (lossfunction == 'cauchy'):
-            loss_function_ref = rho_cauchy
-        elif (lossfunction == 'bisquare'):
-            loss_function_ref = rho_bisquare
-        else:
-            raise ValueError(lossfunction, ' is not a valid loss function.')
-
         # solve irls using y, a, the tau weights, initx and initals. We get an
         # estimation of x, xhattmp
         xhattmp = irls(
             a,
             y,
-            loss_function_ref,
+            loss_function,
             clipping,
             scale=initials,
             initial_x=initx,
@@ -790,9 +767,10 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     return xhat, mintauscale
 
 # TODO : need doc here
-def fasttau(y, a, lossfunction, clipping, ninitialx, nmin=5, initialiter=5):
-  xhat, mintauscale = basictau(y, a, lossfunction, clipping, ninitialx, maxiter=initialiter, nbest=nmin)  # first round: only initialiter iterations. We keep the nmin best solutions
-  xfinal, tauscalefinal = basictau(y, a, lossfunction, clipping, ninitialx=0, maxiter=100, nbest=1, initialx=xhat)  # iterate the best solutions
+def fasttau(y, a, loss_function, clipping, ninitialx, nmin=5, initialiter=5):
+  xhat, mintauscale = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=ninitialx, maxiter=initialiter, nbest=nmin)  # first round: only initialiter iterations. We keep the nmin best solutions
+
+  xfinal, tauscalefinal = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=0, maxiter=100, nbest=1, initialx=xhat)  # iterate the best solutions
   # until convergence
 
   return xfinal, tauscalefinal
@@ -818,6 +796,15 @@ def array_loss(values, loss_function, clipping=None):
     return vfunc(values, **kwargs)
 
 
+def tau_weights_new(input, clipping, loss_function=rho_optimal):
+    weights = 2.0 * array_loss(input, loss_function, clipping[1]) 
+    weights -= (util.scoreoptimal(input, clipping[1]) * input)
+    scaling = np.sum(util.scoreoptimal(input, clipping[0]) * u)
+
+    if (scaling == 0):
+        scaling = 1.0
+
+    return weights / scaling
 
 
 

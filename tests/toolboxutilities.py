@@ -204,6 +204,8 @@ def tauweights(u, lossfunction, clipping):
 
     import numpy as np
     import sys
+    if np.sum(scoreoptimal(u, clipping[0]) * u) == 0 :
+      return np.zeros(u.shape)
     if lossfunction == 'optimal':  # weights for the rho tau.
         w = np.sum(2. * rhooptimal(u, clipping[1]) - scoreoptimal(u, clipping[1]) * u) \
             / np.sum(scoreoptimal(u, clipping[0]) * u)
@@ -263,9 +265,14 @@ def mscaleestimator(u, tolerance, b, clipping, kind):
     import numpy as np
     maxiter = 100
     s = np.median(np.abs(u)) / .6745  # initial MAD estimation of the scale
+    if (s==0):
+      s=1.0
     rho_old = np.mean(rhofunction(u / s, kind, clipping)) - b
     k = 0
     while np.abs(rho_old) > tolerance and k < maxiter:
+        #TODO : I added this test to avoid division by zero
+        if (s == 0):
+          s=1.0
         delta = rho_old / \
             np.mean(scorefunction(u / s, kind, clipping) * u / s) / s
         isqu = 1
@@ -326,6 +333,9 @@ def tauscale(u, lossfunction, clipping, b, tolerance=1e-5):
     m, n = u.shape
     mscale = mscaleestimator(
         u, tolerance, b, clipping, lossfunction)  # M scale
+    #TODO : maybe remove this, I added it to avoid dividing by zero
+    if (mscale == 0):
+      mscale = 1.0
     tscale = mscale ** 2 * \
         (1 / m) * np.sum(rhofunction(u / mscale, lossfunction, clipping)
                          )  # (tau scale) ** 2

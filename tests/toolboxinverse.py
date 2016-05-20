@@ -8,7 +8,6 @@ Marta Martinez-Camara, EPFL
 """
 from __future__ import division  # take the division operator from future versions
 
-
 # -------------------------------------------------------------------
 # Least squares with l2 regularization
 # -------------------------------------------------------------------
@@ -55,9 +54,9 @@ def leastsquares(y, a):
 # -------------------------------------------------------------------
 # Least squares with l1 regularization using cvxpy
 # -------------------------------------------------------------------
-def lasso(y, a, lmbd):
-  import numpy as np
+def lasso(a, y, lmbd):
   import cvxpy as cvx
+  import numpy as np
   gamma = cvx.Parameter(sign="positive")
   measurementsize, sourcesize = a.shape
   # Construct the problem.
@@ -166,7 +165,7 @@ def irls(y, a, kind, lossfunction, regularization, lmbd, initialx, initialscale,
     elif regularization == 'l2':
       newx = ridge(yw, aw, lmbd)
     elif regularization == 'l1':
-      newx = lasso(yw, aw, lmbd)
+      newx = lasso(aw, yw, lmbd)
     else:
        # die gracefully
        sys.exit('unknown type of regularization' % regularization)
@@ -280,6 +279,9 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     # auxiliary variable to check if the user introduced a predefined initial solution.
     # = 0 if we do not have initial x. =1 if we have a given initial x
     givenx = 0
+
+    if (initialx == None) :
+      initialx = np.ones(a.shape[1])
 
     if ninitialx == 0:
         # we have a predefined initial x

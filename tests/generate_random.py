@@ -26,7 +26,12 @@ def gen_noise(rows, columns, coeff_noise=0.5):
     noise_vector = coeff_noise * np.random.rand(vector_y.shape[0])
     vector_y += noise_vector
 
-    return matrix_a, vector_x, vector_y
+    initial_x = np.random.rand(columns)
+    residuals = vector_y - np.dot(matrix_a, initial_x)
+    scale = np.median(np.abs(residuals))/0.6745
+
+    return matrix_a, vector_x, vector_y, initial_x, scale
+
 
 
 def generate_random_ill_conditioned(size):

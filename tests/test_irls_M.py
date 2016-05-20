@@ -30,9 +30,11 @@ class TestUM(unittest.TestCase):
 	def test_irls(self):
 		for i in range(5, TESTING_ITERATIONS):
 
+			NOISE = 0
+
 			columns = random.randint(2,i)
 
-			A,x,y = generate_random.gen_noise(i,columns,0.5)
+			A,x,y,initial_vector,initial_scale = generate_random.gen_noise(i,columns, NOISE)
 
 			y_gui = copy.deepcopy(y)
 			a_gui = copy.deepcopy(A)
@@ -43,26 +45,17 @@ class TestUM(unittest.TestCase):
 			# random float clipping between 0 and 10
 			clipping_single = random.uniform(0.1, 4.0)
 
-			# a static initial vector x to avoid randomness in test
-			#initial_vector = np.array([-0.56076046, -2.96528342]).reshape(-1,1)
-
-			initial_vector = generate_random.gen_noise(i,columns,0)[1]
-
-			initial_residuals = y - np.dot(A, initial_vector)
-
-			initial_scale = np.median(np.abs(initial_residuals))/0.6745
-
 			test_kind='M'
 
-			# marta's irls returns a matrix with the same values repeated on
-			# each line; so I take only the values of the first column
+			lamb=0
+
 			xhat_marta = inv.irls(
 				y=y_marta,
 				a=a_marta,
 				kind=test_kind,
 				lossfunction='huber',
 				regularization='none',
-				lmbd=0,
+				lmbd=lamb,
 				initialx=initial_vector.reshape(-1,1),
 				initialscale=initial_scale,
 				clipping=clipping_single)[0][:,0]
@@ -75,7 +68,7 @@ class TestUM(unittest.TestCase):
 				loss_function=lp.psi_huber,
 				clipping=clipping_single,
 				scale=initial_scale,
-				lamb=0,
+				lamb=lamb,
 				initial_x=initial_vector,
 				kind=test_kind)
 
@@ -83,10 +76,10 @@ class TestUM(unittest.TestCase):
 			print "real xhat = ", x
 			print "=================================="
 
-			# tests array equality to the 5th decimal
-			#np.testing.assert_array_almost_equal(x, xhat_linvpy, decimal=5)
-
-			self.assertEquals(xhat_linvpy.all(), x.all())
+			# only tests this if noise is zero otherwise it fails all the time
+			# because values are not EXACTLY the same
+			if NOISE == 0 :
+				np.testing.assert_array_almost_equal(x, xhat_linvpy, decimal=5)
 
 
 if __name__ == '__main__':
