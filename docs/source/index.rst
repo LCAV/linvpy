@@ -47,6 +47,8 @@ Documentation
 .. autofunction:: weights
 .. autofunction:: irls
 .. autofunction:: basictau
+.. autofunction:: fasttau
+.. autofunction:: array_loss
 
 Contribute
 =======
