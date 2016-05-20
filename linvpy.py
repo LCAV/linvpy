@@ -585,7 +585,17 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
             m,n = matrix_a.shape
 
             residuals = np.asarray(residuals.reshape(-1)).flatten()
-            scaled_residuals = map(lambda x: x/scale, residuals)
+
+            print "residuals = ", residuals
+            print "residuals / 2 = ", residuals / 2
+            print "scale = ", scale
+
+            if (scale != 0) :
+                #scaled_residuals = map(lambda x: x/scale, residuals)
+                scaled_residuals = residuals / scale
+
+            print "scaled residuals = ", scaled_residuals
+            print "mean input = ", array_loss(scaled_residuals, loss_function, clipping[0])/ b
 
             # scale = scale * (mean(loss_function(residuals/scale))/b)^1/2
             scale  *= np.sqrt(
@@ -596,7 +606,8 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
 
         
         # normalize residuals ((y - Ax)/ scale)
-        rhat = np.array(residuals / scale).flatten()
+        if (scale != 0) :
+            rhat = np.array(residuals / scale).flatten()
 
         # weights(y-Ax, loss_function, clipping)
         weights_vector = weights(rhat, loss_function, nmeasurements=m, **kwargs)
@@ -637,6 +648,8 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
         # New residuals
         residuals = vector_y.reshape(-1) - np.dot(matrix_a, vector_x_new).reshape(-1)
 
+        print "residuals 2 = ", residuals
+
         # Divided by the specified optional scale, otherwise scale = 1
         #residuals = np.array(residuals / scale).flatten()
 
@@ -650,7 +663,7 @@ def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, i
     return vector_x
 
 
-def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5):
+def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, initialx=0, b=0.5, regularization=tikhonov_regularization, lamb=0):
     '''
     This routine minimizes the objective function associated with the tau-estimator.
     This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
@@ -743,7 +756,9 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
             initial_x=initx,
             kind='tau',
             b=0.5,
-            max_iterations=maxiter)
+            max_iterations=maxiter,
+            regularization=regularization,
+            lamb=lamb)
 
         # last working version
         # xhattmp, scaletmp, ni, w, steps = inv.irls(y, a, 'tau', 'optimal', 'none', 0, initx, initials, clipping, maxiter)
@@ -786,6 +801,14 @@ def fasttau(y, a, lossfunction, clipping, ninitialx, nmin=5, initialiter=5):
 # function to apply a loss function to any data structure; scalar, array or matrix
 # returns the exact same data structure with the loss function applied element-wise
 def array_loss(values, loss_function, clipping=None):
+
+    # if we input incorrect values (due to division by too tiny numbers in irls)
+    # inside array_loss, it returns zeroes
+    
+    # checks if there is a 'nan' value in the input
+    if np.any(np.isnan(values)) :
+        print "incorrect input in array loss !"
+        return np.zeros(values.shape)
 
     kwargs = {}
     if clipping != None:

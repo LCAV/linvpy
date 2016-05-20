@@ -7,7 +7,7 @@ import random
 import copy
 import toolboxinverse as inv
 
-TESTING_ITERATIONS = 10
+TESTING_ITERATIONS = 100
 # For a matrix to be ill-conditioned, its condition number must be equal to or
 # greather than ILL_CONDITION_CRITERIA
 
