@@ -56,7 +56,7 @@ def least_squares(matrix_a, vector_y):
     return vector_x
 
 
-def tikhonov_regularization(matrix_a, vector_y, lambda_parameter):
+def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
     '''
     The standard approach to solve Ax=y (x is unknown) is to use the  ordinary least squares
     method. However if your matrix A is a fat matrix (it has more columns than rows) or it has a large condition number,

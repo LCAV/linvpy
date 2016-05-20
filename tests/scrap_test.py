@@ -11,6 +11,11 @@ import copy
 import random
 
 
+
+gen.gen_noise(2,3)
+
+
+
 #genA, geny = gen.generate_random(4,5)
 #print "test =", lp.irls(genA, geny, lp.psi_huber)
 '''

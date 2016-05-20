@@ -29,7 +29,10 @@ class TestUM(unittest.TestCase):
 	# Tests LinvPy's m-estimator against Marta's version
 	def test_irls(self):
 		for i in range(5, TESTING_ITERATIONS):
-			A,y = generate_random.generate_random(i,i)
+
+			columns = random.randint(2,i)
+
+			A,x,y = generate_random.gen_noise(i,columns,0.5)
 
 			y_gui = copy.deepcopy(y)
 			a_gui = copy.deepcopy(A)
@@ -41,9 +44,9 @@ class TestUM(unittest.TestCase):
 			clipping_single = random.uniform(0.1, 4.0)
 
 			# a static initial vector x to avoid randomness in test
-			initial_vector = np.array([-0.56076046, -2.96528342]).reshape(-1,1)
+			#initial_vector = np.array([-0.56076046, -2.96528342]).reshape(-1,1)
 
-			initial_vector = generate_random.generate_random(i,i)[1]
+			initial_vector = generate_random.gen_noise(i,columns,0)[1]
 
 			initial_residuals = y - np.dot(A, initial_vector)
 
@@ -60,7 +63,7 @@ class TestUM(unittest.TestCase):
 				lossfunction='huber',
 				regularization='none',
 				lmbd=0,
-				initialx=initial_vector,
+				initialx=initial_vector.reshape(-1,1),
 				initialscale=initial_scale,
 				clipping=clipping_single)[0][:,0]
 
@@ -77,12 +80,13 @@ class TestUM(unittest.TestCase):
 				kind=test_kind)
 
 			print "LinvPy's xhat for irls = ", xhat_linvpy
+			print "real xhat = ", x
 			print "=================================="
 
 			# tests array equality to the 5th decimal
-			np.testing.assert_array_almost_equal(xhat_marta.reshape(-1), xhat_linvpy, decimal=5)
+			#np.testing.assert_array_almost_equal(x, xhat_linvpy, decimal=5)
 
-			self.assertEquals(xhat_linvpy.all(), xhat_marta.all())
+			self.assertEquals(xhat_linvpy.all(), x.all())
 
 
 if __name__ == '__main__':

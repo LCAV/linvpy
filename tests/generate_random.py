@@ -15,7 +15,18 @@ def generate_random(rows,columns):
 
     if rows == 1:
         return np.array([[np.random.rand()]]), [np.random.rand()]
-    return np.array(np.random.rand(rows,columns)) , np.random.rand(rows)
+    return np.random.rand(rows,columns) , np.random.rand(rows)
+
+def gen_noise(rows, columns, coeff_noise=0.5):
+    
+    matrix_a = np.random.rand(rows,columns)
+    vector_x = np.random.rand(columns)
+    vector_y = np.dot(matrix_a, vector_x)
+
+    noise_vector = coeff_noise * np.random.rand(vector_y.shape[0])
+    vector_y += noise_vector
+
+    return matrix_a, vector_x, vector_y
 
 
 def generate_random_ill_conditioned(size):
