@@ -47,8 +47,9 @@ class TestUM(unittest.TestCase):
 
 			test_kind='M'
 
-			lamb=0
+			lamb=0.1
 
+			'''
 			xhat_marta = inv.irls(
 				y=y_marta,
 				a=a_marta,
@@ -61,6 +62,10 @@ class TestUM(unittest.TestCase):
 				clipping=clipping_single)[0][:,0]
 
 			print "Marta's xhat for irls = ", xhat_marta
+			'''
+
+			def custom_reg_function(a,y,lamb):
+				return lp.least_squares(a,y)
 
 			xhat_linvpy = lp.irls(
 				matrix_a=a_gui,
@@ -71,7 +76,7 @@ class TestUM(unittest.TestCase):
 				lamb=lamb,
 				initial_x=initial_vector,
 				kind=test_kind,
-				regularization=inv.lasso)
+				regularization=custom_reg_function)
 
 			print "LinvPy's xhat for irls = ", xhat_linvpy
 			print "real xhat = ", x
