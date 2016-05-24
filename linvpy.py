@@ -201,7 +201,7 @@ def psi_huber(input, clipping=1.345):
 
     :math:`\\psi(x)=\\begin{cases}
     x& \\text{if |x| <=} clipping, \\\\
-    clipping \\dot sign(x) & \\text{otherwise}.
+    clipping \\cdot sign(x) & \\text{otherwise}.
     \\end{cases}`
 
     :param input: (float) :math:`x`
@@ -209,7 +209,7 @@ def psi_huber(input, clipping=1.345):
 
     :return float: :math:`\\psi(x)`
 
-    Example : run huber loss derivative on a vector
+    Example : run psi_huber derivative on a vector
 
     .. code-block:: python
 
@@ -246,7 +246,7 @@ def rho_bisquare(input, clipping=4.685):
     :param input: (float) :math:`x`
     :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result :math:`\\rho(x)` of bisquare function
+    :return: (float) result :math:`\\rho(x)` of bisquare function
 
     Example : run bisquare loss on a vector
 
@@ -287,12 +287,12 @@ def psi_bisquare(input, clipping=4.685):
     0& \\text{if |x| > 0}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of bisquare function
+    :return: (float) :math:`\\psi(x)`
 
-    Example : run huber loss on a vector
+    Example : run psi_bisquare on a vector
 
     .. code-block:: python
 
@@ -322,12 +322,12 @@ def rho_cauchy(input, clipping=2.3849):
 
     :math:`\\rho(x)=(c^2/2)log(1+(x/c)^2)`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the cauchy function
+    :return float: :math:`\\rho(x)`
 
-    Example : run huber loss on a vector
+    Example : run Cauchy loss on a vector
 
     .. code-block:: python
 
@@ -358,12 +358,12 @@ def psi_cauchy(input, clipping=2.3849):
 
     :math:`\\psi(x)=\\frac{x}{1+(x/c)^2}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the cauchy's derivative function
+    :return float: result of the Cauchy's derivative function
 
-    Example : run huber loss on a vector
+    Example : run psi_cauchy on a vector
 
     .. code-block:: python
 
@@ -389,7 +389,7 @@ def psi_cauchy(input, clipping=2.3849):
 
 def rho_optimal(input, clipping=3.270):
     '''
-    The so-called optimal 'rho' function is given by
+    The so-called optimal loss function is given by
     :math:`\\rho(x)=\\begin{cases}
     1.38(x/c)^2 & \\text{if |x/c|} \\leq 2/3, \\\\
     0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
