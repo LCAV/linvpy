@@ -14,7 +14,7 @@ def least_squares(matrix_a, vector_y):
     :param matrix_a: (np.matrix) matrix :math:`\\mathbf{A}`
     :param vector_y: (array) vector :math:`\\mathbf{y}`
 
-    :return vector_x: (array) estimate :math:`\\hat \\mathbf{x}` given by least squares
+    :return vector_x: (array) estimate :math:`\\hat x` given by least squares
 
     Example : compute the least squares solution of a system :math:`\\mathbf{y = Ax}`
 
