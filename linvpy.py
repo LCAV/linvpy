@@ -5,10 +5,10 @@ import toolboxutilities as util
 
 def least_squares(matrix_a, vector_y):
     '''
-    This method computes the least squares solution
-    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert y - Ax \\rVert_2^2`.
-    This is the simplest algorithm to solve a linear inverse problem of the form y = Ax, where
-    y (vector) and A (matrix) are known and x (vector) is unknown.
+    This function computes the estimate :math:`\\hat x` given by the least squares method
+    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
+    This is the simplest algorithm to solve a linear inverse problem of the form :math:`y = Ax + n', where
+    y (vector) and A (matrix) are known and x (vector) and n (vector) are unknown.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
@@ -57,27 +57,28 @@ def least_squares(matrix_a, vector_y):
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
     '''
-    The standard approach to solve Ax=y (x is unknown) is to use the  ordinary least squares
-    method. However if your matrix A is a fat matrix (it has more columns than rows) or it has a large condition number,
-    then you should use a regularization to your problem in order to get a meaningful estimation of x.
+    The standard approach to solve the problem :math:`y = Ax + n' explained above is to use the  ordinary least squares
+    method. However if your matrix :math:`A` is a fat matrix (it has more columns than rows) or it has a large condition number,
+    then you should use a regularization to your problem in order to get a meaningful estimation of :math:`x`.
 
     The Tikhonov regularization is a tradeoff between the least squares 
-    solution and the minimization of the L2-norm of the output x (L2-norm = 
-    sum of squared values of the vector x). 
+    solution and the minimization of the L2-norm of the output :math:`x` (L2-norm =
+    sum of squared values of the vector :math:`x`),
+    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert x \\rVert_2^2  `
     
-    The parameter lambda tells how close to the least squares solution the 
-    output x will be; a large lambda will make x close to L2-norm(x)=0, while 
-    a small lambda will approach the least squares solution (typically running 
-    the function with lambda=0 will behave like the normal leat_squares() 
+    The parameter lambda tells how close to the least squares solution the
+    output :math:`x` will be; a large lambda will make :math:`x` close to L2-norm(x)=0, while
+    a small lambda will approach the least squares solution (Running
+    the function with lambda=0 will behave like the ordinary leat_squares()
     method). 
 
-    The solution is given by :math:`\\hat{x} = (A^{T}A+ \\lambda^{2} I)^{-1}A^{T}\\mathbf{y}`, where I is the identity matrix.
+    The solution is given by :math:`\\hat{\\mathbf{x}} = (A^{T}A+ \\lambda^{2} I)^{-1}A^{T}\\mathbf{y}`, where :math:`I` is the identity matrix.
 
     Raises a ValueError if lambda < 0.
 
-    :param matrix_a: (np.matrix) matrix A in y - Ax
-    :param vector_y: (array) vector y in y - Ax
-    :param lambda: (int) lambda parameter to regulate the tradeoff
+    :param matrix_a: (np.matrix) matrix A in :math:`y = Ax + n'
+    :param vector_y: (array) vector y in :math:`y = Ax + n'
+    :param lambda: (int) lambda non-negative parameter to regulate the tradeoff.
 
     :return array: vector_x solution of Tikhonov regularization
 
@@ -417,6 +418,11 @@ def rho_optimal(input, clipping=3.270):
 def psi_optimal(input, clipping=3.270):
     '''
     The derivative of the optimal 'rho' function is given by
+    :math:`\\rho(x)=\\begin{cases}
+    2*1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
+    2*2.69x / c^2 + 4*10.76x^3 / c^4 - 6*11.66x^5/ c^6 + 8*4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
+    0 &  \\text{if |x/c| > 1}.
+    \\end{cases}`
 
 
     :param input: (float) residual to be evaluated
