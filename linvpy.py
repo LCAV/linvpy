@@ -6,7 +6,7 @@ import toolboxutilities as util
 def least_squares(matrix_a, vector_y):
     '''
     This function computes the estimate :math:`\\hat x` given by the least squares method
-    :math:`\\hat \\mathbf{x} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
+    :math:`\\mathbf{\\hat x} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
     This is the simplest algorithm to solve a linear inverse problem of the form :math:`\\mathbf{y = Ax + n}`, where
     :math:`\\mathbf{y}` (vector) and :math:`\\mathbf{A}` (matrix) are known and :math:`\\mathbf{x}`  (vector)
      and :math:`\\mathbf{n}`  (vector) are unknown.
