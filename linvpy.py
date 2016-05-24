@@ -166,7 +166,7 @@ def rho_huber(input, clipping=1.345):
     inputs.
 
     :param input: (float) :math:`x`
-    :param clipping: (optional)(float) clipping parameter 
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
     :return float: :math:`\\rho(x)`
 
@@ -205,7 +205,7 @@ def psi_huber(input, clipping=1.345):
     \\end{cases}`
 
     :param input: (float) :math:`x`
-    :param clipping: (optional)(float) clipping parameter 
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
     :return float: :math:`\\psi(x)`
 
@@ -232,7 +232,7 @@ def psi_huber(input, clipping=1.345):
         return clipping * np.sign(input)
     else :
         return input
-    
+
 
 def rho_bisquare(input, clipping=4.685):
     '''
@@ -243,12 +243,12 @@ def rho_bisquare(input, clipping=4.685):
     c^2 / 6& \\text{if |x| > 0}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of bisquare function
+    :return float: result :math:`\\rho(x)` of bisquare function
 
-    Example : run huber loss on a vector
+    Example : run bisquare loss on a vector
 
     .. code-block:: python
 
