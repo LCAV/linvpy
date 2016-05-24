@@ -6,16 +6,17 @@ import toolboxutilities as util
 def least_squares(matrix_a, vector_y):
     '''
     This function computes the estimate :math:`\\hat x` given by the least squares method
-    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
-    This is the simplest algorithm to solve a linear inverse problem of the form :math:`y = Ax + n', where
-    y (vector) and A (matrix) are known and x (vector) and n (vector) are unknown.
+    :math:`\\hat \\mathbf{x} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
+    This is the simplest algorithm to solve a linear inverse problem of the form :math:`\\mathbf{y = Ax + n}`, where
+    :math:`\\mathbf{y}` (vector) and :math:`\\mathbf{A}` (matrix) are known and :math:`\\mathbf{x}`  (vector)
+     and :math:`\\mathbf{n}`  (vector) are unknown.
 
-    :param matrix_a: (np.matrix) matrix A in y - Ax
-    :param vector_y: (array) vector y in y - Ax
+    :param matrix_a: (np.matrix) matrix :math:`\\mathbf{A}`
+    :param vector_y: (array) vector :math:`\\mathbf{y}`
 
-    :return vector_x: solution of least squares
+    :return vector_x: (array) estimate :math:`\\hat \\mathbf{x}` given by least squares
 
-    Example : compute the least squares solution of a system y = Ax
+    Example : compute the least squares solution of a system :math:`\\mathbf{y = Ax}`
 
     .. code-block:: python
 
@@ -57,37 +58,41 @@ def least_squares(matrix_a, vector_y):
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
     '''
-    The standard approach to solve the problem :math:`y = Ax + n' explained above is to use the  ordinary least squares
-    method. However if your matrix :math:`A` is a fat matrix (it has more columns than rows) or it has a large condition number,
-    then you should use a regularization to your problem in order to get a meaningful estimation of :math:`x`.
+    The standard approach to solve the problem :math:`\\mathbf{y = Ax + n}` explained above is to use the  ordinary
+    least squares method. However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more columns than rows)
+    or it has a large condition number, then you should use a regularization to your problem in order to get a
+    meaningful estimation of :math:`\\mathbf{x}`.
 
     The Tikhonov regularization is a tradeoff between the least squares 
     solution and the minimization of the L2-norm of the output :math:`x` (L2-norm =
     sum of squared values of the vector :math:`x`),
-    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert x \\rVert_2^2  `
+    :math:`\\hat{\\mathbf{x}} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert \\mathbf{x} \\rVert_2^2`
     
     The parameter lambda tells how close to the least squares solution the
-    output :math:`x` will be; a large lambda will make :math:`x` close to L2-norm(x)=0, while
+    output :math:`\\mathbf{x}` will be; a large lambda will make :math:`\\mathbf{x}` close to
+    :math:`\\lVert\\mathbf{x}\\rVert_2^2 = 0`, while
     a small lambda will approach the least squares solution (Running
-    the function with lambda=0 will behave like the ordinary leat_squares()
+    the function with lambda=0 will behave like the ordinary least_squares()
     method). 
 
-    The solution is given by :math:`\\hat{\\mathbf{x}} = (A^{T}A+ \\lambda^{2} I)^{-1}A^{T}\\mathbf{y}`, where :math:`I` is the identity matrix.
+    The Tikhonov solution has an analytic solution and it is given
+    by :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`,
+    where :math:`\\mathbf{I}` is the identity matrix.
 
     Raises a ValueError if lambda < 0.
 
-    :param matrix_a: (np.matrix) matrix A in :math:`y = Ax + n'
-    :param vector_y: (array) vector y in :math:`y = Ax + n'
-    :param lambda: (int) lambda non-negative parameter to regulate the tradeoff.
+    :param matrix_a: (np.matrix) matrix A in :math:`\\mathbf{y = Ax + n}`
+    :param vector_y: (array) vector y in :math:`\\mathbf{y = Ax + n}`
+    :param lambda: (int) lambda non-negative parameter to regulate the trade off.
 
-    :return array: vector_x solution of Tikhonov regularization
+    :return vector_x: (array) Tikhonov estimate :math:`\\hat{\\mathbf{x}}`
 
     :raises ValueError: raises an exception if lambda_parameter < 0
 
-    Example : compute the solution of a system y = Ax (knowing y, A) which is a
-    tradeoff between the least squares solution and the minimization of x's
+    Example : compute the solution of a system :math:`\\mathbf{y = Ax}` (knowing :math:`\\mathbf{y, A}`) which is a
+    trade off between the least squares solution and the minimization of x's
     L2-norm. The greater lambda, the smaller the norm of the given solution. 
-    We take a matrix A which is ill-conditionned.
+    We take a matrix :math:`\\mathbf{A}` which is ill-conditionned.
 
     .. code-block:: python
 
@@ -158,15 +163,12 @@ def rho_huber(input, clipping=1.345):
     \\end{cases}`
 
     This function is quadratic for small inputs, and linear for large 
-    inputs, with equal values and slopes of the different sections at the two
-    points where |input|= clipping. The variable a often refers to the residuals, 
-    that is to the difference between the observed and predicted values 
-    a=y-f(x)
+    inputs.
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: penalty incurred by the estimation
+    :return float: :math:`\\rho(x)`
 
     Example : run huber loss on a vector
 
@@ -199,15 +201,15 @@ def psi_huber(input, clipping=1.345):
 
     :math:`\\psi(x)=\\begin{cases}
     x& \\text{if |x| <=} clipping, \\\\
-    clipping * sign(x) & \\text{otherwise}.
+    clipping \\cdot sign(x) & \\text{otherwise}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: penalty incurred by the estimation
+    :return float: :math:`\\psi(x)`
 
-    Example : run huber loss derivative on a vector
+    Example : run psi_huber derivative on a vector
 
     .. code-block:: python
 
@@ -231,6 +233,7 @@ def psi_huber(input, clipping=1.345):
     else :
         return input
 
+
 def rho_bisquare(input, clipping=4.685):
     '''
     The regular bisquare loss (or Tukey's loss), "rho" version.
@@ -240,12 +243,12 @@ def rho_bisquare(input, clipping=4.685):
     c^2 / 6& \\text{if |x| > 0}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of bisquare function
+    :return: (float) result :math:`\\rho(x)` of bisquare function
 
-    Example : run huber loss on a vector
+    Example : run bisquare loss on a vector
 
     .. code-block:: python
 
@@ -284,12 +287,12 @@ def psi_bisquare(input, clipping=4.685):
     0& \\text{if |x| > 0}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of bisquare function
+    :return: (float) :math:`\\psi(x)`
 
-    Example : run huber loss on a vector
+    Example : run psi_bisquare on a vector
 
     .. code-block:: python
 
@@ -319,12 +322,12 @@ def rho_cauchy(input, clipping=2.3849):
 
     :math:`\\rho(x)=(c^2/2)log(1+(x/c)^2)`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the cauchy function
+    :return float: :math:`\\rho(x)`
 
-    Example : run huber loss on a vector
+    Example : run Cauchy loss on a vector
 
     .. code-block:: python
 
@@ -355,12 +358,12 @@ def psi_cauchy(input, clipping=2.3849):
 
     :math:`\\psi(x)=\\frac{x}{1+(x/c)^2}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the cauchy's derivative function
+    :return float: result of the Cauchy's derivative function
 
-    Example : run huber loss on a vector
+    Example : run psi_cauchy on a vector
 
     .. code-block:: python
 
@@ -386,17 +389,17 @@ def psi_cauchy(input, clipping=2.3849):
 
 def rho_optimal(input, clipping=3.270):
     '''
-    The so-called optimal 'rho' function is given by
+    The so-called optimal loss function is given by
     :math:`\\rho(x)=\\begin{cases}
     1.38(x/c)^2 & \\text{if |x/c|} \\leq 2/3, \\\\
     0.55 - 2.69(x/c)^2 + 10.76(x/c)^4 - 11.66(x/c)^6 + 4.04(x/c)^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
     1 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the optimal function
+    :return float: :math:`\\rho(x)`
     '''
 
     # Casting input to float to avoid divisions rounding
@@ -418,17 +421,17 @@ def rho_optimal(input, clipping=3.270):
 def psi_optimal(input, clipping=3.270):
     '''
     The derivative of the optimal 'rho' function is given by
-    :math:`\\rho(x)=\\begin{cases}
-    2*1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
-    2*2.69x / c^2 + 4*10.76x^3 / c^4 - 6*11.66x^5/ c^6 + 8*4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
+    :math:`\\psi(x)=\\begin{cases}
+    2\\cdot1.38 x / c^2 & \\text{if |x/c|} \\leq 2/3, \\\\
+    2\\cdot2.69x / c^2 + 4\\cdot10.76x^3 / c^4 - 6\\cdot11.66x^5/ c^6 + 8\\cdot4.04x^7 /c^8 & \\text{if 2/3 }<|x/c| \\leq 1, \\\\
     0 &  \\text{if |x/c| > 1}.
     \\end{cases}`
 
 
-    :param input: (float) residual to be evaluated
-    :param clipping: (optional)(float) clipping parameter 
+    :param input: (float) :math:`x`
+    :param clipping: (optional)(float) clipping parameter. Default value is optimal for normalized distributions.
 
-    :return float: result of the optimal function
+    :return float: :math:`\\psi(x)`
     '''
 
     if clipping <= 0:
