@@ -7,15 +7,16 @@ def least_squares(matrix_a, vector_y):
     '''
     This function computes the estimate :math:`\\hat x` given by the least squares method
     :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2`.
-    This is the simplest algorithm to solve a linear inverse problem of the form :math:`y = Ax + n', where
-    y (vector) and A (matrix) are known and x (vector) and n (vector) are unknown.
+    This is the simplest algorithm to solve a linear inverse problem of the form :math:`\\mathbf{y = Ax + n}`, where
+    :math:`\\mathbf{y}` (vector) and :math:`\\mathbf{A}` (matrix) are known and :math:`\\mathbf{x}`  (vector)
+     and :math:`\\mathbf{n}`  (vector) are unknown.
 
-    :param matrix_a: (np.matrix) matrix A in y - Ax
-    :param vector_y: (array) vector y in y - Ax
+    :param matrix_a: (np.matrix) matrix :math:`\\mathbf{A}`
+    :param vector_y: (array) vector :math:`\\mathbf{y}`
 
-    :return vector_x: solution of least squares
+    :return vector_x: estimate :math:`\\hat x` given by least squares
 
-    Example : compute the least squares solution of a system y = Ax
+    Example : compute the least squares solution of a system :math:`\\mathbf{y = Ax}`
 
     .. code-block:: python
 
