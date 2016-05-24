@@ -14,7 +14,7 @@ def least_squares(matrix_a, vector_y):
     :param matrix_a: (np.matrix) matrix :math:`\\mathbf{A}`
     :param vector_y: (array) vector :math:`\\mathbf{y}`
 
-    :return vector_x: estimate :math:`\\hat x` given by least squares
+    :return vector_x: (array) estimate :math:`\\hat x` given by least squares
 
     Example : compute the least squares solution of a system :math:`\\mathbf{y = Ax}`
 
@@ -58,37 +58,41 @@ def least_squares(matrix_a, vector_y):
 
 def tikhonov_regularization(matrix_a, vector_y, lambda_parameter=0):
     '''
-    The standard approach to solve the problem :math:`y = Ax + n' explained above is to use the  ordinary least squares
-    method. However if your matrix :math:`A` is a fat matrix (it has more columns than rows) or it has a large condition number,
-    then you should use a regularization to your problem in order to get a meaningful estimation of :math:`x`.
+    The standard approach to solve the problem :math:`\\mathbf{y = Ax + n}` explained above is to use the  ordinary
+    least squares method. However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more columns than rows)
+    or it has a large condition number, then you should use a regularization to your problem in order to get a
+    meaningful estimation of :math:`\\mathbf{x}`.
 
     The Tikhonov regularization is a tradeoff between the least squares 
     solution and the minimization of the L2-norm of the output :math:`x` (L2-norm =
     sum of squared values of the vector :math:`x`),
-    :math:`\\hat x = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert x \\rVert_2^2  `
+    :math:`\\hat \\mathbf{x} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert \\mathbf{x} \\rVert_2^2`
     
     The parameter lambda tells how close to the least squares solution the
-    output :math:`x` will be; a large lambda will make :math:`x` close to L2-norm(x)=0, while
+    output :math:`\\mathbf{x}` will be; a large lambda will make :math:`\\mathbf{x}` close to
+    :math:`\\lVert\\mathbf{x}\\rVert_2^2 = 0`, while
     a small lambda will approach the least squares solution (Running
-    the function with lambda=0 will behave like the ordinary leat_squares()
+    the function with lambda=0 will behave like the ordinary least_squares()
     method). 
 
-    The solution is given by :math:`\\hat{\\mathbf{x}} = (A^{T}A+ \\lambda^{2} I)^{-1}A^{T}\\mathbf{y}`, where :math:`I` is the identity matrix.
+    The Tikhonov solution has an analytic solution and it is given
+    by :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`,
+    where :math:`\\mathbf{I}` is the identity matrix.
 
     Raises a ValueError if lambda < 0.
 
-    :param matrix_a: (np.matrix) matrix A in :math:`y = Ax + n'
-    :param vector_y: (array) vector y in :math:`y = Ax + n'
+    :param matrix_a: (np.matrix) matrix A in :math:`\\mathbf{y = Ax + n}'
+    :param vector_y: (array) vector y in :math:`\\mathbf{y = Ax + n}'
     :param lambda: (int) lambda non-negative parameter to regulate the tradeoff.
 
-    :return array: vector_x solution of Tikhonov regularization
+    :return vector_x: (array) Tikhonov estimate :math:`\\hat \\mathbf{x}`
 
     :raises ValueError: raises an exception if lambda_parameter < 0
 
-    Example : compute the solution of a system y = Ax (knowing y, A) which is a
-    tradeoff between the least squares solution and the minimization of x's
+    Example : compute the solution of a system :math:`\\mathbf{y = Ax}` (knowing y, A) which is a
+    trade off between the least squares solution and the minimization of x's
     L2-norm. The greater lambda, the smaller the norm of the given solution. 
-    We take a matrix A which is ill-conditionned.
+    We take a matrix :math:`\\mathbf{A}` which is ill-conditionned.
 
     .. code-block:: python
 
