@@ -201,13 +201,13 @@ def psi_huber(input, clipping=1.345):
 
     :math:`\\psi(x)=\\begin{cases}
     x& \\text{if |x| <=} clipping, \\\\
-    clipping * sign(x) & \\text{otherwise}.
+    clipping \\dot sign(x) & \\text{otherwise}.
     \\end{cases}`
 
-    :param input: (float) residual to be evaluated
+    :param input: (float) :math:`x`
     :param clipping: (optional)(float) clipping parameter 
 
-    :return float: penalty incurred by the estimation
+    :return float: :math:`\\psi(x)`
 
     Example : run huber loss derivative on a vector
 
@@ -232,6 +232,7 @@ def psi_huber(input, clipping=1.345):
         return clipping * np.sign(input)
     else :
         return input
+    
 
 def rho_bisquare(input, clipping=4.685):
     '''
