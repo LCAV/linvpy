@@ -163,15 +163,12 @@ def rho_huber(input, clipping=1.345):
     \\end{cases}`
 
     This function is quadratic for small inputs, and linear for large 
-    inputs, with equal values and slopes of the different sections at the two
-    points where |input|= clipping. The variable a often refers to the residuals, 
-    that is to the difference between the observed and predicted values 
-    a=y-f(x)
+    inputs.
 
-    :param input: (float) residual to be evaluated
+    :param input: (float) :math:`x`
     :param clipping: (optional)(float) clipping parameter 
 
-    :return float: penalty incurred by the estimation
+    :return float: :math:`\\rho(x)`
 
     Example : run huber loss on a vector
 
