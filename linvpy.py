@@ -545,7 +545,7 @@ def irls(
 
     :math:`\\boldsymbol x^{(t+1)} = \\underset{\\boldsymbol x}`
     :math:`{\operatorname{arg\,min}}`
-    :math:`\\boldsymbol W (\\boldsymbol x^{(t)})\\big|\\big| \\boldsymbol y - \\boldsymbol(A) (\\boldsymbol x) \\big \\big||_2^2.`
+    :math:`\\boldsymbol W (\\boldsymbol x^{(t)})\\big|\\big| \\boldsymbol y - \\boldsymbol(A) (\\boldsymbol x) \\big | \\big |_2^2.`
 
     The IRLS is used, among other things, to compute the M-estimate and the tau-estimate.
 
