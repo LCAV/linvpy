@@ -779,10 +779,11 @@ def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, ini
     return xhat, mintauscale
 
 # TODO : need doc here
-def fasttau(y, a, loss_function, clipping, ninitialx, nmin=5, initialiter=5):
-  xhat, mintauscale = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=ninitialx, maxiter=initialiter, nbest=nmin)  # first round: only initialiter iterations. We keep the nmin best solutions
+def fasttau(y, a, loss_function, clipping, ninitialx, regularization=tikhonov_regularization, nmin=5, initialiter=5, lamb=0):
 
-  xfinal, tauscalefinal = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=0, maxiter=100, nbest=1, initialx=xhat)  # iterate the best solutions
+  xhat, mintauscale = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=ninitialx, maxiter=initialiter, nbest=nmin, regularization=regularization, lamb=lamb)  # first round: only initialiter iterations. We keep the nmin best solutions
+
+  xfinal, tauscalefinal = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, regularization=regularization, ninitialx=0, maxiter=100, nbest=1, initialx=xhat, lamb=lamb)  # iterate the best solutions
   # until convergence
 
   return xfinal, tauscalefinal

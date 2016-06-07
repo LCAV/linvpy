@@ -16,7 +16,7 @@ class TestUM(unittest.TestCase):
 	def test_fast_tau(self):
 		for i in range(4, TESTING_ITERATIONS):
 
-			NOISE = 0
+			NOISE = 0.1
 
 			columns = random.randint(2,i)
 
