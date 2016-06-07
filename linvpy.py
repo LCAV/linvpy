@@ -527,23 +527,27 @@ def weights(input, loss_function, clipping=None, nmeasurements=None):
 # scale = sigma that divides; if sigma if given in parameter => preliminary scale
 # lmb = lambda for tikhonov => if lambda is given : regularized m-estimator
 # if lamb and scale are given : regularized m-estimator with preliminary scale
-def irls(matrix_a, vector_y, loss_function, clipping=None, scale=None, lamb=0, initial_x=None, regularization=tikhonov_regularization, kind=None, b=0.5, tolerance=1e-5, max_iterations=100):
+def irls(
+        matrix_a,
+        vector_y,
+        loss_function,
+        clipping=None,
+        scale=None,
+        lamb=0,
+        initial_x=None,
+        regularization=tikhonov_regularization,
+        kind=None, b=0.5,
+        tolerance=1e-5,
+        max_iterations=100
+):
     '''
-    The method of iteratively reweighted least squares (IRLS) is used to solve
-    certain optimization problems with objective functions of the form:
+    The method of iteratively reweighted least squares (IRLS) minimizes iteratively the function:
 
-    :math:`\underset{ \\boldsymbol x } {\operatorname{arg\,min}} \sum_{i=1}^n | y_i - loss\\_function_i (\\boldsymbol x)|^p`
+    :math:`\\boldsymbol x^{(t+1)} = \underset{\\boldsymbol x}`
+    :math:`{\operatorname{arg\,min}}`
+    :math:`\\boldsymbol W (\\boldsymbol x^{(t)})\\big|| \\boldsymbol y - \\boldsymbol(A) (\\boldsymbol x) \\big||^2.`
 
-    by an iterative method in which each step involves solving a weighted least 
-    squares problem of the form:
-
-    :math:`\\boldsymbol x^{(t+1)} = \underset{\\boldsymbol x} {\operatorname{arg\,min}} \sum_{i=1}^n w_i (\\boldsymbol x^{(t)})\\big| y_i - loss\\_function_i (\\boldsymbol x) \\big|^2.`
-
-    IRLS is used to find the maximum likelihood estimates of a generalized 
-    linear model, and in robust regression to find an M-estimator, as a way of 
-    mitigating the influence of outliers in an otherwise normally-distributed 
-    data set. For example, by minimizing the least absolute error rather than 
-    the least square error.
+    The IRLS is used, among other things, to compute the M-estimate and the tau-estimate.
 
     :param matrix_a: (np.matrix) matrix A in y - Ax
     :param vector_y: (array) vector y in y - Ax
