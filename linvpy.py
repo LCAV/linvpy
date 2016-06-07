@@ -669,9 +669,10 @@ def irls(
 def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, initialx=None, b=0.5, regularization=tikhonov_regularization, lamb=0):
     '''
     This routine minimizes the objective function associated with the tau-estimator.
+    For more information on the tau estimator see http://arxiv.org/abs/1606.00812
+
     This function is hard to minimize because it is non-convex. This means that it has several local minima. Depending on
-    the initial x that we use for our minimization, we will end up in a different local minimum (for the m-estimator is
-    not like this; the function in that case is convex and we always arrive to it, independently of the initial solution)
+    the initial x that we use for our minimization, we will end up in a different local minimum.
 
     In this algorithm we take the 'brute force' approach: let's try many different initial solutions, and let's pick the
     minimum with smallest value. The output of basictau are the best nbest minima (we will need them later)
