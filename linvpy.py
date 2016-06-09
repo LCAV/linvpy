@@ -666,7 +666,19 @@ def irls(
     return vector_x
 
 
-def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, initialx=None, b=0.5, regularization=tikhonov_regularization, lamb=0):
+def basictau(
+        a,
+        y,
+        loss_function,
+        clipping,
+        ninitialx,
+        maxiter=100,
+        nbest=1,
+        initialx=None,
+        b=0.5,
+        regularization=tikhonov_regularization,
+        lamb=0
+        ):
     '''
     This routine minimizes the objective function associated with the tau-estimator.
     For more information on the tau estimator see http://arxiv.org/abs/1606.00812
@@ -687,6 +699,8 @@ def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, ini
     :param nbest: we return the best nbest solutions. This will be necessary for the fast algorithm
     :param initialx: the user can define here the initial x he wants
     :param b: this is a parameter to estimate the scale
+    :param regularization: function for the regularization we want to use. Default: tikhonov_regularization
+    :param lamb: parameter for the regularization. It has to be non-negative.
 
     :return xhat: contains the best nmin estimations of x
     :return mintauscale: value of the objective function when x = xhat
@@ -778,15 +792,67 @@ def basictau(a, y, loss_function, clipping, ninitialx, maxiter=100, nbest=1, ini
     # function associated with the xhats
     return xhat, mintauscale
 
-# TODO : need doc here
-def fasttau(y, a, loss_function, clipping, ninitialx, regularization=tikhonov_regularization, nmin=5, initialiter=5, lamb=0):
 
-  xhat, mintauscale = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, ninitialx=ninitialx, maxiter=initialiter, nbest=nmin, regularization=regularization, lamb=lamb)  # first round: only initialiter iterations. We keep the nmin best solutions
+def fasttau(y,
+            a,
+            loss_function,
+            clipping,
+            ninitialx,
+            regularization=tikhonov_regularization,
+            nmin=5,
+            initialiter=5,
+            lamb=0
+            ):
+    '''
+    Fast version of the basic tau algorithm.
+    To save some computational cost, this algorithm exploits the speed of convergence of the basic algorithm.
+    It has two steps: in the first one, for every initial solution, it only performs initialiter iterations. It keeps
+    value of the objective function.
+    In the second step, it compares the value of all the objective functions, and it select the nmin smaller ones.
+    It iterates them until convergence. Finilly, the algorithm select the x that produces the smallest objective
+    function.
+    For more details see http://arxiv.org/abs/1606.00812
 
-  xfinal, tauscalefinal = basictau(a=a, y=y, loss_function=loss_function, clipping=clipping, regularization=regularization, ninitialx=0, maxiter=100, nbest=1, initialx=xhat, lamb=lamb)  # iterate the best solutions
-  # until convergence
+    :param a: matrix A in y - Ax
+    :param y: vector y in y - Ax
+    :param loss_function: type of the rho function we are using
+    :param clipping: clipping parameters. In this case we need two, because the rho function for the tau is composed two rho functions.
+    :param ninitialx: how many different solutions do we want to use to find the global minimum (this function is not convex!)
+                    if ninitialx=0, means the user introduced a predefined initial solution
+    :param regularization: function for the regularization we want to use. Default: tikhonov_regularization
+    :param nmin: how many solutions do we keep for the second round.
+    :param initialiter: number of iterations during the first round
+    :param lamb: parameter for the regularization. It has to be non-negative.
 
-  return xfinal, tauscalefinal
+    :return xhat: contains the best nmin estimations of x
+    :return mintauscale: value of the objective function when x = xhat
+    '''
+    xhat, mintauscale = basictau(
+        a=a,
+        y=y,
+        loss_function=loss_function,
+        clipping=clipping,
+        ninitialx=ninitialx,
+        maxiter=initialiter,
+        nbest=nmin,
+        regularization=regularization,
+        lamb=lamb
+    )  # first round: only initialiter iterations. We keep the nmin best solutions
+
+    xfinal, tauscalefinal = basictau(
+        a=a,
+        y=y,
+        loss_function=loss_function,
+        clipping=clipping,
+        regularization=regularization,
+        ninitialx=0,
+        maxiter=100,
+        nbest=1,
+        initialx=xhat,
+        lamb=lamb
+    )  # iterate the best solutions until convergence
+
+    return xfinal, tauscalefinal
 
 
 # function to apply a loss function to any data structure; scalar, array or matrix
