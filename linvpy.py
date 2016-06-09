@@ -544,7 +544,7 @@ def irls(
     The method of iteratively reweighted least squares (IRLS) minimizes iteratively the function:
 
     :math:`\\boldsymbol x^{(t+1)} =`
-    :math:`{\\underset{\\boldsymbol x} \\operatorname{arg\,min}}`
+    :math:`\\underset{\\boldsymbol x} \\operatorname{arg\,min}`
     :math:`\\boldsymbol W (\\boldsymbol x^{(t)})\\big|\\big| \\boldsymbol y - \\boldsymbol A \\boldsymbol x \\big | \\big |_2^2.`
 
     The IRLS is used, among other things, to compute the M-estimate and the tau-estimate.
