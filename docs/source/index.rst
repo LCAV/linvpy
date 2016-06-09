@@ -36,6 +36,10 @@ Documentation
 .. automodule:: linvpy
 .. autofunction:: least_squares
 .. autofunction:: tikhonov_regularization
+.. autofunction:: irls
+.. autofunction:: basictau
+.. autofunction:: fasttau
+.. autofunction:: weights
 .. autofunction:: rho_huber
 .. autofunction:: psi_huber
 .. autofunction:: rho_bisquare
@@ -44,10 +48,6 @@ Documentation
 .. autofunction:: psi_cauchy
 .. autofunction:: rho_optimal
 .. autofunction:: psi_optimal
-.. autofunction:: weights
-.. autofunction:: irls
-.. autofunction:: basictau
-.. autofunction:: fasttau
 .. autofunction:: array_loss
 
 Contribute
