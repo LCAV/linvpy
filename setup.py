@@ -19,7 +19,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/GuillaumeBeaud/linvpy',
+    url='https://github.com/LCAV/linvpy.git',
 
     # Author details
     author='Guillaume Beaud, Marta Martinez-Camara',
