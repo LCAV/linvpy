@@ -336,12 +336,12 @@ def tauscale(u, lossfunction, clipping, b, tolerance=1e-5):
     import numpy as np
     m, n = u.shape
     mscale = mscaleestimator(
-        u, tolerance, b, clipping, lossfunction)  # M scale
+        u, tolerance, b, clipping[0], lossfunction)  # M scale
     #TODO : maybe remove this, I added it to avoid dividing by zero
     if (mscale == 0):
       mscale = 1.0
     tscale = mscale ** 2 * \
-        (1 / m) * np.sum(rhofunction(u / mscale, lossfunction, clipping)
+        (1 / m) * np.sum(rhofunction(u / mscale, lossfunction, clipping[1])
                          )  # (tau scale) ** 2
     return tscale
 

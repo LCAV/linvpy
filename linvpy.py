@@ -773,7 +773,7 @@ def basictau(
         # Value of the objective function using xhattmp
         #tscalesquare = util.tauscale(res, lossfunction, clipping, b)
 
-        tscalesquare = util.tauscale(res, 'optimal', clipping[0], b)
+        tscalesquare = util.tauscale(res, 'optimal', clipping, b)
 
         # update counter
         k += 1
