@@ -1,1 +1,1 @@
-import cvxpy as cvx
+print "hello"

@@ -292,7 +292,7 @@ def basictau(y, a, lossfunction, clipping, ninitialx, maxiter=100, nbest=1, init
     while k < ninitialx:
         # if still we did not reach the number of initial solutions that we want to try,
         # get a new initial solution initx (randomly)
-        initx = util.getinitialsolution(y, a)
+        initx = util.get_initial_solution(y, a)
 
         if givenx == 1:
             # if we have a given initial solution initx, we take it
@@ -349,7 +349,7 @@ def basictauridge(y, a, lossfunction, clipping, ninitialx, lmbd, maxiter=100, nm
     ninitialx = initialx.shape[1]
     givenx = 1  # variable to know if there are given initial solutions
   while k < ninitialx:
-    initx = util.getinitialsolution(y, a)  # getting a new initial solution
+    initx = util.get_initial_solution(y, a)  # getting a new initial solution
     if givenx == 1:
       initx = np.expand_dims(initialx[:, k], axis=1)  # take the given initial solution instead
     initialres = y - np.dot(a, initx)
@@ -386,7 +386,7 @@ def basictaulasso(y, a, lossfunction, clipping, ninitialx, lmbd, maxiter=100, nm
     ninitialx = initialx.shape[1]
     givenx = 1  # variable to know if there are given initial solutions
   while k < ninitialx:
-    initx = util.getinitialsolution(y, a)  # getting a new initial solution
+    initx = util.get_initial_solution(y, a)  # getting a new initial solution
     if givenx == 1:
       initx = np.expand_dims(initialx[:, k], axis=1)  # take the given initial solution instead
     initialres = y - np.dot(a, initx)

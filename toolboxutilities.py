@@ -300,14 +300,12 @@ def mscaleestimator(u, tolerance, b, clipping, kind):
 # -------------------------------------------------------------------
 # Looking for initial solutions
 # -------------------------------------------------------------------
-def getinitialsolution(y, a):
+def get_initial_solution(y, a):
     import numpy as np
 
     # line added to keep a constant initialx for testing purpose. remove this later
     #return np.array([-0.56076046, -2.96528342]).reshape(-1,1)
 
-    import toolboxinverse as inv
-    import sys
     m = a.shape[0]  # getting dimensions
     n = a.shape[1]  # getting dimensions
     k = 0  # counting iterations
@@ -320,13 +318,14 @@ def getinitialsolution(y, a):
         # we assume that in these cases asubsample is well condtitioned
         if r == n:
             # use it to generate a solution
-            initialx = inv.leastsquares(ysubsample, asubsample)
+            initialx = np.linalg.lstsq(asubsample, ysubsample)[0]
+            print "HERE"
             return initialx
         else:
             k += 1
             if k == 100:
-                # die gracefully
-                sys.exit('I could not find initial solutions!')
+                # throw error to upper function
+                raise ValueError('Could not find a suitable initial solution.')
 
 
 # -------------------------------------------------------------------

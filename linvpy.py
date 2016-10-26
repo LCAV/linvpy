@@ -570,12 +570,12 @@ def irls(
     # If the tau option is used, the function needs a clipping as tuple,
     # otherwise only one clipping is given.
     kwargs = {}
-    if clipping != None :
+    if clipping is not None :
         kwargs['clipping'] = clipping
     
     # if an initial value for x is specified, use it, otherwise generate a
     # vector of ones
-    if initial_x != None:
+    if initial_x is not None:
         vector_x = initial_x
     else :
         # Generates a ones vector_x with length = matrix_a.columns
@@ -736,7 +736,7 @@ def basictau(
     while k < ninitialx:
         # if still we did not reach the number of initial solutions that we want to try,
         # get a new initial solution initx (randomly)
-        initx = util.getinitialsolution(y.reshape(-1, 1), a)
+        initx = get_initial_solution(y.reshape(-1, 1), a)
 
         if givenx == 1:
             # if we have a given initial solution initx, we take it
@@ -888,8 +888,30 @@ def tau_weights_new(input, clipping, loss_function=rho_optimal):
 
 
 
-
 #===============================================================================
-#===================================TESTING AREA================================
+#===================================LinvPy2.0 AREA==============================
 #===============================================================================
 
+# -------------------------------------------------------------------
+# Looking for initial solutions
+# -------------------------------------------------------------------
+def get_initial_solution(y, a):
+    m = a.shape[0]  # getting dimensions
+    n = a.shape[1]  # getting dimensions
+    k = 0  # counting iterations
+    while k < 100:
+        perm = np.random.permutation(m)
+        subsample = perm[0:n]  # random subsample
+        ysubsample = y[subsample]  # random measurements
+        asubsample = a[subsample, :]  # getting the rows
+        r = np.linalg.matrix_rank(asubsample)
+        # we assume that in these cases asubsample is well condtitioned
+        if r == n:
+            # use it to generate a solution
+            initialx = np.linalg.lstsq(asubsample, ysubsample)[0]
+            return initialx
+        else:
+            k += 1
+            if k == 100:
+                # throw error to upper function
+                raise ValueError('Could not find a suitable initial solution.')
