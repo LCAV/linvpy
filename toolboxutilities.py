@@ -106,6 +106,9 @@ def getmeasurements(a, x, noisetype, var=1, outlierproportion=0):
 # -------------------------------------------------------------------
 def scorefunction(u, kind, clipping):
     import sys  # to tbe able to exit
+
+    print"u =", u
+
     if kind == 'huber':  # least squares
         score = huber(u, clipping)  # get the estimate
     elif kind == 'squared':
@@ -295,37 +298,6 @@ def mscaleestimator(u, tolerance, b, clipping, kind):
             rho_old = rho_new
             k += 1
     return np.abs(s)
-
-
-# -------------------------------------------------------------------
-# Looking for initial solutions
-# -------------------------------------------------------------------
-def get_initial_solution(y, a):
-    import numpy as np
-
-    # line added to keep a constant initialx for testing purpose. remove this later
-    #return np.array([-0.56076046, -2.96528342]).reshape(-1,1)
-
-    m = a.shape[0]  # getting dimensions
-    n = a.shape[1]  # getting dimensions
-    k = 0  # counting iterations
-    while k < 100:
-        perm = np.random.permutation(m)
-        subsample = perm[0:n]  # random subsample
-        ysubsample = y[subsample]  # random measurements
-        asubsample = a[subsample, :]  # getting the rows
-        r = np.linalg.matrix_rank(asubsample)
-        # we assume that in these cases asubsample is well condtitioned
-        if r == n:
-            # use it to generate a solution
-            initialx = np.linalg.lstsq(asubsample, ysubsample)[0]
-            print "HERE"
-            return initialx
-        else:
-            k += 1
-            if k == 100:
-                # throw error to upper function
-                raise ValueError('Could not find a suitable initial solution.')
 
 
 # -------------------------------------------------------------------

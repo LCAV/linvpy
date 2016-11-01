@@ -83,5 +83,13 @@ def plot_loss_functions():
 # Uncomment the following line to display plots :
 #plot_loss_functions()
 
+PLOT_INTERVAL = 10
+
+plt.plot([lp.rho_bisquare(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="rho_bisquare")
+plt.plot([lp.psi_bisquare(i) for i in range(-PLOT_INTERVAL,PLOT_INTERVAL)], label="psi_bisquare")
+plt.show()
+
+
+
 if __name__ == '__main__':
 	unittest.main()
