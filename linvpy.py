@@ -539,7 +539,7 @@ class TauEstimator(Estimator):
         For more details see http://arxiv.org/abs/1606.00812
 
         :param a:
-        :type a: numpy.matrixlib.defmatrix.matrix
+        :type a: numpy.ndarray
         :param y:
         :type y: numpy.ndarray
         :param initial_x:
