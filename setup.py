@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='0.1.5494',
+    version='0.2.6000',
 
     description='Package to solve linear inverse problems',
 
@@ -48,7 +48,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='linear inverse M-estimator regression',
+    keywords='linear inverse M-estimator Tau-estimator regression',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -56,7 +56,7 @@ setup(
 
     #packages=['linvpy'],
 
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(exclude=['contrib', 'docs', 'tests', 'regularizedtau']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
@@ -66,7 +66,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['numpy', 'scipy'],
+    install_requires=['numpy', 'matplotlib'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
