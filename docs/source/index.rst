@@ -25,7 +25,7 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-.. module::
+.. module:: linvpy
 .. automodule:: linvpy
 .. autofunction:: rho
 
