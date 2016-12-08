@@ -25,14 +25,12 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-Contents:
-
+.. module::
 .. automodule:: linvpy
    :members:
 .. autoclass:: LossFunction
    :members:
    :inherited-members:
-
 .. autofunction:: psi
 .. autofunction:: unit_rho
 .. autofunction:: unit_psi
