@@ -25,13 +25,13 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-.. module:: linvpy
+
+.. module::
 .. automodule:: linvpy
+   :members:
 .. autoclass:: LossFunction
+   :members:
 
-
-.. note::
-   new note lalalolilo
 
 
 Contribute
