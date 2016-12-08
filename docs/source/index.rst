@@ -27,6 +27,7 @@ Documentation
 
 .. module::
 .. automodule:: linvpy
+.. autofunction:: psi
    :members:
 .. autoclass:: LossFunction
    :members:
