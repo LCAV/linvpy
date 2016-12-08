@@ -25,6 +25,10 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
+.. module::
+.. automodule:: linvpy
+.. autofunction:: rho
+
 .. image:: images/test.png
 
 .. note::
@@ -32,16 +36,14 @@ Documentation
 
 .. module:: linvpy
 .. class:: LossFunction
-
    .. method:: rho()
-
 
 .. module::
 .. automodule:: linvpy
+.. autoclass:: LossFunction
+   :members:
    :members:
 .. autofunction:: psi
-   :members:
-.. autoclass:: LossFunction
    :members:
    :inherited-members:
 .. autofunction:: psi
