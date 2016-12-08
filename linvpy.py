@@ -13,6 +13,12 @@ class LossFunction:
 
     # vectorized rho function : applies element-wise rho function to any structure and returns same structure
     def rho(self, array):  # Abstract method, defined by convention only
+        """
+        :param array: Array of numbers the function will be applied to.
+        :type array: numpy.ndarray
+        :return: Array of same shape as the one given with the results of the function.
+        :rtype: numpy.ndarray
+        """
         vfunc = np.vectorize(self.unit_rho)
         return vfunc(array)
 
@@ -48,7 +54,7 @@ class LossFunction:
     # Plots the rho, psi and weights on the given interval with a step of 0.1
     def plot(self, interval):
         """
-        :param interval:
+        :param interval: The interval the functions will be plotted on.
         :type interval: integer
         """
         import matplotlib.pyplot as plt

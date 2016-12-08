@@ -32,7 +32,8 @@ Documentation
 .. autoclass:: LossFunction
    :members:
 .. autofunction:: rho
-
+.. autoclass:: Huber
+.. autofunction:: rho
 
 
 Contribute
