@@ -25,8 +25,20 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
+.. image:: images/test.png
+
+.. note::
+   Your note should consist of one or more paragraphs, all indented
+
+.. module:: linvpy
+.. class:: LossFunction
+
+   .. method:: rho()
+
+
 .. module::
 .. automodule:: linvpy
+   :members:
 .. autofunction:: psi
    :members:
 .. autoclass:: LossFunction
