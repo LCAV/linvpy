@@ -25,15 +25,12 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-.. toctree::
-:maxdepth: 2
-       .. module::
-       .. automodule:: linvpy
+.. module::
+.. automodule:: linvpy
 
-.. image:: images/test.png
 
 .. note::
-   new note lala
+   new note lalalol
 
 
 Contribute
