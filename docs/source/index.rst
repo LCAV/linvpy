@@ -32,7 +32,7 @@ Documentation
 .. image:: images/test.png
 
 .. note::
-   Your note should consist of one or more paragraphs, all indented
+   new note
 
 .. module:: linvpy
 .. class:: LossFunction
