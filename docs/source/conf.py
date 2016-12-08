@@ -28,6 +28,14 @@ MOCK_MODULES = ['numpy', 'scipy', 'sklearn', 'matplotlib', 'matplotlib.pyplot', 
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
 
+# another trick for readthedocs
+import os
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if on_rtd:
+    html_theme = 'default'
+else:
+    html_theme = 'nature'
+
 
 
 # -- General configuration ------------------------------------------------

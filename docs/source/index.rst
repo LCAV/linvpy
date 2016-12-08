@@ -27,10 +27,11 @@ Documentation
 
 .. module::
 .. automodule:: linvpy
+.. autoclass:: LossFunction
 
 
 .. note::
-   new note lalalol
+   new note lalalolilo
 
 
 Contribute
