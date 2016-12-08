@@ -25,30 +25,16 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-.. module:: linvpy
-.. automodule:: linvpy
-.. autofunction:: rho
+.. toctree::
+:maxdepth: 2
+       .. module::
+       .. automodule:: linvpy
 
 .. image:: images/test.png
 
 .. note::
-   new note
+   new note lala
 
-.. module:: linvpy
-.. class:: LossFunction
-   .. method:: rho()
-
-.. module::
-.. automodule:: linvpy
-.. autoclass:: LossFunction
-   :members:
-   :members:
-.. autofunction:: psi
-   :members:
-   :inherited-members:
-.. autofunction:: psi
-.. autofunction:: unit_rho
-.. autofunction:: unit_psi
 
 Contribute
 ==========
