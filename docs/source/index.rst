@@ -26,11 +26,12 @@ Documentation
 =============
 
 
-.. module::
+.. module:: linvpy
 .. automodule:: linvpy
    :members:
 .. autoclass:: LossFunction
    :members:
+.. autofunction:: rho
 
 
 
