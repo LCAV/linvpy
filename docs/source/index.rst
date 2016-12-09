@@ -43,12 +43,6 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
-   .. autoclass:: linvpy.LossFunction
-      :members:
-      :exclude-members: m_weights
-      :undoc-members:
-      :show-inheritance:
-
 
 Contribute
 ==========
