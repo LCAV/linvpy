@@ -454,6 +454,25 @@ class Estimator:
 class MEstimator(Estimator):
     pass
 
+    """
+    :param loss_function:
+    :type loss_function: linvpy.LossFunction type
+    :param clipping:
+    :type clipping: float
+    :param regularization:
+    :type regularization: linvpy.Regularization type
+    :param lamb:
+    :type lamb: integer
+    :param scale:
+    :type scale: float
+    :param b:
+    :type b: float
+    :param tolerance:
+    :type tolerance: float
+    :param max_iterations:
+    :type max_iterations: integer
+    """
+
     # The estimate function for the M-Estimator simply returns the irls solution
     def estimate(self, a, y, initial_x=None):
         """
