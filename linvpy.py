@@ -84,7 +84,7 @@ class Huber(LossFunction):
         :Examples:
 
             >>> print(1+2)
-
+            print(1+2)
 
         >>> import linvpy as lp
         >>> huber = lp.Huber()
