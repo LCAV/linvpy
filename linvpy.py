@@ -64,6 +64,10 @@ class Huber(LossFunction):
     """
     :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
+    :Example:
+        >>> import linvpy as lp
+        >>> huber = lp.Huber()
+        >>> huber.rho(2)
     """
 
     def __init__(self, clipping=1.345):
