@@ -45,13 +45,16 @@ Module contents
 
    .. autoclass:: linvpy.LossFunction
       :members:
-      :exclude-members: unit_psi,unit_rho
+      :exclude-members: unit_psi,unit_rho,m_weights
       :undoc-members:
       :show-inheritance:
 
    .. autoclass:: linvpy.Huber
+      :members:
       :exclude-members: unit_psi,unit_rho
       :auto-function: rho,psi
+      :undoc-members:
+      :show-inheritance:
 
 
 Contribute
