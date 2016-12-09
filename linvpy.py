@@ -61,11 +61,12 @@ class LossFunction:
 
 
 class Huber(LossFunction):
+    """
+    :param clipping: Value of the clipping to be used in the loss function
+    :type clipping: float
+    """
+
     def __init__(self, clipping=1.345):
-        """
-        :param clipping: Value of the clipping to be used in the loss function
-        :type clipping: float
-        """
         LossFunction.__init__(self, clipping)
         if clipping is None:
             self.clipping = 1.345
@@ -106,11 +107,12 @@ class Huber(LossFunction):
 
 
 class Bisquare(LossFunction):
+    """
+    :param clipping:
+    :type clipping: float
+    """
+
     def __init__(self, clipping=4.685):
-        """
-        :param clipping:
-        :type clipping: float
-        """
         LossFunction.__init__(self, clipping)
         if clipping is None:
             self.clipping = 4.685
@@ -152,11 +154,12 @@ class Bisquare(LossFunction):
 
 
 class Cauchy(LossFunction):
+    """
+    :param clipping:
+    :type clipping: float
+    """
+
     def __init__(self, clipping=2.3849):
-        """
-        :param clipping:
-        :type clipping: float
-        """
         LossFunction.__init__(self, clipping)
         if clipping is None:
             self.clipping = 2.3849
@@ -191,11 +194,12 @@ class Cauchy(LossFunction):
 
 
 class Optimal(LossFunction):
+    """
+    :param clipping:
+    :type clipping: float
+    """
+
     def __init__(self, clipping=3.270):
-        """
-        :param clipping:
-        :type clipping: float
-        """
         LossFunction.__init__(self, clipping)
         if clipping is None:
             self.clipping = 3.270
@@ -295,6 +299,25 @@ class Tikhonov(Regularization):
 # Super class of the M and Tau Estimators. All values are default so you can simply create one
 # with my_estimator = MEstimator() and then my_estimator.estimate(A,y) which gives the answer.
 class Estimator:
+    """
+    :param loss_function:
+    :type loss_function: linvpy.LossFunction type
+    :param clipping:
+    :type clipping: float
+    :param regularization:
+    :type regularization: linvpy.Regularization type
+    :param lamb:
+    :type lamb: integer
+    :param scale:
+    :type scale: float
+    :param b:
+    :type b: float
+    :param tolerance:
+    :type tolerance: float
+    :param max_iterations:
+    :type max_iterations: integer
+    """
+
     def __init__(self,
                  loss_function=Huber,
                  clipping=None,
@@ -304,24 +327,6 @@ class Estimator:
                  b=0.5,
                  tolerance=1e-5,
                  max_iterations=100):
-        """
-        :param loss_function:
-        :type loss_function: linvpy.LossFunction type
-        :param clipping:
-        :type clipping: float
-        :param regularization:
-        :type regularization: linvpy.Regularization type
-        :param lamb:
-        :type lamb: integer
-        :param scale:
-        :type scale: float
-        :param b:
-        :type b: float
-        :param tolerance:
-        :type tolerance: float
-        :param max_iterations:
-        :type max_iterations: integer
-        """
         assert scale != 0
         self.loss_function = loss_function(clipping=clipping)
         self.regularization = regularization
@@ -485,6 +490,7 @@ class TauEstimator(Estimator):
     :param max_iterations:
     :type max_iterations: integer
     """
+
     def __init__(self,
                  loss_function=Huber,
                  clipping_1=None,
@@ -495,26 +501,7 @@ class TauEstimator(Estimator):
                  b=0.5,
                  tolerance=1e-5,
                  max_iterations=100):
-        """
-        :param loss_function:
-        :type loss_function: linvpy.LossFunction type
-        :param clipping_1:
-        :type clipping_1: float
-        :param clipping_2:
-        :type clipping_2: float
-        :param regularization:
-        :type regularization: linvpy.Regularization type
-        :param lamb:
-        :type lamb: integer
-        :param scale:
-        :type scale: float
-        :param b:
-        :type b: float
-        :param tolerance:
-        :type tolerance: float
-        :param max_iterations:
-        :type max_iterations: integer
-        """
+
         # calls super constructor with every parameter except the clippings
         Estimator.__init__(self,
                            regularization=regularization,
