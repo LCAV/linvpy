@@ -34,7 +34,7 @@ Module contents
 ---------------
 
 .. module::
-.. automodule:: linvpy.linvpy
+.. automodule:: linvpy
    :members:
    :undoc-members:
    :show-inheritance:
