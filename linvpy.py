@@ -74,7 +74,7 @@ class Huber(LossFunction):
         """
         :param array: Values to apply the loss function on
         :type array: numpy.ndarray
-        :return:
+        :return: Array of same shape as the input
         :rtype: numpy.ndarray
         """
         # rho version of the Huber loss function
@@ -89,7 +89,7 @@ class Huber(LossFunction):
 
     def psi(self, array):
         """
-        :param element:
+        :param array:
         :type element: float
         :return:
         :rtype: float
