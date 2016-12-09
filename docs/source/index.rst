@@ -33,6 +33,7 @@ Documentation
 Module contents
 ---------------
 
+.. module::
 .. automodule:: linvpy.linvpy
    :members:
    :undoc-members:
