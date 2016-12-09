@@ -1,8 +1,8 @@
 .. linvpy documentation master file, created by sphinx-quickstart on Thu Dec  8 09:50:43 2016.
 .. You can adapt this file completely to your liking, but it should at least contain the root `toctree` directive.
 
-Welcome to linvpy's documentation!
-==================================
+Welcome to linvpy's documentation !
+===================================
 
 LinvPy is a Python package designed for solving linear inverse problems of the form
 
@@ -36,6 +36,7 @@ Module contents
 .. module::
 .. automodule:: linvpy
    :members:
+   :exclude-members: linvpy.LossFunction
    :undoc-members: linvpy.LossFunction
    :show-inheritance:
 
