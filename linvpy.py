@@ -83,6 +83,9 @@ class Huber(LossFunction):
         :rtype: numpy.ndarray
         :Example:
 
+            >>> print(1+2)
+
+
         >>> import linvpy as lp
         >>> huber = lp.Huber()
         >>> huber.rho(2)
