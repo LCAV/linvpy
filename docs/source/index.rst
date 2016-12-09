@@ -35,18 +35,6 @@ linvpy package
 .. toctree::
 
 
-Submodules
-----------
-
-linvpy.linvpy module
---------------------
-
-.. automodule:: linvpy.linvpy
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 Module contents
 ---------------
 
@@ -54,6 +42,9 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+
+   .. autoclass:: linvpy.LossFunction
+       :exclude-members: unit_psi,unit_rho
 
 
 
