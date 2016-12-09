@@ -465,6 +465,26 @@ class MEstimator(Estimator):
 
 
 class TauEstimator(Estimator):
+    """
+    :param loss_function:
+    :type loss_function: linvpy.LossFunction type
+    :param clipping_1:
+    :type clipping_1: float
+    :param clipping_2:
+    :type clipping_2: float
+    :param regularization:
+    :type regularization: linvpy.Regularization type
+    :param lamb:
+    :type lamb: integer
+    :param scale:
+    :type scale: float
+    :param b:
+    :type b: float
+    :param tolerance:
+    :type tolerance: float
+    :param max_iterations:
+    :type max_iterations: integer
+    """
     def __init__(self,
                  loss_function=Huber,
                  clipping_1=None,
