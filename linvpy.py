@@ -86,6 +86,7 @@ class Huber(LossFunction):
         >>> import linvpy as lp
         >>> huber = lp.Huber()
         >>> huber.rho(2)
+        >>> print(1+2)
         """
         # rho version of the Huber loss function
         def unit_rho(element):
