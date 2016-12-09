@@ -108,7 +108,7 @@ class Huber(LossFunction):
 
 class Bisquare(LossFunction):
     """
-    :param clipping:
+    :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
     """
 
@@ -155,7 +155,7 @@ class Bisquare(LossFunction):
 
 class Cauchy(LossFunction):
     """
-    :param clipping:
+    :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
     """
 
@@ -195,7 +195,7 @@ class Cauchy(LossFunction):
 
 class Optimal(LossFunction):
     """
-    :param clipping:
+    :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
     """
 
@@ -262,6 +262,29 @@ class Regularization:
 
 class Tikhonov(Regularization):
     pass
+
+    """
+    The standard approach to solve the problem :math:`\\mathbf{y = Ax + n}` explained above is to use the  ordinary
+    least squares method. However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more columns than rows)
+    or it has a large condition number, then you should use a regularization to your problem in order to get a
+    meaningful estimation of :math:`\\mathbf{x}`.
+
+    The Tikhonov regularization is a tradeoff between the least squares
+    solution and the minimization of the L2-norm of the output :math:`x` (L2-norm =
+    sum of squared values of the vector :math:`x`),
+    :math:`\\hat{\\mathbf{x}} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert \\mathbf{x} \\rVert_2^2`
+
+    The parameter lambda tells how close to the least squares solution the
+    output :math:`\\mathbf{x}` will be; a large lambda will make :math:`\\mathbf{x}` close to
+    :math:`\\lVert\\mathbf{x}\\rVert_2^2 = 0`, while
+    a small lambda will approach the least squares solution (Running
+    the function with lambda=0 will behave like the ordinary least_squares()
+    method).
+
+    The Tikhonov solution has an analytic solution and it is given
+    by :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`,
+    where :math:`\\mathbf{I}` is the identity matrix.
+    """
 
     # returns th Tikhonov regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
@@ -453,7 +476,6 @@ class Estimator:
 # Inherits every feature from the class Estimator
 class MEstimator(Estimator):
     pass
-
     """
     :param loss_function:
     :type loss_function: linvpy.LossFunction type
