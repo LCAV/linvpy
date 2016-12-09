@@ -107,7 +107,7 @@ def getmeasurements(a, x, noisetype, var=1, outlierproportion=0):
 def scorefunction(u, kind, clipping):
     import sys  # to tbe able to exit
 
-    print"u =", u
+    # print"u =", u
 
     if kind == 'huber':  # least squares
         score = huber(u, clipping)  # get the estimate

@@ -51,10 +51,8 @@ Module contents
 
    .. autoclass:: linvpy.Huber
       :members:
-      :exclude-members: unit_psi,unit_rho
+      :exclude-members:
       :undoc-members:
-      :show-inheritance: rho,psi,plot
-
 
 Contribute
 ==========

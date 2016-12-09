@@ -13,26 +13,10 @@ class LossFunction:
 
     # vectorized rho function : applies element-wise rho function to any structure and returns same structure
     def rho(self, array):  # Abstract method, defined by convention only
-        """
-        :param array: Array of numbers the function will be applied to.
-        :type array: numpy.ndarray
-        :return: Array of same shape as the one given with the results of the function.
-        :rtype: numpy.ndarray
-        """
-        vfunc = np.vectorize(self.unit_rho)
-        return vfunc(array)
+        raise NotImplementedError("Subclass must implement abstract method")
 
     # vectorized rho function : applies element-wise psi function to any structure and returns same structure
     def psi(self, array):  # Abstract method, defined by convention only
-        vfunc = np.vectorize(self.unit_psi)
-        return vfunc(array)
-
-    # unit rho function
-    def unit_rho(self, element):  # Abstract method, defined by convention only
-        raise NotImplementedError("Subclass must implement abstract method")
-
-    # unit psi function
-    def unit_psi(self, element):  # Abstract method, defined by convention only
         raise NotImplementedError("Subclass must implement abstract method")
 
     # classic weights for m-estimator
@@ -79,38 +63,46 @@ class LossFunction:
 class Huber(LossFunction):
     def __init__(self, clipping=1.345):
         """
-        :param clipping:
+        :param clipping: Value of the clipping to be used in the loss function
         :type clipping: float
         """
         LossFunction.__init__(self, clipping)
         if clipping is None:
             self.clipping = 1.345
 
-    # rho version of the Huber loss function
-    def unit_rho(self, element):
+    def rho(self, array):
         """
-        :param element:
-        :type element: float
+        :param array: Values to apply the loss function on
+        :type array: numpy.ndarray
         :return:
-        :rtype: float
+        :rtype: numpy.ndarray
         """
-        if abs(element) <= self.clipping:
-            return element ** 2 / 2.0
-        else:
-            return self.clipping * abs(element) * self.clipping / 2.0
+        # rho version of the Huber loss function
+        def unit_rho(element):
+            if abs(element) <= self.clipping:
+                return element ** 2 / 2.0
+            else:
+                return self.clipping * abs(element) * self.clipping / 2.0
 
-    # psi version of the Huber loss function
-    def unit_psi(self, element):
+        vfunc = np.vectorize(unit_rho)
+        return vfunc(array)
+
+    def psi(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        if abs(element) >= self.clipping:
-            return self.clipping * np.sign(element)
-        else:
-            return element
+        # psi version of the Huber loss function
+        def unit_psi(element):
+            if abs(element) >= self.clipping:
+                return self.clipping * np.sign(element)
+            else:
+                return element
+
+        vfunc = np.vectorize(unit_psi)
+        return vfunc(array)
 
 
 class Bisquare(LossFunction):
@@ -123,32 +115,40 @@ class Bisquare(LossFunction):
         if clipping is None:
             self.clipping = 4.685
 
-    # rho version of the Bisquare loss function
-    def unit_rho(self, element):
+    def rho(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        if abs(element) <= self.clipping:
-            return ((self.clipping ** 2.0) / 6.0) * \
-                   (1 - (1 - (element / self.clipping) ** 2) ** 3)
-        else:
-            return (self.clipping ** 2) / 6.0
+        # rho version of the Bisquare loss function
+        def unit_rho(element):
+            if abs(element) <= self.clipping:
+                return ((self.clipping ** 2.0) / 6.0) * \
+                       (1 - (1 - (element / self.clipping) ** 2) ** 3)
+            else:
+                return (self.clipping ** 2) / 6.0
 
-    # psi version of the Bisquare loss function
-    def unit_psi(self, element):
+        vfunc = np.vectorize(unit_rho)
+        return vfunc(array)
+
+    def psi(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        if abs(element) <= self.clipping:
-            return element * ((1 - (element / self.clipping) ** 2) ** 2)
-        else:
-            return 0.0
+        # psi version of the Bisquare loss function
+        def unit_psi(element):
+            if abs(element) <= self.clipping:
+                return element * ((1 - (element / self.clipping) ** 2) ** 2)
+            else:
+                return 0.0
+
+        vfunc = np.vectorize(unit_psi)
+        return vfunc(array)
 
 
 class Cauchy(LossFunction):
@@ -161,25 +161,33 @@ class Cauchy(LossFunction):
         if clipping is None:
             self.clipping = 2.3849
 
-    # rho version of the Cauchy loss function
-    def unit_rho(self, element):
+    def rho(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        return (self.clipping ** 2 / 2) * np.log(1 + (element / self.clipping) ** 2)
+        # rho version of the Cauchy loss function
+        def unit_rho(element):
+            return (self.clipping ** 2 / 2) * np.log(1 + (element / self.clipping) ** 2)
 
-    # psi version of the Cauchy loss function
-    def unit_psi(self, element):
+        vfunc = np.vectorize(unit_rho)
+        return vfunc(array)
+
+    def psi(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        return element / (1 + (element / self.clipping) ** 2)
+        # psi version of the Cauchy loss function
+        def unit_psi(element):
+            return element / (1 + (element / self.clipping) ** 2)
+
+        vfunc = np.vectorize(unit_psi)
+        return vfunc(array)
 
 
 class Optimal(LossFunction):
@@ -192,34 +200,48 @@ class Optimal(LossFunction):
         if clipping is None:
             self.clipping = 3.270
 
-    # rho version of the Optimal loss function
-    def unit_rho(self, element):
+    def rho(self, array):
         """
         :param element:
         :type element: float
         :return:
         :rtype: float
         """
-        y = abs(element / self.clipping)
-        if y <= 2.0:
-            return y ** 2 / 2.0 / 3.25
-        elif 2 < y <= 3:
-            return (1.792 - 0.972 * y ** 2 + 0.432 * y ** 4 -
-                    0.052 * y ** 6 + 0.002 * y ** 8) / 3.25
-        else:
-            return 1.0
+        # rho version of the Optimal loss function
+        def unit_rho(element):
+            y = abs(element / self.clipping)
+            if y <= 2.0:
+                return y ** 2 / 2.0 / 3.25
+            elif 2 < y <= 3:
+                return (1.792 - 0.972 * y ** 2 + 0.432 * y ** 4 -
+                        0.052 * y ** 6 + 0.002 * y ** 8) / 3.25
+            else:
+                return 1.0
 
-    # psi version of the Optimal loss function
-    def unit_psi(self, element):
-        y = abs(element)
-        if y <= 2.0 * self.clipping:
-            return element / self.clipping ** 2 / 3.25
-        elif 2.0 * self.clipping < y <= 3 * self.clipping:
-            return (-1.944 * element / self.clipping ** 2 + 1.728 * element ** 3 /
-                    self.clipping ** 4 - 0.312 * element ** 5 / self.clipping ** 6 +
-                    0.016 * element ** 7 / self.clipping ** 8) / 3.25
-        else:
-            return 0.0
+        vfunc = np.vectorize(unit_rho)
+        return vfunc(array)
+
+    def psi(self, array):
+        """
+        :param element:
+        :type element: float
+        :return:
+        :rtype: float
+        """
+        # psi version of the Optimal loss function
+        def unit_psi(element):
+            y = abs(element)
+            if y <= 2.0 * self.clipping:
+                return element / self.clipping ** 2 / 3.25
+            elif 2.0 * self.clipping < y <= 3 * self.clipping:
+                return (-1.944 * element / self.clipping ** 2 + 1.728 * element ** 3 /
+                        self.clipping ** 4 - 0.312 * element ** 5 / self.clipping ** 6 +
+                        0.016 * element ** 7 / self.clipping ** 8) / 3.25
+            else:
+                return 0.0
+
+        vfunc = np.vectorize(unit_psi)
+        return vfunc(array)
 
 
 # Abstract class for regularization functions so they share the same interface
