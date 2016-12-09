@@ -35,6 +35,9 @@ Module contents
 
 .. module::
 .. automodule:: linvpy
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Contribute
