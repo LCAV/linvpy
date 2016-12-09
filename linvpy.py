@@ -81,6 +81,10 @@ class Huber(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+        :Example:
+        >>> import linvpy as lp
+        >>> huber = lp.Huber()
+        >>> huber.rho(2)
         """
         # rho version of the Huber loss function
         def unit_rho(element):
