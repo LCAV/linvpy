@@ -35,7 +35,7 @@ Module contents
 
 .. module::
 .. automodule:: linvpy
-   :members:
+   :members: __init__
    :exclude-members: m_scale, score_function, tau_weights, tau_scale, m_weights, Estimator, LossFunction, Regularization
    :undoc-members:
    :show-inheritance:

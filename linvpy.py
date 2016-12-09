@@ -509,8 +509,17 @@ class TauEstimator(Estimator):
 
     # Returns the solution of the Tau-Estimator for the given inputs
     def estimate(self, a, y, initial_x=None):
-        # type: (numpy.ndarray, numpy.ndarray, None) -> Tuple[numpy.ndarray, numpy.float64]
         """
+        This routine minimizes the objective function associated with the tau-estimator.
+        For more information on the tau estimator see http://arxiv.org/abs/1606.00812
+
+        This function is hard to minimize because it is non-convex. This means that it has several local minimums; depending on
+        the initial x that is used, the algorithm ends up in a different local minimum.
+
+        This algorithm takes the 'brute force' approach: it tries many different initial solutions, and picks the
+        minimum with smallest value. The output of this estimation is the best minimum found.
+
+
         :param a:
         :type a: numpy.ndarray
         :param y:
@@ -598,7 +607,6 @@ class TauEstimator(Estimator):
     def tau_weights(self, x):
         # ensures numpy matrix type (x is a vector of size 1,n)
         """
-
         :param x:
         :type x: numpy.ndarray
         :return:
@@ -620,7 +628,6 @@ class TauEstimator(Estimator):
 
     # Score function for the tau estimator
     def score_function(self, x):
-
         """
         :param x:
         :type x: numpy.ndarray
@@ -635,10 +642,8 @@ class TauEstimator(Estimator):
         return np.sign(x) * abs(tau_weights * self.loss_function_1.psi(x) + self.loss_function_2.psi(x))
 
     def m_scale(self, x):
-
         # ensures array type
         """
-
         :param x:
         :type x: numpy.ndarray
         :return:
@@ -693,7 +698,6 @@ class TauEstimator(Estimator):
 
     # Computes the scale for the Tau-Estimator
     def tau_scale(self, x):
-
         """
         :param x:
         :type x: numpy.ndarray
