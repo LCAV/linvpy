@@ -29,11 +29,6 @@ To upgrade linvpy to the latest version : ::
 Documentation
 =============
 
-linvpy package
-==============
-
-.. toctree::
-
 
 Module contents
 ---------------

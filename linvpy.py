@@ -89,10 +89,10 @@ class Huber(LossFunction):
 
     def psi(self, array):
         """
-        :param array:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Values to apply the loss function on
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input
+        :rtype: numpy.ndarray
         """
         # psi version of the Huber loss function
         def unit_psi(element):
