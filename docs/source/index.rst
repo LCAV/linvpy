@@ -33,6 +33,7 @@ Documentation
 Module contents
 ---------------
 
+.. module::
 .. automodule:: linvpy
    :members:
    :undoc-members: linvpy.LossFunction
