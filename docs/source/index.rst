@@ -36,7 +36,8 @@ Module contents
 .. module::
 .. automodule:: linvpy
    :members:
-   :undoc-members:
+   :undoc-members: linvpy.LossFunction, m_scale
+   :exclude-members:
    :show-inheritance:
 
 
