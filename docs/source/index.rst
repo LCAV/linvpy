@@ -36,8 +36,7 @@ Module contents
 .. module::
 .. automodule:: linvpy
    :members:
-   :exclude-members:
-   :undoc-members: linvpy.LossFunction, linvpy.Estimator
+   :exclude-members: linvpy.LossFunction, linvpy.Estimator
    :show-inheritance:
 
 
