@@ -35,7 +35,7 @@ Module contents
 
 .. module::
 .. automodule:: linvpy
-   :members:
+   :members: linvpy.LossFunction
    :exclude-members:
    :show-inheritance:
 
