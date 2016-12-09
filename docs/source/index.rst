@@ -33,10 +33,9 @@ Documentation
 Module contents
 ---------------
 
-.. module::
-.. automodule:: linvpy
-   :members: linvpy.LossFunction
-   :exclude-members:
+.. automodule:: linvpy.linvpy
+   :members:
+   :undoc-members:
    :show-inheritance:
 
 
