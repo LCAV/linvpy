@@ -37,6 +37,7 @@ Module contents
 .. automodule:: linvpy
    :members:
    :exclude-members: m_scale, score_function, tau_weights, tau_scale
+   :undoc-members:
    :show-inheritance:
 
 
