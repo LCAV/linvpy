@@ -307,3 +307,5 @@ texinfo_documents = [
 
 
 sys.path.insert(0, os.path.abspath('../..'))
+
+# import ../../linvpy.py
