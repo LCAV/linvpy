@@ -36,8 +36,7 @@ Module contents
 .. module::
 .. automodule:: linvpy
    :members:
-   :exclude-members: m_scale, score_function, tau_weights, tau_scale
-   :exclude-members: linvpy.LossFunction, linvpy.Estimator, linvpy.Regularization
+   :exclude-members: m_scale, score_function, tau_weights, tau_scale, linvpy.LossFunction, linvpy.Estimator
    :show-inheritance:
 
 
