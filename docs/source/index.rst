@@ -49,10 +49,6 @@ Module contents
       :undoc-members:
       :show-inheritance:
 
-   .. autoclass:: linvpy.Huber
-      :members:
-      :exclude-members:
-      :undoc-members:
 
 Contribute
 ==========
