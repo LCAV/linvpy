@@ -262,7 +262,6 @@ class Regularization:
 
 class Tikhonov(Regularization):
     pass
-
     """
     The standard approach to solve the problem :math:`\\mathbf{y = Ax + n}` explained above is to use the  ordinary
     least squares method. However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more columns than rows)
