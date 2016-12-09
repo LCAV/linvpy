@@ -53,7 +53,7 @@ Module contents
       :members:
       :exclude-members: unit_psi,unit_rho
       :undoc-members:
-      :show-inheritance:
+      :show-inheritance: rho,psi,plot
 
 
 Contribute
