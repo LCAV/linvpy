@@ -72,9 +72,9 @@ class Huber(LossFunction):
 
     def rho(self, array):
         """
-        :param array: Values to apply the loss function on
+        :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Huber loss function
@@ -89,9 +89,9 @@ class Huber(LossFunction):
 
     def psi(self, array):
         """
-        :param array: Values to apply the loss function on
+        :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Huber loss function
@@ -117,10 +117,10 @@ class Bisquare(LossFunction):
 
     def rho(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # rho version of the Bisquare loss function
         def unit_rho(element):
@@ -135,10 +135,10 @@ class Bisquare(LossFunction):
 
     def psi(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # psi version of the Bisquare loss function
         def unit_psi(element):
@@ -163,10 +163,10 @@ class Cauchy(LossFunction):
 
     def rho(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # rho version of the Cauchy loss function
         def unit_rho(element):
@@ -177,10 +177,10 @@ class Cauchy(LossFunction):
 
     def psi(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # psi version of the Cauchy loss function
         def unit_psi(element):
@@ -202,10 +202,10 @@ class Optimal(LossFunction):
 
     def rho(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
@@ -223,10 +223,10 @@ class Optimal(LossFunction):
 
     def psi(self, array):
         """
-        :param element:
-        :type element: float
-        :return:
-        :rtype: float
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input, cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # psi version of the Optimal loss function
         def unit_psi(element):
