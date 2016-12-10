@@ -79,7 +79,7 @@ print (my_tau_2.estimate(A, y, initial_x=x))
 huber = lp.Huber()
 print huber.rho(2)
 
-y = np.array([1, 4, 3])
+y = np.array([1, 2, 3])
 print huber.rho(y)
 a = np.matrix([[1, 2], [3, 4], [5, 6]])
 

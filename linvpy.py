@@ -86,9 +86,9 @@ class Huber(LossFunction):
         >>> huber.rho(2)
         1.809025
 
-        >>> y = np.array([1, 4, 3])
-        >>>huber.rho(y)
-        [ 0.5        3.61805    2.7135375]
+        >>> y = np.array([1, 2, 3])
+        >>> huber.rho(y)
+        [ 0.5        1.809025   2.7135375]
 
         >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
         >>> huber.rho(a)
