@@ -123,8 +123,6 @@ class Huber(LossFunction):
         >>> huber.plot(15)
 
         .. figure:: images/huber_.png
-           :scale: 100%
-           :align: middle
         """
         # rho version of the Huber loss function
         def unit_rho(element):
