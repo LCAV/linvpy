@@ -42,21 +42,32 @@ class LossFunction:
         :type interval: integer
         """
         import matplotlib.pyplot as plt
+
         plt.plot(
-            [self.rho(i) for i in np.arange(-interval, interval, 0.1)],
+            [self.rho(i) for i in np.linspace(-interval, interval, num=10*interval)],
             label=self.__class__.__name__ + ' rho'
         )
-        plt.plot(
-            [self.psi(i) for i in np.arange(-interval, interval, 0.1)],
-            label=self.__class__.__name__ + ' psi'
-        )
-        plt.plot([self.m_weights(i) for i in np.arange(-interval, interval, 0.1)],
-                 label=self.__class__.__name__ + ' weights'
-                 )
+
+        # plt.plot(
+        #     [self.psi(i) for i in np.linspace(-interval, interval, num=10*interval)],
+        #     label=self.__class__.__name__ + ' psi'
+        # )
+        #
+        # plt.plot([self.m_weights(i) for i in np.linspace(-interval, interval, num=10*interval)],
+        #          label=self.__class__.__name__ + ' weights'
+        #          )
+
         plt.legend(
             bbox_to_anchor=(0., 1.02, 1., .102),
             loc=3, ncol=2, mode="expand", borderaxespad=0.
         )
+
+        #axes = plt.gca()
+        #axes.set_xlim([-interval,interval])
+        # axes.set_ylim([ymin,ymax])
+
+        # plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
+
         plt.show()
 
 

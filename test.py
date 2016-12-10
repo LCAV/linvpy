@@ -77,10 +77,17 @@ print (my_tau_2.estimate(A, y, initial_x=x))
 
 
 huber = lp.Huber()
-print huber.rho(2)
+print "rho =", huber.rho(15)
 
 y = np.array([1, 2, 3])
 print huber.rho(y)
 a = np.matrix([[1, 2], [3, 4], [5, 6]])
 
 print huber.rho(a)
+
+
+print np.arange(-20, 20, 0.1)
+
+interval = 20
+
+print np.linspace(-interval, interval, num=10*interval)

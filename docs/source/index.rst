@@ -40,13 +40,6 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
-   :autofunction: Huber.rho
-   .. figure::  images/huber.png
-      :align:   center
-
-.. figure::  images/huber.png
-   :align:   center
-
 
 Contribute
 ==========
