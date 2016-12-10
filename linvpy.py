@@ -1,22 +1,24 @@
-from __future__ import \
-    division  # take the division operator from future versions
+from __future__ import division
 import numpy as np
 
 __author__ = 'GuillaumeBeaud'
 
 
-# Abstract class for loss functions so they share the same interface and all have the rho, psi, weights functions
+# Abstract class for loss functions so they share the same interface and all
+#  have the rho, psi, weights functions
 class LossFunction:
     def __init__(self, clipping=None):  # Constructor of the class
         if clipping is not None:
             assert clipping > 0  # verifies clipping is >0 if it is not None
             self.clipping = clipping
 
-    # vectorized rho function : applies element-wise rho function to any structure and returns same structure
+    # vectorized rho function : applies element-wise rho function to any
+    # structure and returns same structure
     def rho(self, array):  # Abstract method, defined by convention only
         raise NotImplementedError("Subclass must implement abstract method")
 
-    # vectorized rho function : applies element-wise psi function to any structure and returns same structure
+    # vectorized rho function : applies element-wise psi function to any
+    # structure and returns same structure
     def psi(self, array):  # Abstract method, defined by convention only
         raise NotImplementedError("Subclass must implement abstract method")
 
@@ -74,8 +76,6 @@ class LossFunction:
 
 class Huber(LossFunction):
     """
-
-
     :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
     """
@@ -108,17 +108,17 @@ class Huber(LossFunction):
 
         >>> huber = lp.Huber()
         >>> huber.rho(2)
-        1.809025
+        array(1.8090249999999999)
 
         >>> y = np.array([1, 2, 3])
         >>> huber.rho(y)
-        [ 0.5        1.809025   2.7135375]
+        array([ 0.5      ,  1.809025 ,  2.7135375])
 
         >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
         >>> huber.rho(a)
-        [[ 0.5        1.809025 ]
-        [ 2.7135375  3.61805  ]
-        [ 4.5225625  5.427075 ]]
+        matrix([[ 0.5      ,  1.809025 ],
+            [ 2.7135375,  3.61805  ],
+            [ 4.5225625,  5.427075 ]])
 
         >>> # Plots the rho, psi and m_weights on the given interval
         >>> huber.plot(15)
@@ -139,8 +139,8 @@ class Huber(LossFunction):
 
     def psi(self, array):
         """
-        Derivative of the Huber loss function; the "psi" version. Used in the weight
-        function of the M-estimator.
+        Derivative of the Huber loss function; the "psi" version. Used in
+        the weight function of the M-estimator.
 
         :math:`\\psi(x)=\\begin{cases}
         x& \\text{if |x| <=} clipping, \\\\
@@ -149,7 +149,8 @@ class Huber(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -159,17 +160,17 @@ class Huber(LossFunction):
 
         >>> huber = lp.Huber()
         >>> huber.psi(2)
-        1.345
+        array(1.345)
 
         >>> y = np.array([1, 2, 3])
         >>> huber.psi(y)
-        [ 1.     1.345  1.345]
+        array([ 1.   ,  1.345,  1.345])
 
         >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
         >>> huber.psi(a)
-        [[ 1.     1.345]
-         [ 1.345  1.345]
-         [ 1.345  1.345]]
+        matrix([[ 1.   ,  1.345],
+            [ 1.345,  1.345],
+            [ 1.345,  1.345]])
         """
         # psi version of the Huber loss function
         def unit_psi(element):
@@ -197,9 +198,34 @@ class Bisquare(LossFunction):
 
     def rho(self, array):
         """
-        :param array: Array of values to apply the loss function to :type
-        array: numpy.ndarray :return: Array of same shape as the input,
-        cell-wise results of the loss function :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input,
+        cell-wise results of the loss function
+        :rtype: numpy.ndarray
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> bisquare = lp.Bisquare()
+        >>> bisquare.rho(2)
+        array(1.6576630874988754)
+
+        >>> y = np.array([1, 2, 3])
+        >>> bisquare.rho(y)
+        array([ 0.4775661 ,  1.65766309,  2.90702817])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> bisquare.rho(a)
+        matrix([[ 0.4775661 ,  1.65766309],
+            [ 2.90702817,  3.58536054],
+            [ 3.65820417,  3.65820417]])
+
+        >>> # Plots the rho, psi and m_weights on the given interval
+        >>> bisquare.plot(15)
+
+        .. figure:: images/bisquare.png
+
         """
         # rho version of the Bisquare loss function
         def unit_rho(element):
@@ -218,8 +244,26 @@ class Bisquare(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> bisquare = lp.Bisquare()
+        >>> bisquare.psi(2)
+        array(1.3374668237772656)
+
+        >>> y = np.array([1, 2, 3])
+        >>> bisquare.psi(y)
+        array([ 0.9109563 ,  1.33746682,  1.04416812])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> bisquare.psi(a)
+        matrix([[ 0.9109563 ,  1.33746682],
+            [ 1.04416812,  0.2938613 ],
+            [ 0.        ,  0.        ]])
         """
         # psi version of the Bisquare loss function
         def unit_psi(element):
@@ -249,7 +293,8 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Cauchy loss function
@@ -266,7 +311,8 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Cauchy loss function
@@ -292,9 +338,11 @@ class Optimal(LossFunction):
 
     def rho(self, array):
         """
-        :param array: Array of values to apply the loss function to :type
-        array: numpy.ndarray :return: Array of same shape as the input,
-        cell-wise results of the loss function :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input,
+        cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
@@ -314,9 +362,11 @@ class Optimal(LossFunction):
 
     def psi(self, array):
         """
-        :param array: Array of values to apply the loss function to :type
-        array: numpy.ndarray :return: Array of same shape as the input,
-        cell-wise results of the loss function :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to
+        :type array: numpy.ndarray
+        :return: Array of same shape as the input,
+        cell-wise results of the loss function
+        :rtype: numpy.ndarray
         """
         # psi version of the Optimal loss function
         def unit_psi(element):
@@ -327,8 +377,10 @@ class Optimal(LossFunction):
                 return element / self.clipping ** 2 / 3.25
             elif 2.0 * self.clipping < y <= 3 * self.clipping:
                 return (
-                           -1.944 * element / self.clipping ** 2 + 1.728 * element ** 3 /
-                           self.clipping ** 4 - 0.312 * element ** 5 / self.clipping ** 6 +
+                           -1.944 * element / self.clipping ** 2 + 1.728 *
+                           element ** 3 /
+                           self.clipping ** 4 - 0.312 * element ** 5 /
+                           self.clipping ** 6 +
                            0.016 * element ** 7 / self.clipping ** 8) / 3.25
             else:
                 return 0.0
@@ -339,7 +391,8 @@ class Optimal(LossFunction):
 
 # Abstract class for regularization functions so they share the same interface
 class Regularization:
-    # no constructor needed. This class is used as an interface for all the regularization functions
+    # no constructor needed. This class is used as an interface for all the
+    # regularization functions
     def __init__(self):
         pass
 
@@ -376,7 +429,7 @@ class Tikhonov(Regularization):
     I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`, where :math:`\\mathbf{I}` is the
     identity matrix. """
 
-    # returns th Tikhonov regularization from A,y,lambda
+    # returns the Tikhonov regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
         """
         :param a:
@@ -410,8 +463,10 @@ class Tikhonov(Regularization):
                 np.asarray(xhat))  # flattens result into an array
 
 
-# Super class of the M and Tau Estimators. All values are default so you can simply create one
-# with my_estimator = MEstimator() and then my_estimator.estimate(A,y) which gives the answer.
+# Super class of the M and Tau Estimators. All values are default so you can
+#  simply create one
+# with my_estimator = MEstimator() and then my_estimator.estimate(A,y) which
+#  gives the answer.
 class Estimator:
     """
     :param loss_function:
@@ -453,7 +508,8 @@ class Estimator:
     # Iteratively re-weighted least squares
     def irls(self, a, y, initial_x):
 
-        # if an initial value for x is specified, use it, otherwise generate a vector of ones
+        # if an initial value for x is specified, use it, otherwise generate
+        #  a vector of ones
         """
         :param a:
         :type a: numpy.ndarray
@@ -482,8 +538,10 @@ class Estimator:
 
         for i in range(1, self.max_iterations):
 
-            # This "if" tests whether the object calling irls is a Tau- or a M-Estimator
-            # In case of Tau-Estimator, we need to update the estimation of the scale in each iteration
+            # This "if" tests whether the object calling irls is a Tau- or a
+            #  M-Estimator
+            # In case of Tau-Estimator, we need to update the estimation of
+            # the scale in each iteration
             if isinstance(self, TauEstimator):
 
                 # Flattens the residuals
@@ -496,7 +554,8 @@ class Estimator:
                     ) / self.b
                 )
 
-                # if the scale is 0 we have a good enough solution so we return the current x
+                # if the scale is 0 we have a good enough solution so we
+                # return the current x
                 if self.scale == 0.0:
                     return vector_x
 
@@ -512,16 +571,19 @@ class Estimator:
                 # returns the positions of the nonzero elements of rhat
                 i = np.nonzero(rhat)
 
-                # weights = score_function(rhat) / (2 * A.shape[0] * rhat) for nonzero elements of rhat
+                # weights = score_function(rhat) / (2 * A.shape[0] * rhat)
+                # for nonzero elements of rhat
                 # weights = 1 otherwise
                 weights_vector[i] = z[i] / (2 * a.shape[0] * rhat[i])
 
-            # If the object calling irls is not a Tau-Estimator we use the normal weights
+            # If the object calling irls is not a Tau-Estimator we use the
+            # normal weights
             else:
                 # normalize residuals : rhat = ((y - Ax)/ self.scale)
                 rhat = np.array(residuals / self.scale).flatten()
 
-                # weights_vector = weights of rhat according to the loss function
+                # weights_vector = weights of rhat according to the loss
+                # function
                 weights_vector = self.loss_function.m_weights(rhat)
 
             # Makes a diagonal matrix with the values of the weights_vector
@@ -552,10 +614,12 @@ class Estimator:
             # New residuals
             residuals = y.reshape(-1) - np.dot(a, vector_x_new).reshape(-1)
 
-            # Divided by the specified optional self.scale, otherwise self.scale = 1
+            # Divided by the specified optional self.scale, otherwise
+            # self.scale = 1
             vector_x = vector_x_new
 
-            # if the difference between iteration n and iteration n+1 is smaller than self.tolerance, return vector_x
+            # if the difference between iteration n and iteration n+1 is
+            # smaller than self.tolerance, return vector_x
             if xdis < self.tolerance:
                 return vector_x
 
@@ -588,7 +652,8 @@ class MEstimator(Estimator):
     :type max_iterations: integer
     """
 
-    # The estimate function for the M-Estimator simply returns the irls solution
+    # The estimate function for the M-Estimator simply returns the irls
+    # solution
     def estimate(self, a, y, initial_x=None):
         """
         :param a:
@@ -644,21 +709,28 @@ class TauEstimator(Estimator):
                            b=b,
                            tolerance=tolerance,
                            max_iterations=max_iterations)
-        # creates two instances of the loss function with the two different clippings
+        # creates two instances of the loss function with the two different
+        # clippings
         self.loss_function_1 = loss_function(clipping=clipping_1)
         self.loss_function_2 = loss_function(clipping=clipping_2)
 
     # Returns the solution of the Tau-Estimator for the given inputs
     def estimate(self, a, y, initial_x=None):
         """
-        This routine minimizes the objective function associated with the tau-estimator.
-        For more information on the tau estimator see http://arxiv.org/abs/1606.00812
+        This routine minimizes the objective function associated with the
+        tau-estimator.
+        For more information on the tau estimator see
+        http://arxiv.org/abs/1606.00812
 
-        This function is hard to minimize because it is non-convex. This means that it has several local minimums; depending on
-        the initial x that is used, the algorithm ends up in a different local minimum.
+        This function is hard to minimize because it is non-convex. This
+        means that it has several local minimums; depending on
+        the initial x that is used, the algorithm ends up in a different
+        local minimum.
 
-        This algorithm takes the 'brute force' approach: it tries many different initial solutions, and picks the
-        minimum with smallest value. The output of this estimation is the best minimum found.
+        This algorithm takes the 'brute force' approach: it tries many
+        different initial solutions, and picks the
+        minimum with smallest value. The output of this estimation is the
+        best minimum found.
 
 
         :param a:
@@ -688,7 +760,8 @@ class TauEstimator(Estimator):
         # Estimates the scale using the residuals
         self.scale = np.median(np.abs(residuals)) / 0.6745
 
-        # If the scale == 0 this means we have a good enough solution so we return the current x_hat
+        # If the scale == 0 this means we have a good enough solution so we
+        # return the current x_hat
         if self.scale == 0.0:
             return x_hat
 
@@ -698,7 +771,8 @@ class TauEstimator(Estimator):
         # residuals = y - A * x_hat
         residuals = y - a * x_hat.reshape(-1, 1)
 
-        # tscalesquare = value of the objective function associated with this x_hat
+        # tscalesquare = value of the objective function associated with
+        # this x_hat
         tscalesquare = self.tau_scale(residuals)
 
         # we return the best solution we found, with the value of the objective
@@ -735,7 +809,8 @@ class TauEstimator(Estimator):
         # sets the max iterations to the one given
         self.max_iterations = initial_iter
 
-        # calls the basic estimate with a low max_iter to have a quick first solution
+        # calls the basic estimate with a low max_iter to have a quick first
+        #  solution
         temp_xhat, temp_tscale = self.estimate(a, y, initial_x=initial_x)
 
         # resets the number of iterations to the default one
@@ -756,7 +831,8 @@ class TauEstimator(Estimator):
         """
         x = np.matrix(x)
 
-        # To avoid dividing by zero, if the sum is 0 it returns an array of zeros
+        # To avoid dividing by zero, if the sum is 0 it returns an array of
+        # zeros
         if np.sum(self.loss_function_1.psi(x)) == 0:
             return np.zeros(x.shape[1])
         else:
@@ -808,7 +884,8 @@ class TauEstimator(Estimator):
 
         while np.abs(rho_old) > self.tolerance and k < self.max_iterations:
 
-            # If s==0 or the mean==0 we have a good enough solution and return 0
+            # If s==0 or the mean==0 we have a good enough solution and
+            # return 0
             if (s == 0.0) or np.mean(self.loss_function_1.psi(
                             x / s) * x / s) == 0:
                 return 0.0
@@ -820,7 +897,8 @@ class TauEstimator(Estimator):
             ok = 0
             while isqu < 30 and ok != 1:
 
-                # If s==0 or s+delta we have a good enough solution and return 0
+                # If s==0 or s+delta we have a good enough solution and
+                # return 0
                 if (s == 0.0) or (s + delta == 0):
                     return 0.0
 
@@ -858,3 +936,11 @@ class TauEstimator(Estimator):
             tscale = mscale ** 2 * (1 / m) * \
                      np.sum(self.loss_function_2.rho(x / mscale))
         return tscale
+
+
+# Use of doctest, a tool that verifies that the code examples outputs match
+# the code examples inputs in the docstrings
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
