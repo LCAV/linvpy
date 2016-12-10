@@ -252,7 +252,7 @@ class Bisquare(LossFunction):
         The derivative of bisquare loss (or Tukey's loss), "psi" version.
 
         :math:`\\psi(x)=\\begin{cases}
-        x((1-(x/c)^2)^2)& \\text{if |x|} \\leq 0, \\\\
+        x((1-(\\frac{x}{c})^2)^2)& \\text{if |x|} \\leq 0, \\\\
         0& \\text{if |x| > 0}.
         \\end{cases}`
 
