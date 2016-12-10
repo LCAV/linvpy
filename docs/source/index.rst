@@ -4,8 +4,8 @@
 Welcome to linvpy's documentation !
 ===================================
 
-LinvPy is a Python package designed for solving linear inverse problems of
-the form :
+LinvPy is a Python package designed to solve linear inverse problems of the
+form :
 
 .. math:: y = Ax + n
 
@@ -20,8 +20,8 @@ this project is that Marta Martinez-Camara, PhD student in Communications
 Systems at EPFL (Switzerland) designed some new algorithms for solving linear
 inverse problems. LinvPy is a Python implementation of these algorithms,
 which may not be available anywhere else than here. LinvPy also contains
-several other known and available techniques such as loss functions
-regularization functions or M-estimators.
+several other known functions such as loss functions regularization
+functions or M-estimators.
 
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
