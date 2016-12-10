@@ -87,6 +87,9 @@ class Huber(LossFunction):
         >>> huber.rho(2)
         >>> print(1+2)
         3
+
+        .. figure::  images/huber.png
+        :align:   center
         """
         # rho version of the Huber loss function
         def unit_rho(element):
@@ -117,6 +120,7 @@ class Huber(LossFunction):
 
     """
     .. figure::  images/huber.png
+    :align:   center
     """
 
 
