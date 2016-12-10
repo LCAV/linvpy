@@ -6,10 +6,10 @@ Welcome to linvpy's documentation !
 
 LinvPy is a Python package designed for solving linear inverse problems of the form
 
-:math:`y = Ax + n`
+:math:`$y = Ax + n$`
 :align: center
 
-:math::`y = Ax + n`
+:math:`$$y = Ax + n$$`
 :align: center
 
 where :math:`y` is a vector of measured values, :math:`A` a known matrix, :math:`x` an unknown input vector and :math:`n` is noise. The goal is to find :math:`x`, or at least the best possible estimation; if the matrix :math:`A` is invertible, the solution is easy to find by multiplying by the inverse, if not, we need to use regression techniques such as least squares method to find :math:`x`. The first motivation for this project is that Marta Martinez-Camara, PhD student in Communications Systems at EPFL (Switzerland) designed some new algorithms for solving linear inverse problems. LinvPy is a Python implementation of these algorithms, which may not be available anywhere else than here. LinvPy also contains several other known and available techniques such as loss functions, regularization functions or M-estimators.
