@@ -74,3 +74,13 @@ my_tau_2.tolerance = 1e4
 # running with an initial solution :
 x = np.array([5, 6])
 print (my_tau_2.estimate(A, y, initial_x=x))
+
+
+huber = lp.Huber()
+print huber.rho(2)
+
+y = np.array([1, 4, 3])
+print huber.rho(y)
+a = np.matrix([[1, 2], [3, 4], [5, 6]])
+
+print huber.rho(a)

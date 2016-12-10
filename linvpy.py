@@ -79,17 +79,24 @@ class Huber(LossFunction):
         :rtype: numpy.ndarray
         :Example:
 
-        >>> print(1+1)
-        2
-
+        >>> import numpy as np
         >>> import linvpy as lp
+
         >>> huber = lp.Huber()
         >>> huber.rho(2)
-        >>> print(1+2)
-        3
+        1.809025
+
+        >>> y = np.array([1, 4, 3])
+        >>>huber.rho(y)
+        [ 0.5        3.61805    2.7135375]
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> huber.rho(a)
+        [[ 0.5        1.809025 ]
+        [ 2.7135375  3.61805  ]
+        [ 4.5225625  5.427075 ]]
 
         .. figure::  images/huber.png
-        :align:   center
         """
         # rho version of the Huber loss function
         def unit_rho(element):
@@ -117,11 +124,6 @@ class Huber(LossFunction):
 
         vfunc = np.vectorize(unit_psi)
         return vfunc(array)
-
-    """
-    .. figure::  images/huber.png
-    :align:   center
-    """
 
 
 class Bisquare(LossFunction):
