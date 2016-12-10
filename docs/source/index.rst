@@ -43,7 +43,6 @@ Module contents
    :show-inheritance:
 
 .. literalinclude:: ../../linvpy.py
-:language: python
 
 Contribute
 ==========

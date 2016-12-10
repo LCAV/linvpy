@@ -198,6 +198,13 @@ class Bisquare(LossFunction):
 
     def rho(self, array):
         """
+        The regular bisquare loss (or Tukey's loss), "rho" version.
+
+        :math:`\\rho(x)=\\begin{cases}
+        (c^2 / 6)(1-(1-(x/c)^2)^3)& \\text{if |x|} \\leq 0, \\\\
+        c^2 / 6& \\text{if |x| > 0}.
+        \\end{cases}`
+
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
         :return: Array of same shape as the input,
@@ -242,6 +249,13 @@ class Bisquare(LossFunction):
 
     def psi(self, array):
         """
+        The derivative of bisquare loss (or Tukey's loss), "psi" version.
+
+        :math:`\\psi(x)=\\begin{cases}
+        x((1-(x/c)^2)^2)& \\text{if |x|} \\leq 0, \\\\
+        0& \\text{if |x| > 0}.
+        \\end{cases}`
+
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the
