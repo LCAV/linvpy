@@ -38,7 +38,7 @@ Module contents
    :members:
    :exclude-members: m_scale, score_function, tau_weights, tau_scale, m_weights, Estimator, LossFunction, Regularization
    :undoc-members:
-   :show-inheritance: Huber, Cauchy
+   :show-inheritance:
 
 
 Contribute
