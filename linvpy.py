@@ -148,6 +148,22 @@ class Huber(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> huber = lp.Huber()
+        >>> huber.psi(2)
+        1.809025
+
+        >>> y = np.array([1, 2, 3])
+        >>> huber.psi(y)
+        [ 0.5        1.809025   2.7135375]
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> huber.psi(a)
         """
         # psi version of the Huber loss function
         def unit_psi(element):

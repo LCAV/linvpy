@@ -80,48 +80,8 @@ huber = lp.Huber()
 print "rho =", huber.rho(15)
 
 y = np.array([1, 2, 3])
-print huber.rho(y)
+print huber.psi(y)
 a = np.matrix([[1, 2], [3, 4], [5, 6]])
 
 print huber.rho(a)
 
-
-print np.arange(-20, 20, 0.1)
-
-interval = 20
-
-print np.linspace(-interval, interval, num=10*interval)
-
-
-import matplotlib.pyplot as plt
-
-# plt.plot(
-#     [2*i for i in (-1, 0, 1,2,3)],
-#     label=' rho'
-# )
-
-x = np.arange(0, 5, 0.1);
-y = 2*x
-plt.plot(x, y)
-
-# plt.plot(
-#     [self.psi(i) for i in np.linspace(-interval, interval, num=10*interval)],
-#     label=self.__class__.__name__ + ' psi'
-# )
-#
-# plt.plot([self.m_weights(i) for i in np.linspace(-interval, interval, num=10*interval)],
-#          label=self.__class__.__name__ + ' weights'
-#          )
-
-# plt.legend(
-#     bbox_to_anchor=(0., 1.02, 1., .102),
-#     loc=3, ncol=2, mode="expand", borderaxespad=0.
-# )
-
-#axes = plt.gca()
-#axes.set_xlim([-interval,interval])
-# axes.set_ylim([ymin,ymax])
-
-# plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
-
-plt.show()
