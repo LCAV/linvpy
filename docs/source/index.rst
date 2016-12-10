@@ -7,7 +7,17 @@ Welcome to linvpy's documentation !
 LinvPy is a Python package designed for solving linear inverse problems of
 the form :
 
-.. math:: y = Ax + n
+.. math::
+
+   y = Ax + n
+
+   y is a vector of measured values
+
+   A is a known transformations matrix
+
+   x is an unknown input vector
+
+   n is noise
 
 where :math:`y` is a vector of measured values, :math:`A` a known matrix,
 :math:`x` an unknown input vector and :math:`n` is noise. The goal is to
