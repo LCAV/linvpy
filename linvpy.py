@@ -107,6 +107,7 @@ class Huber(LossFunction):
         [ 2.7135375  3.61805  ]
         [ 4.5225625  5.427075 ]]
 
+        >>> # Plots the rho, psi and m_weights on the given interval
         >>> huber.plot(15)
 
         .. figure:: images/huber_.png
