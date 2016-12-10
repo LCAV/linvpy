@@ -43,30 +43,30 @@ class LossFunction:
         """
         import matplotlib.pyplot as plt
 
-        plt.plot(
-            [self.rho(i) for i in np.linspace(-interval, interval, num=10*interval)],
-            label=self.__class__.__name__ + ' rho'
-        )
+        # Creates a range between -interval and interval with a step of 0.1
+        x = np.arange(-interval, interval, 0.1)
 
-        # plt.plot(
-        #     [self.psi(i) for i in np.linspace(-interval, interval, num=10*interval)],
-        #     label=self.__class__.__name__ + ' psi'
-        # )
-        #
-        # plt.plot([self.m_weights(i) for i in np.linspace(-interval, interval, num=10*interval)],
-        #          label=self.__class__.__name__ + ' weights'
-        #          )
+        # The different functions to be plotted on the interval
+        y_rho = self.rho(x)
+        y_psi = self.psi(x)
+        y_weights = self.m_weights(x)
+
+        plt.plot(x, y_rho,
+                 label=self.__class__.__name__ + ' rho'
+                 )
+
+        plt.plot(x, y_psi,
+                 label=self.__class__.__name__ + ' psi'
+                 )
+
+        plt.plot(x, y_weights,
+                 label=self.__class__.__name__ + ' weights'
+                 )
 
         plt.legend(
             bbox_to_anchor=(0., 1.02, 1., .102),
             loc=3, ncol=2, mode="expand", borderaxespad=0.
         )
-
-        #axes = plt.gca()
-        #axes.set_xlim([-interval,interval])
-        # axes.set_ylim([ymin,ymax])
-
-        # plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 
         plt.show()
 
