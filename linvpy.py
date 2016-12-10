@@ -201,8 +201,9 @@ class Bisquare(LossFunction):
         The regular bisquare loss (or Tukey's loss), "rho" version.
 
         :math:`\\rho(x)=\\begin{cases}
-        (c^2 / 6)(1-(1-(x/c)^2)^3)& \\text{if |x|} \\leq 0, \\\\
-        c^2 / 6& \\text{if |x| > 0}.
+        (\\frac{c^2}{6})(1-(1-(\\frac{x}{c})^2)^3)& \\text{if |x|} \\leq 0,
+        \\\\
+        \\frac{c^2}{6}& \\text{if |x| > 0}.
         \\end{cases}`
 
         :param array: Array of values to apply the loss function to
