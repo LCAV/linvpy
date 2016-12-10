@@ -64,11 +64,3 @@ target/
 #Custom rules (Guillaume)
 *.xml
 *.iml
-linvpy_old.py
-regulaziedtau
-tests
-.gitignore
-test.py
-test_final.py
-toolboxutilities.py
-
