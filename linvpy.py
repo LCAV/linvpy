@@ -90,7 +90,7 @@ class Huber(LossFunction):
         The regular huber loss function; the "rho" version.
 
         :math:`\\rho(x)=\\begin{cases}
-        \\frac{1}{2}{x^2}& \\text{if |x| \\leq} clipping \\\\
+        \\frac{1}{2}{x^2}& \\text{if |x|} \\leq clipping \\\\
         clipping (|x| - \\dfrac{1}{2} clipping)& \\text{otherwise}
         \\end{cases}`
 
@@ -143,7 +143,7 @@ class Huber(LossFunction):
         the weight function of the M-estimator.
 
         :math:`\\psi(x)=\\begin{cases}
-        x& \\text{if |x| \\leq} clipping \\\\
+        x& \\text{if |x|} \\leq clipping \\\\
         clipping \\cdot sign(x) & \\text{otherwise}
         \\end{cases}`
 
@@ -201,9 +201,9 @@ class Bisquare(LossFunction):
         The regular bisquare loss (or Tukey's loss), "rho" version.
 
         :math:`\\rho(x)=\\begin{cases}
-        (\\frac{c^2}{6})(1-(1-(\\frac{x}{c})^2)^3)& \\text{if |x|} \\leq 0,
+        (\\frac{c^2}{6})(1-(1-(\\frac{x}{c})^2)^3)& \\text{if |x|} \\leq 0
         \\\\
-        \\frac{c^2}{6}& \\text{if |x| > 0}.
+        \\frac{c^2}{6}& \\text{if |x| > 0}
         \\end{cases}`
 
         :param array: Array of values to apply the loss function to
@@ -253,8 +253,8 @@ class Bisquare(LossFunction):
         The derivative of bisquare loss (or Tukey's loss), "psi" version.
 
         :math:`\\psi(x)=\\begin{cases}
-        x((1-(\\frac{x}{c})^2)^2)& \\text{if |x|} \\leq 0, \\\\
-        0& \\text{if |x| > 0}.
+        x((1-(\\frac{x}{c})^2)^2)& \\text{if |x|} \\leq 0 \\\\
+        0& \\text{if |x| > 0}
         \\end{cases}`
 
         :param array: Array of values to apply the loss function to
