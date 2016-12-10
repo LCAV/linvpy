@@ -4,12 +4,6 @@ import numpy as np
 __author__ = 'GuillaumeBeaud'
 
 
-"""
-Notes
-=====
-Package description
-"""
-
 # Abstract class for loss functions so they share the same interface and all have the rho, psi, weights functions
 class LossFunction:
     def __init__(self, clipping=None):  # Constructor of the class
