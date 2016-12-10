@@ -51,7 +51,6 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'autoapi.extension'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -312,9 +311,3 @@ texinfo_documents = [
 sys.path.insert(0, os.path.abspath('../..'))
 
 # import ../../linvpy.py
-
-# extensions = ['autoapi.extension']
-
-# Document Python Code
-autoapi_type = 'python'
-autoapi_dir = '../..'
