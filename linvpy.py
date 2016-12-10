@@ -64,9 +64,6 @@ class Huber(LossFunction):
     """
     :param clipping: Value of the clipping to be used in the loss function
     :type clipping: float
-
-    .. figure::  images/huber.png
-    :align:   center
     """
 
     def __init__(self, clipping=1.345):
@@ -117,6 +114,10 @@ class Huber(LossFunction):
 
         vfunc = np.vectorize(unit_psi)
         return vfunc(array)
+
+    """
+    .. figure::  images/huber.png
+    """
 
 
 class Bisquare(LossFunction):
