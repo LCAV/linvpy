@@ -107,7 +107,6 @@ class Huber(LossFunction):
         [ 2.7135375  3.61805  ]
         [ 4.5225625  5.427075 ]]
 
-        # The plot function produces this output
         >>> huber.plot(15)
 
         .. figure:: images/huber.png
