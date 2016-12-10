@@ -126,6 +126,8 @@ class Huber(LossFunction):
         """
         # rho version of the Huber loss function
         def unit_rho(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             if abs(element) <= self.clipping:
                 return element ** 2 / 2.0
             else:
@@ -156,17 +158,22 @@ class Huber(LossFunction):
 
         >>> huber = lp.Huber()
         >>> huber.psi(2)
-        1.809025
+        1.345
 
         >>> y = np.array([1, 2, 3])
         >>> huber.psi(y)
-        [ 0.5        1.809025   2.7135375]
+        [ 1.     1.345  1.345]
 
         >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
         >>> huber.psi(a)
+        [[ 1.     1.345]
+         [ 1.345  1.345]
+         [ 1.345  1.345]]
         """
         # psi version of the Huber loss function
         def unit_psi(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             if abs(element) >= self.clipping:
                 return self.clipping * np.sign(element)
             else:
@@ -196,6 +203,8 @@ class Bisquare(LossFunction):
         """
         # rho version of the Bisquare loss function
         def unit_rho(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             if abs(element) <= self.clipping:
                 return ((self.clipping ** 2.0) / 6.0) * \
                        (1 - (1 - (element / self.clipping) ** 2) ** 3)
@@ -214,6 +223,8 @@ class Bisquare(LossFunction):
         """
         # psi version of the Bisquare loss function
         def unit_psi(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             if abs(element) <= self.clipping:
                 return element * ((1 - (element / self.clipping) ** 2) ** 2)
             else:
@@ -243,6 +254,8 @@ class Cauchy(LossFunction):
         """
         # rho version of the Cauchy loss function
         def unit_rho(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             return (self.clipping ** 2 / 2) * np.log(1 + (element / self.clipping) ** 2)
 
         vfunc = np.vectorize(unit_rho)
@@ -257,6 +270,8 @@ class Cauchy(LossFunction):
         """
         # psi version of the Cauchy loss function
         def unit_psi(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             return element / (1 + (element / self.clipping) ** 2)
 
         vfunc = np.vectorize(unit_psi)
@@ -283,6 +298,8 @@ class Optimal(LossFunction):
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             y = abs(element / self.clipping)
             if y <= 2.0:
                 return y ** 2 / 2.0 / 3.25
@@ -304,6 +321,8 @@ class Optimal(LossFunction):
         """
         # psi version of the Optimal loss function
         def unit_psi(element):
+            # Casts to float to avoid comparison issues
+            element = float(element)
             y = abs(element)
             if y <= 2.0 * self.clipping:
                 return element / self.clipping ** 2 / 3.25

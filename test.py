@@ -77,11 +77,23 @@ print (my_tau_2.estimate(A, y, initial_x=x))
 
 
 huber = lp.Huber()
-print "rho =", huber.rho(15)
+
+print "psi =" , huber.psi(0.0), huber.psi(1.0), huber.psi(2.0), huber.psi(3.0)
+
+y = np.array([1.0, 2.0, 3.0])
+
+print huber.psi(y)
+
+a = np.matrix([[1, 2], [3, 4], [5, 6]])
+
+print huber.psi(a)
+
+
+print "rho =" , huber.rho(1.0), huber.rho(2.0), huber.rho(3.0)
 
 y = np.array([1, 2, 3])
-print huber.psi(y)
+print huber.rho(y)
+
 a = np.matrix([[1, 2], [3, 4], [5, 6]])
 
 print huber.rho(a)
-
