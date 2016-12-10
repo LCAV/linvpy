@@ -90,8 +90,8 @@ class Huber(LossFunction):
         The regular huber loss function; the "rho" version.
 
         :math:`\\rho(x)=\\begin{cases}
-        \\frac{1}{2}{x^2}& \\text{if |x| <=} clipping, \\\\
-        clipping (|x| - \\dfrac{1}{2} clipping)& \\text{otherwise}.
+        \\frac{1}{2}{x^2}& \\text{if |x| \\leq} clipping \\\\
+        clipping (|x| - \\dfrac{1}{2} clipping)& \\text{otherwise}
         \\end{cases}`
 
         This function is quadratic for small inputs, and linear for large
@@ -143,8 +143,8 @@ class Huber(LossFunction):
         the weight function of the M-estimator.
 
         :math:`\\psi(x)=\\begin{cases}
-        x& \\text{if |x| <=} clipping, \\\\
-        clipping \\cdot sign(x) & \\text{otherwise}.
+        x& \\text{if |x| \\leq} clipping \\\\
+        clipping \\cdot sign(x) & \\text{otherwise}
         \\end{cases}`
 
         :param array: Array of values to apply the loss function to
