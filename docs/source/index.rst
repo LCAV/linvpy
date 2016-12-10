@@ -6,8 +6,8 @@ Welcome to linvpy's documentation !
 
 LinvPy is a Python package designed for solving linear inverse problems of the form
 
-:math:`y = Ax + n`
-:align: center
+:math:`\$y = Ax + n\$`
+:math:`\$\$y = Ax + n\$\$`
 
 :displayAlign: "center" :math:`y = Ax + n`
 
