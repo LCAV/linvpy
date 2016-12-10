@@ -1,4 +1,5 @@
-from __future__ import division  # take the division operator from future versions
+from __future__ import \
+    division  # take the division operator from future versions
 import numpy as np
 
 __author__ = 'GuillaumeBeaud'
@@ -98,9 +99,9 @@ class Huber(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
-        :rtype: numpy.ndarray
-        :Example:
+        :return: Array of same shape as the input,
+        cell-wise results of the loss function
+        :rtype: numpy.ndarray :Example:
 
         >>> import numpy as np
         >>> import linvpy as lp
@@ -196,10 +197,9 @@ class Bisquare(LossFunction):
 
     def rho(self, array):
         """
-        :param array: Array of values to apply the loss function to
-        :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
-        :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to :type
+        array: numpy.ndarray :return: Array of same shape as the input,
+        cell-wise results of the loss function :rtype: numpy.ndarray
         """
         # rho version of the Bisquare loss function
         def unit_rho(element):
@@ -256,7 +256,8 @@ class Cauchy(LossFunction):
         def unit_rho(element):
             # Casts to float to avoid comparison issues
             element = float(element)
-            return (self.clipping ** 2 / 2) * np.log(1 + (element / self.clipping) ** 2)
+            return (self.clipping ** 2 / 2) * np.log(
+                1 + (element / self.clipping) ** 2)
 
         vfunc = np.vectorize(unit_rho)
         return vfunc(array)
@@ -291,10 +292,9 @@ class Optimal(LossFunction):
 
     def rho(self, array):
         """
-        :param array: Array of values to apply the loss function to
-        :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
-        :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to :type
+        array: numpy.ndarray :return: Array of same shape as the input,
+        cell-wise results of the loss function :rtype: numpy.ndarray
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
@@ -314,10 +314,9 @@ class Optimal(LossFunction):
 
     def psi(self, array):
         """
-        :param array: Array of values to apply the loss function to
-        :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
-        :rtype: numpy.ndarray
+        :param array: Array of values to apply the loss function to :type
+        array: numpy.ndarray :return: Array of same shape as the input,
+        cell-wise results of the loss function :rtype: numpy.ndarray
         """
         # psi version of the Optimal loss function
         def unit_psi(element):
@@ -327,9 +326,10 @@ class Optimal(LossFunction):
             if y <= 2.0 * self.clipping:
                 return element / self.clipping ** 2 / 3.25
             elif 2.0 * self.clipping < y <= 3 * self.clipping:
-                return (-1.944 * element / self.clipping ** 2 + 1.728 * element ** 3 /
-                        self.clipping ** 4 - 0.312 * element ** 5 / self.clipping ** 6 +
-                        0.016 * element ** 7 / self.clipping ** 8) / 3.25
+                return (
+                           -1.944 * element / self.clipping ** 2 + 1.728 * element ** 3 /
+                           self.clipping ** 4 - 0.312 * element ** 5 / self.clipping ** 6 +
+                           0.016 * element ** 7 / self.clipping ** 8) / 3.25
             else:
                 return 0.0
 
@@ -351,28 +351,30 @@ class Regularization:
 
 class Tikhonov(Regularization):
     pass
-    """
-    The standard approach to solve the problem :math:`\\mathbf{y = Ax + n}` explained above is to use the  ordinary
-    least squares method. However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more columns than rows)
-    or it has a large condition number, then you should use a regularization to your problem in order to get a
-    meaningful estimation of :math:`\\mathbf{x}`.
+    """The standard approach to solve the problem :math:`\\mathbf{y = Ax +
+    n}` explained above is to use the  ordinary least squares method.
+    However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more
+    columns than rows) or it has a large condition number, then you should
+    use a regularization to your problem in order to get a meaningful
+    estimation of :math:`\\mathbf{x}`.
 
     The Tikhonov regularization is a tradeoff between the least squares
-    solution and the minimization of the L2-norm of the output :math:`x` (L2-norm =
-    sum of squared values of the vector :math:`x`),
-    :math:`\\hat{\\mathbf{x}} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2 + \\lambda\\lVert \\mathbf{x} \\rVert_2^2`
+    solution and the minimization of the L2-norm of the output :math:`x` (
+    L2-norm = sum of squared values of the vector :math:`x`), :math:`\\hat{
+    \\mathbf{x}} = {\\rm arg}\\min_x\\,\\lVert \\mathbf{y - Ax} \\rVert_2^2
+    + \\lambda\\lVert \\mathbf{x} \\rVert_2^2`
 
     The parameter lambda tells how close to the least squares solution the
-    output :math:`\\mathbf{x}` will be; a large lambda will make :math:`\\mathbf{x}` close to
-    :math:`\\lVert\\mathbf{x}\\rVert_2^2 = 0`, while
-    a small lambda will approach the least squares solution (Running
+    output :math:`\\mathbf{x}` will be; a large lambda will make
+    :math:`\\mathbf{x}` close to :math:`\\lVert\\mathbf{x}\\rVert_2^2 = 0`,
+    while a small lambda will approach the least squares solution (Running
     the function with lambda=0 will behave like the ordinary least_squares()
     method).
 
-    The Tikhonov solution has an analytic solution and it is given
-    by :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`,
-    where :math:`\\mathbf{I}` is the identity matrix.
-    """
+    The Tikhonov solution has an analytic solution and it is given by
+    :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{
+    I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`, where :math:`\\mathbf{I}` is the
+    identity matrix. """
 
     # returns th Tikhonov regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
@@ -404,7 +406,8 @@ class Tikhonov(Regularization):
                         ),
                     ), a.T
                 ), y)
-            return np.squeeze(np.asarray(xhat))  # flattens result into an array
+            return np.squeeze(
+                np.asarray(xhat))  # flattens result into an array
 
 
 # Super class of the M and Tau Estimators. All values are default so you can simply create one
@@ -539,7 +542,9 @@ class Estimator:
             y_weighted = np.dot(sqwm, y)
 
             # vector_x_new is there to keep the previous value to compare
-            vector_x_new = self.regularization.regularize(a_weighted, y_weighted, self.lamb)
+            vector_x_new = self.regularization.regularize(a_weighted,
+                                                          y_weighted,
+                                                          self.lamb)
 
             # Distance between previous and current iteration
             xdis = np.linalg.norm(vector_x - vector_x_new)
@@ -702,14 +707,15 @@ class TauEstimator(Estimator):
 
     def fast_estimate(self, a, y, initial_x=None, initial_iter=5):
         """
-        Fast version of the basic tau algorithm.
-        To save some computational cost, this algorithm exploits the speed of convergence of the basic algorithm.
-        It has two steps: in the first one, for every initial solution, it only performs initialiter iterations.
-        It keeps value of the objective function.
-        In the second step, it compares the value of all the objective functions, and it select the nmin smaller ones.
-        It iterates them until convergence. Finally, the algorithm select the x that produces the smallest objective
-        function.
-        For more details see http://arxiv.org/abs/1606.00812
+        Fast version of the basic tau algorithm. To save some computational
+        cost, this algorithm exploits the speed of convergence of the basic
+        algorithm. It has two steps: in the first one, for every initial
+        solution, it only performs initialiter iterations. It keeps value of
+        the objective function. In the second step, it compares the value of
+        all the objective functions, and it select the nmin smaller ones. It
+        iterates them until convergence. Finally, the algorithm select the x
+        that produces the smallest objective function. For more details see
+        http://arxiv.org/abs/1606.00812
 
         :param a:
         :type a: numpy.ndarray
@@ -775,7 +781,8 @@ class TauEstimator(Estimator):
 
         # Score = tau_weights(x) * psi1(x) + psi2(x)
         # This sign(x) * abs() enforces that the function must be odd
-        return np.sign(x) * abs(tau_weights * self.loss_function_1.psi(x) + self.loss_function_2.psi(x))
+        return np.sign(x) * abs(tau_weights * self.loss_function_1.psi(
+            x) + self.loss_function_2.psi(x))
 
     def m_scale(self, x):
         # ensures array type
@@ -802,10 +809,12 @@ class TauEstimator(Estimator):
         while np.abs(rho_old) > self.tolerance and k < self.max_iterations:
 
             # If s==0 or the mean==0 we have a good enough solution and return 0
-            if (s == 0.0) or np.mean(self.loss_function_1.psi(x / s) * x / s) == 0:
+            if (s == 0.0) or np.mean(self.loss_function_1.psi(
+                            x / s) * x / s) == 0:
                 return 0.0
 
-            delta = rho_old / np.mean(self.loss_function_1.psi(x / s) * x / s) / s
+            delta = rho_old / np.mean(
+                self.loss_function_1.psi(x / s) * x / s) / s
 
             isqu = 1
             ok = 0
