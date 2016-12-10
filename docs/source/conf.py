@@ -317,4 +317,4 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # Document Python Code
 autoapi_type = 'python'
-autoapi_dir = '../../linvpy.py'
+autoapi_dir = '../..'
