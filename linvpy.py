@@ -3,8 +3,11 @@ import numpy as np
 
 __author__ = 'GuillaumeBeaud'
 
+
 """
-Description of package
+Notes
+=====
+Package description
 """
 
 # Abstract class for loss functions so they share the same interface and all have the rho, psi, weights functions
