@@ -107,7 +107,10 @@ class Huber(LossFunction):
         [ 2.7135375  3.61805  ]
         [ 4.5225625  5.427075 ]]
 
-        .. figure:: images/optimal.png
+        # The plot function produces this output
+        >>> huber.plot(15)
+
+        .. figure:: images/huber.png
         """
         # rho version of the Huber loss function
         def unit_rho(element):
