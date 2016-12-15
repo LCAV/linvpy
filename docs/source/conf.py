@@ -51,7 +51,8 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    'sphinxcontrib.autorun2'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

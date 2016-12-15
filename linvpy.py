@@ -184,6 +184,11 @@ class Huber(LossFunction):
            >>> huber.psi(2)
            array(1.345)
 
+        .. runblock:: pycon
+
+           >>> for i in range(5):
+           ...    print i
+
         """
         # psi version of the Huber loss function
         def unit_psi(element):
