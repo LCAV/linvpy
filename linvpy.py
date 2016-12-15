@@ -101,7 +101,9 @@ class Huber(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input,
         cell-wise results of the loss function
-        :rtype: numpy.ndarray :Example:
+        :rtype: numpy.ndarray
+
+        :Examples:
 
         >>> import numpy as np
         >>> import linvpy as lp
