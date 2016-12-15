@@ -55,8 +55,6 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
-.. literalinclude:: ../../linvpy.py
-
 Tutorial
 ========
 
