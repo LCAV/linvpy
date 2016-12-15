@@ -27,8 +27,10 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
 
 .. figure:: images/lcav_logo.png
    :width: 30 %
+   :align: left
 .. figure:: images/EPFL_logo.png
    :width: 30 %
+   :align: center
 
 Get it
 ======
