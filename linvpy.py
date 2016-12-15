@@ -153,7 +153,7 @@ class Huber(LossFunction):
         loss function
         :rtype: numpy.ndarray
 
-        :Example:
+        :Examples:
 
         >>> import numpy as np
         >>> import linvpy as lp
