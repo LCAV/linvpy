@@ -301,7 +301,7 @@ def cover_fast_tau():
 # ===================================== MAIN ==================================
 
 
-# plot_loss_functions(15)
+plot_loss_functions(15)
 
 test_TauEstimator_alone()
 

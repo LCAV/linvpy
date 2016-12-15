@@ -123,7 +123,7 @@ class Huber(LossFunction):
         >>> # Plots the rho, psi and m_weights on the given interval
         >>> huber.plot(15)
 
-        .. figure:: images/huber_.png
+        .. figure:: images/huber__.png
         """
         # rho version of the Huber loss function
         def unit_rho(element):
@@ -132,7 +132,7 @@ class Huber(LossFunction):
             if abs(element) <= self.clipping:
                 return element ** 2 / 2.0
             else:
-                return self.clipping * abs(element) * self.clipping / 2.0
+                return self.clipping * (abs(element) - self.clipping / 2.0)
 
         vfunc = np.vectorize(unit_rho)
         return vfunc(array)
