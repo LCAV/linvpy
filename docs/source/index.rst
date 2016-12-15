@@ -54,20 +54,6 @@ A small example to warm up: ::
 	# create an instance of Tau, don't need to give any parameter
 	my_tau = lp.TauEstimator()
 	
-	# or you can give one, two, three, or all parameters 
-    my_other_tau = lp.TauEstimator(
-    	loss_function=lp.Optimal,
-    	clipping_1=0.6,
-    	clipping_2=1.5,
-    	lamb=3,
-    	scale=1.5,
-    	b=0.7,
-    	tolerance=1e4, )
-
-    # creates an instance of M-estimator
-    my_m = lp.MEstimator()
-
-
 
 Documentation
 =============
