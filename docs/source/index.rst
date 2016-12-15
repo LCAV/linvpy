@@ -60,7 +60,7 @@ Tutorial
 Why do we need robust estimators?
 ----------------------------------
 
- .. figure:: images/outlier_effect.eps
+ .. figure:: images/outlier_effect.png
 
 Contribute
 ==========
