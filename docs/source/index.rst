@@ -64,7 +64,7 @@ A small example to warm up: ::
 
 Documentation
 =============
-..index::
+.. index::
 
 Module contents
 ---------------
