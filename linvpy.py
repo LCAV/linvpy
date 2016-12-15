@@ -186,6 +186,9 @@ class Huber(LossFunction):
            >>> huber.psi(2)
            array(1.345)
 
+           >>> for i in range(5):
+           ...    print i
+
         .. runblock:: pycon
 
            >>> for i in range(5):
