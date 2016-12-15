@@ -54,11 +54,9 @@ extensions = [
     'sphinx.ext.viewcode',
 
     # from Numpy
-    'sphinx.ext.pngmath',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.autosummary',
-
-    'sphinxcontrib.httpdomain'
+    #'sphinx.ext.pngmath',
+    #'sphinx.ext.intersphinx',
+    #'sphinx.ext.autosummary',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
