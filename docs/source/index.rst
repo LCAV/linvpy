@@ -32,7 +32,6 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
    :width: 30 %
    :align: center
 
-
 Get it
 ======
 
@@ -65,7 +64,7 @@ A small example to warm up: ::
 
 Documentation
 =============
-
+..index::
 
 Module contents
 ---------------
