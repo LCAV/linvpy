@@ -171,6 +171,19 @@ class Huber(LossFunction):
         matrix([[ 1.   ,  1.345],
             [ 1.345,  1.345],
             [ 1.345,  1.345]])
+
+        .. doctest::
+
+           >>> import numpy as np
+           >>> import linvpy as lp
+
+           >>> huber = lp.Huber()
+           >>> huber.psi(2)
+
+           >>> huber = lp.Huber()
+           >>> huber.psi(2)
+           array(1.345)
+
         """
         # psi version of the Huber loss function
         def unit_psi(element):
