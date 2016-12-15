@@ -51,6 +51,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -201,6 +202,7 @@ html_show_sphinx = True
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = True
 
+# Adds a link to source code
 viewcode_import = True
 
 # If true, an OpenSearch description file will be output, and all pages will
