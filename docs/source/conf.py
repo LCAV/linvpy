@@ -52,6 +52,12 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+
+    # from Numpy
+    'sphinx.ext.pngmath', 'numpydoc',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.autosummary',
+    'matplotlib.sphinxext.plot_directive'
     #'sphinxcontrib.autorun'
 ]
 
