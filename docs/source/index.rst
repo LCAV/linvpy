@@ -59,8 +59,13 @@ Tutorial
 ========
 Why do we need robust estimators?
 ----------------------------------
+The nature of the errors that appear in a problem may pose a significant challenge. This is quite an old problem, and it was already mentioned in the first publications about least squares, more than two centuries ago. Legendre wrote in 1805 
+
+ .. epigraph::
+    If among these errors are some which appear too large to be admissible, then those   observations which produced these errors will be rejected, as coming from too faulty   experiments, and the unknowns will be determined by means of the other observations, which will then give much smaller errors.
 
  .. figure:: images/outlier_effect.png
+    :scale: 70 %
 
 Contribute
 ==========
