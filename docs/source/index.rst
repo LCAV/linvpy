@@ -57,8 +57,10 @@ Module contents
 
 Tutorial
 ========
+Why do we need robust estimators?
+----------------------------------
 
-Marta's tutorial
+ .. figure:: images/outlier_effect.eps
 
 Contribute
 ==========
