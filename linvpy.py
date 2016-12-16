@@ -72,6 +72,10 @@ class LossFunction:
             loc=3, ncol=2, mode="expand", borderaxespad=0.
         )
 
+        plt.xlim(-interval, interval)
+
+        plt.ylim(-interval, interval)
+
         plt.show()
 
 
