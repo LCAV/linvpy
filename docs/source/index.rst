@@ -60,7 +60,7 @@ To upgrade linvpy to the latest version : ::
     
 Quick start
 ===========
-To solve :math:`y=Ax` with outliers when you only know :math:`y,A` : ::
+To solve :math:`y=Ax` with outliers knowing :math:`y, A` : ::
 
     import numpy as np
     import linvpy as lp
