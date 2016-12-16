@@ -794,7 +794,7 @@ class TauEstimator(Estimator):
         :type y: numpy.ndarray
         :param initial_x: N vector of an initial solution
         :type initial_x: numpy.ndarray
-        :return x_hat, tscalesquare: best estimation of the N vector x in the y=Ax equation, value of the tau scale
+        :return x_hat, tscalesquare: best estimation of the N vector x in the y=Ax equation and value of the tau scale
         :rtype: Tuple[numpy.ndarray, numpy.float64]
         """
 
@@ -846,15 +846,15 @@ class TauEstimator(Estimator):
         that produces the smallest objective function. For more details see
         http://arxiv.org/abs/1606.00812
 
-        :param a:
+        :param a: MxN matrix A in the y=Ax equation
         :type a: numpy.ndarray
-        :param y:
+        :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param initial_x:
-        :type initial_x: Union[None, None]
-        :param initial_iter:
+        :param initial_x: N vector of an initial solution
+        :type initial_x: numpy.ndarray
+        :param initial_iter: number of iterations to be performed
         :type initial_iter: integer
-        :return:
+        :return: best estimation of the N vector x in the y=Ax equation and value of the tau scale
         :rtype: Tuple[numpy.ndarray, numpy.float64]
         """
 
