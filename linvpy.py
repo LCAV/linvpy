@@ -442,8 +442,8 @@ class Regularization:
 
 
 class Tikhonov(Regularization):
-    pass
-    """The standard approach to solve the problem :math:`\\mathbf{y = Ax +
+    """
+    The standard approach to solve the problem :math:`\\mathbf{y = Ax +
     n}` explained above is to use the  ordinary least squares method.
     However if your matrix :math:`\\mathbf{A}` is a fat matrix (it has more
     columns than rows) or it has a large condition number, then you should
@@ -466,7 +466,9 @@ class Tikhonov(Regularization):
     The Tikhonov solution has an analytic solution and it is given by
     :math:`\\hat{\\mathbf{x}} = (\\mathbf{A^{T}A}+ \\lambda^{2} \\mathbf{
     I})^{-1}\\mathbf{A}^{T}\\mathbf{y}`, where :math:`\\mathbf{I}` is the
-    identity matrix. """
+    identity matrix.
+    """
+    pass
 
     # returns the Tikhonov regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
