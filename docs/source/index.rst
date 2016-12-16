@@ -9,8 +9,8 @@ form :
 
 .. math:: y = Ax + n
 
-where :math:`y` is a vector of measured values, :math:`A` a known matrix,
-:math:`x` an unknown input vector and :math:`n` is noise.
+where :math:`y` is a vector of measured values, :math:`A` is a known matrix,
+:math:`x` is an unknown input vector and :math:`n` is noise.
 
 The goal is to find :math:`x`, or at least the best possible estimation; if
 the matrix :math:`A` is invertible, the solution is easy to find by
@@ -26,7 +26,7 @@ functions or M-estimators.
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
 .. image:: images/lcav_logo.png
-   :width: 80 %
+   :width: 20 %
 .. image:: images/EPFL_logo.png
    :width: 25 %
 
