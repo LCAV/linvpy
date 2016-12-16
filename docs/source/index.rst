@@ -114,6 +114,21 @@ Documentation
 
 Module contents
 ---------------
+
+.. rubric:: Classes
+
+.. autosummary::
+
+    Huber
+
+.. rubric:: MyClass Members
+
+.. autosummary::
+
+    Huber.rho
+    Huber.psi
+
+
 .. automodule::
 .. autosummary::
 
