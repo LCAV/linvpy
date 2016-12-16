@@ -50,7 +50,7 @@ To upgrade linvpy to the latest version : ::
     
 Quick start
 ===========
-The main function you may want to use from this package is the tau estimator, which estimates the best value of x to solve :math:`y=Ax` : ::
+The main functions you may want to use from this package are the tau-estimator and the M-estimator, which estimate the best value of x to solve :math:`y=Ax` : ::
 
     import numpy as np
     import linvpy as lp
@@ -69,6 +69,33 @@ The main function you may want to use from this package is the tau estimator, wh
     # By default it uses the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal :
     tau_ = lp.TauEstimator(loss_function=lp.Cauchy)
     tau_.estimate(a,y)
+
+    # or you can give one, two, three... or all parameters :
+    tau__ = lp.TauEstimator(
+        loss_function=lp.Optimal,
+        clipping_1=0.6,
+        clipping_2=1.5,
+        lamb=3,
+        scale=1.5,
+        b=0.7,
+        tolerance=1e4, )
+    tau__.estimate(a,y)
+
+
+    # creates an instance of M-estimator
+    my_m = lp.MEstimator()
+    my_m.estimate(a,y)
+
+    # to change the clipping or any other parameter of the estimator :
+    tau.loss_function_1.clipping = 0.7
+    tau.tolerance = 1e3
+
+    # running with an initial solution :
+    x = np.array([5, 6])
+    tau_.estimate(a,y, initial_x=x)
+
+
+
 
 Documentation
 =============
