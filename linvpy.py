@@ -689,7 +689,6 @@ class Estimator:
 
 # Inherits every feature from the class Estimator
 class MEstimator(Estimator):
-    pass
     """
     :param loss_function:  loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
@@ -708,6 +707,7 @@ class MEstimator(Estimator):
     :param max_iterations: maximum number of iterations of the iteratively reweighted least squares
     :type max_iterations: integer
     """
+    pass
 
     # The estimate function for the M-Estimator simply returns the irls
     # solution
@@ -726,23 +726,23 @@ class MEstimator(Estimator):
 
 class TauEstimator(Estimator):
     """
-    :param loss_function:
+    :param loss_function: loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
-    :param clipping_1:
+    :param clipping_1: first clipping value of the loss function
     :type clipping_1: float
-    :param clipping_2:
+    :param clipping_2: second clipping value of the loss function
     :type clipping_2: float
-    :param regularization:
+    :param regularization: regularization function to regularize the y=Ax system
     :type regularization: linvpy.Regularization type
-    :param lamb:
+    :param lamb: lambda to be used in the regularization (lambda = 0 is equivalent to using least squares)
     :type lamb: integer
     :param scale:
     :type scale: float
     :param b:
     :type b: float
-    :param tolerance:
+    :param tolerance: treshold : when residuals < tolerance, the current solution is returned
     :type tolerance: float
-    :param max_iterations:
+    :param max_iterations: maximum number of iterations of the iteratively reweighted least squares
     :type max_iterations: integer
     """
 
@@ -788,14 +788,13 @@ class TauEstimator(Estimator):
         minimum with smallest value. The output of this estimation is the
         best minimum found.
 
-
-        :param a:
+        :param a: MxN matrix A in the y=Ax equation
         :type a: numpy.ndarray
-        :param y:
+        :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param initial_x:
+        :param initial_x: N vector of an initial solution
         :type initial_x: numpy.ndarray
-        :return x_hat, tscalesquare:
+        :return x_hat, tscalesquare: best estimation of the N vector x in the y=Ax equation, value of the tau scale
         :rtype: Tuple[numpy.ndarray, numpy.float64]
         """
 
