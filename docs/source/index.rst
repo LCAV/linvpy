@@ -52,8 +52,10 @@ Quick start
 ===========
 The main function you may want to use from this package is the tau estimator, which estimates the best value of x to solve :math:`y=Ax` : ::
 
-    import numpy as np
-    import linvpy as lp
+
+.. code-block:: python
+   import numpy as np
+   import linvpy as lp
 
     a = np.matrix([[1, 2], [3, 4], [5, 6]])
     y = np.array([1, 2, 3])
@@ -66,9 +68,8 @@ The main function you may want to use from this package is the tau estimator, wh
     # where array([  1.45956448e-16,   5.00000000e-01]) is the best x to solve y=Ax
     # and 1.9242827743815571 is the value of the tau scale for this x
 
-    >>> print 2
-    2
-
+    # By default it uses the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal :
+    tau_ = lp.Tau
 
 Documentation
 =============
