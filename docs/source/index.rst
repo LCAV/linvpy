@@ -50,17 +50,21 @@ To upgrade linvpy to the latest version : ::
     
 Quick start
 ===========
-A small example to warm up: ::
+The main function you may want to use from this package is the tau estimator, which estimates :math:`y=Ax` : ::
 
     import numpy as np
     import linvpy as lp
 
-    A = np.matrix([[2, 2], [3, 4], [7, 6]])
-    y = np.array([1, 4, 3])
+    a = np.matrix([[1, 2], [3, 4], [5, 6]])
+    y = np.array([1, 2, 3])
 
     # create an instance of Tau, don't need to give any parameter
-    my_tau = lp.TauEstimator()
-	
+    tau = lp.TauEstimator()
+    tau.estimate(a,y)
+    # returns : (array([  1.45956448e-16,   5.00000000e-01]), 1.9242827743815571)
+    # where array([  1.45956448e-16,   5.00000000e-01]) is the best x to solve y=Ax
+    # and 1.9242827743815571 is the value of the tau scale for this x
+
 
 Documentation
 =============
