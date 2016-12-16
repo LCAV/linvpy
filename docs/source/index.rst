@@ -76,6 +76,8 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
+.. autoclass:: Huber
+
 Tutorial
 ========
 Why do we need robust estimators?
