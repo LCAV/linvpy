@@ -40,8 +40,11 @@ functions or M-estimators.
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
 Module contents
----------------
+===============
 .. index::
+
+Module contents
+---------------
 
 .. automodule:: linvpy
 
@@ -141,8 +144,6 @@ Documentation
 
 Module contents
 ---------------
-
-
 
 .. automodule:: linvpy
 
