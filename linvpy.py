@@ -787,6 +787,14 @@ class Estimator:
 # Inherits every feature from the class Estimator
 class MEstimator(Estimator):
     """
+    The M-estimator uses the method of iteratively reweighted least squares (IRLS) to minimize iteratively the function:
+
+    :math:`\\boldsymbol x^{(t+1)} =`
+    :math:`{\\rm arg}\\min_x\\,`
+    :math:`\\big|\\big| \\boldsymbol W (\\boldsymbol x^{(t)})(\\boldsymbol y - \\boldsymbol A \\boldsymbol x )\\big | \\big |_2^2.`
+
+    The IRLS is used, among other things, to compute the M-estimate and the tau-estimate.
+
     :param loss_function:  loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
     :param clipping: clipping to be used in the loss function
