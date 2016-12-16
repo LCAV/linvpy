@@ -56,15 +56,15 @@ class LossFunction:
         y_weights = self.m_weights(x)
 
         plt.plot(x, y_rho,
-                 label=self.__class__.__name__ + ' rho'
+                 label=self.__class__.__name__ + ' rho(x)'
                  )
 
         plt.plot(x, y_psi,
-                 label=self.__class__.__name__ + ' psi'
+                 label=self.__class__.__name__ + ' psi(x)'
                  )
 
         plt.plot(x, y_weights,
-                 label=self.__class__.__name__ + ' weights'
+                 label=self.__class__.__name__ + ' weights(x)'
                  )
 
         plt.legend(
@@ -72,9 +72,11 @@ class LossFunction:
             loc=3, ncol=2, mode="expand", borderaxespad=0.
         )
 
+        plt.xlabel('x')
+
         plt.xlim(-interval, interval)
 
-        plt.ylim(-interval, interval)
+        plt.ylim()
 
         plt.show()
 
@@ -338,6 +340,10 @@ class Cauchy(LossFunction):
             [ 2.69798124,  3.80633511],
             [ 4.79348926,  5.66469239]])
 
+        >>> # Plots the rho, psi and m_weights on the given interval
+        >>> cauchy.plot(15)
+
+        .. figure:: images/cauchy.png
         """
         # rho version of the Cauchy loss function
         def unit_rho(element):
@@ -422,6 +428,10 @@ class Optimal(LossFunction):
             [ 0.12948923,  0.23020308],
             [ 0.3596923 ,  0.51795692]])
 
+        >>> # Plots the rho, psi and m_weights on the given interval
+        >>> optimal.plot(15)
+
+        .. figure:: images/optimal.png
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
