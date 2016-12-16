@@ -112,9 +112,6 @@ Documentation
 =============
 .. index::
 
-.. currentmodule:: linvpy
-.. autosummary::
-
 Module contents
 ---------------
 .. autosummary::

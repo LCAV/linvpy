@@ -603,7 +603,7 @@ class Lasso(Regularization):
         :type a: numpy.ndarray
         :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param lamb: non-negative tradeoff parameter between least squares and minimization of the L-2 norm
+        :param lamb: non-negative regularization parameter
         :type lamb: integer
         :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
