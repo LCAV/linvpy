@@ -31,12 +31,17 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
    :width: 25 %
 
 
-.. figure:: images/lcav_logo.png
-   :width: 90 %
-   :align: left
-.. figure:: images/EPFL_logo.png
-   :width: 25 %
-   :align: right
+.. |logo1| image:: images/lcav_logo.png
+   :scale: 100%
+   :align: middle
+.. |logo2| image:: images/EPFL_logo.png
+   :scale: 50%
+   :align: top
+
++---------+---------+
+| |logo1| | |logo2| |
++---------+---------+
+
 
 Get it
 ======
