@@ -123,7 +123,7 @@ Module contents
 .. autosummary::
    :nosignatures:
 
-      MEstimator
+   MEstimator
    TauEstimator
 
 .. rubric:: Loss Functions
