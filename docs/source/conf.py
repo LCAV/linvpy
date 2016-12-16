@@ -54,7 +54,7 @@ extensions = [
     'sphinx.ext.viewcode',
 
     'sphinx.ext.autosummary',
-    'sphinxcontrib.fulltoc'
+    #'sphinxcontrib.fulltoc'
 
     #'sphinx.ext.napoleon',
 
