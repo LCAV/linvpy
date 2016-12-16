@@ -115,9 +115,9 @@ Documentation
 Module contents
 ---------------
 .. automodule:: linvpy
-   :members:
 .. autosummary::
 
+   Cauchy
    Huber
    Tikhonov
 
