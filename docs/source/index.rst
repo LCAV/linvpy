@@ -83,7 +83,7 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: Huber
+.. autoclass:: Huber, Tikhonov
 
 Tutorial
 ========
