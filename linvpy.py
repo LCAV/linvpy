@@ -152,8 +152,7 @@ class Huber(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -232,8 +231,7 @@ class Bisquare(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -285,8 +283,7 @@ class Bisquare(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -336,8 +333,7 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Cauchy loss function
@@ -354,8 +350,7 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Cauchy loss function
@@ -383,8 +378,7 @@ class Optimal(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Optimal loss function
@@ -407,8 +401,7 @@ class Optimal(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the
-        loss function
+        :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Optimal loss function
@@ -522,8 +515,8 @@ class Lasso(Regularization):
         :type a: numpy.ndarray
         :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param lamb: tradeoff parameter between least squares and minimization of the L-2 norm
-        :type lamb: non-negative regularization parameter
+        :param lamb: non-negative tradeoff parameter between least squares and minimization of the L-2 norm
+        :type lamb: integer
         :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
         """
