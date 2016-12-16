@@ -58,7 +58,7 @@ The main function you may want to use from this package is the tau estimator, wh
     a = np.matrix([[1, 2], [3, 4], [5, 6]])
     y = np.array([1, 2, 3])
 
-    # create an instance of Tau, don't need to give any parameter
+    # create an instance of tau estimator, don't need to give any parameter
     tau = lp.TauEstimator()
 
     tau.estimate(a,y)
