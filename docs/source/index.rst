@@ -13,7 +13,6 @@
 |
 |
 |
-|
 
 
 Welcome to linvpy's documentation !
