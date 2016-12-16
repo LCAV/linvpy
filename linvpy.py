@@ -111,17 +111,17 @@ class Huber(LossFunction):
 
         >>> huber = lp.Huber()
         >>> huber.rho(2)
-        array(1.8090249999999999)
+        array(1.7854875000000001)
 
         >>> y = np.array([1, 2, 3])
         >>> huber.rho(y)
-        array([ 0.5      ,  1.809025 ,  2.7135375])
+        array([ 0.5      ,  1.7854875,  3.1304875])
 
         >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
         >>> huber.rho(a)
-        matrix([[ 0.5      ,  1.809025 ],
-            [ 2.7135375,  3.61805  ],
-            [ 4.5225625,  5.427075 ]])
+        matrix([[ 0.5      ,  1.7854875],
+            [ 3.1304875,  4.4754875],
+            [ 5.8204875,  7.1654875]])
 
         >>> # Plots the rho, psi and m_weights on the given interval
         >>> huber.plot(15)
@@ -335,6 +335,26 @@ class Cauchy(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> cauchy = lp.Cauchy()
+        >>> cauchy.rho(2)
+        array(1.5144982928548816)
+
+        >>> y = np.array([1, 2, 3])
+        >>> cauchy.rho(y)
+        array([ 0.46060182,  1.51449829,  2.69798124])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> cauchy.rho(a)
+        matrix([[ 0.46060182,  1.51449829],
+            [ 2.69798124,  3.80633511],
+            [ 4.79348926,  5.66469239]])
+
         """
         # rho version of the Cauchy loss function
         def unit_rho(element):
@@ -352,6 +372,25 @@ class Cauchy(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> cauchy = lp.Cauchy()
+        >>> cauchy.psi(2)
+        array(1.1742146893434733)
+
+        >>> y = np.array([1, 2, 3])
+        >>> cauchy.psi(y)
+        array([ 0.85047284,  1.17421469,  1.16173317])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> cauchy.psi(a)
+        matrix([[ 0.85047284,  1.17421469],
+            [ 1.16173317,  1.0490251 ],
+            [ 0.92671316,  0.81862153]])
         """
         # psi version of the Cauchy loss function
         def unit_psi(element):
@@ -380,6 +419,26 @@ class Optimal(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> optimal = lp.Optimal()
+        >>> optimal.rho(2)
+        array(0.057550768770363074)
+
+        >>> y = np.array([1, 2, 3])
+        >>> optimal.rho(y)
+        array([ 0.01438769,  0.05755077,  0.12948923])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> optimal.rho(a)
+        matrix([[ 0.01438769,  0.05755077],
+            [ 0.12948923,  0.23020308],
+            [ 0.3596923 ,  0.51795692]])
+
         """
         # rho version of the Optimal loss function
         def unit_rho(element):
@@ -403,6 +462,26 @@ class Optimal(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> optimal = lp.Optimal()
+        >>> optimal.psi(2)
+        array(0.05755076877036309)
+
+        >>> y = np.array([1, 2, 3])
+        >>> optimal.psi(y)
+        array([ 0.02877538,  0.05755077,  0.08632615])
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> optimal.psi(a)
+        matrix([[ 0.02877538,  0.05755077],
+            [ 0.08632615,  0.11510154],
+            [ 0.14387692,  0.17265231]])
+
         """
         # psi version of the Optimal loss function
         def unit_psi(element):
@@ -478,6 +557,23 @@ class Tikhonov(Regularization):
         :type lamb: integer
         :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> y = np.array([1, 2, 3])
+
+        >>> tiko = lp.Tikhonov()
+
+        >>> tiko.regularize(a, y, 2)
+        array([ 0.21782178,  0.30693069])
+
+        # With lambda==0 it is equivalent to least squares
+        >>> tiko.regularize(a, y)
+        array([ -5.97106181e-17,   5.00000000e-01])
         """
         assert lamb >= 0
         y = np.squeeze(np.asarray(y))  # flattens y into a vector
