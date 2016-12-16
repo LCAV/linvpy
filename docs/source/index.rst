@@ -41,6 +41,7 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
 
 Module contents
 ---------------
+.. index::
 
 .. automodule:: linvpy
 
