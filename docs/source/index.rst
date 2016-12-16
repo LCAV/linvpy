@@ -121,11 +121,13 @@ Module contents
 
 .. rubric:: Estimators
 .. autosummary::
+   :nosignatures:
    MEstimator
    TauEstimator
 
 .. rubric:: Loss Functions
 .. autosummary::
+   :nosignatures:
    Bisquare
    Cauchy
    Huber
@@ -133,6 +135,7 @@ Module contents
 
 .. rubric:: Regularization Functions
 .. autosummary::
+   :nosignatures:
    Lasso
    Tikhonov
 
