@@ -66,6 +66,9 @@ The main function you may want to use from this package is the tau estimator, wh
     # where array([  1.45956448e-16,   5.00000000e-01]) is the best x to solve y=Ax
     # and 1.9242827743815571 is the value of the tau scale for this x
 
+    >>> print 2
+    2
+
 
 Documentation
 =============
