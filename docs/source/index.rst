@@ -115,8 +115,6 @@ Documentation
 Module contents
 ---------------
 .. automodule:: linvpy
-
-.. module::
 .. autosummary::
 
    MEstimator
