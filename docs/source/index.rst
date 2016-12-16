@@ -115,6 +115,9 @@ Documentation
 Module contents
 ---------------
 
+.. autoclass:: Huber
+   :members:
+
 .. rubric:: Classes
 
 .. autosummary::
