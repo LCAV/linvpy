@@ -105,12 +105,10 @@ To solve :math:`y=Ax` with outliers knowing :math:`y, A` : ::
 
 
 
-Documentation
-=============
 .. index::
 
 Module contents
----------------
+===============
 
 .. automodule:: linvpy
 
@@ -136,6 +134,9 @@ Module contents
 
    Lasso
    Tikhonov
+
+Documentation
+=============
 
 .. module::
 .. automodule:: linvpy
