@@ -5,10 +5,8 @@
    :align: left
    :width: 20 %
 .. image:: images/lcav_logo.png
-   :align: right
+   :align: center
    :width: 25 %
-
-::
 
 
 Welcome to linvpy's documentation !
