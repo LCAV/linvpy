@@ -119,12 +119,17 @@ Module contents
 
 .. automodule:: linvpy
 .. autosummary::
+.. rubric:: Estimators
    MEstimator
    TauEstimator
+
+.. rubric:: Loss Functions
    Bisquare
    Cauchy
    Huber
    Optimal
+
+.. rubric:: Regularization Functions
    Lasso
    Tikhonov
 
