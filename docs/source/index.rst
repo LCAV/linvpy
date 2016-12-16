@@ -3,9 +3,9 @@
 
 .. class:: center
 .. image:: images/EPFL_logo.png
-   :width: 20 %
+   :width: 49 %
 .. image:: images/lcav_logo.png
-   :width: 20 %
+   :width: 49 %
 
 Welcome to linvpy's documentation !
 ===================================
