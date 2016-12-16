@@ -26,9 +26,9 @@ functions or M-estimators.
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
 .. image:: images/lcav_logo.png
-   :width: 50 %
+   :width: 80 %
 .. image:: images/EPFL_logo.png
-   :width: 50 %
+   :width: 25 %
 
 
 .. figure:: images/lcav_logo.png
