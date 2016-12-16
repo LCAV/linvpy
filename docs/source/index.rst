@@ -2,10 +2,10 @@
 .. You can adapt this file completely to your liking, but it should at least contain the root `toctree` directive.
 
 .. figure:: images/lcav_logo.png
-:width: 90 %
+   :width: 90 %
    :align: left
 .. figure:: images/EPFL_logo.png
-:width: 20 %
+   :width: 20 %
    :align: right
 
 Welcome to linvpy's documentation !
