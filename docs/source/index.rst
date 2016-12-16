@@ -67,7 +67,8 @@ The main function you may want to use from this package is the tau estimator, wh
     # and 1.9242827743815571 is the value of the tau scale for this x
 
     # By default it uses the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal :
-    tau_ = lp.Tau
+    tau_ = lp.TauEstimator(loss_function=lp.Cauchy)
+    tau_.estimate(a,y)
 
 Documentation
 =============
