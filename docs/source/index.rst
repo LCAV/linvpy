@@ -114,6 +114,7 @@ Documentation
 
 Module contents
 ---------------
+.. module::
 
 .. autoclass:: Huber
    :members:
