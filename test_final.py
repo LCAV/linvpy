@@ -213,7 +213,7 @@ def test_TauEstimator_alone():
             for loss in LOSS_FUNCTIONS:
 
                 # intiates random inputs
-                lamb = randint(1, 20)
+                lamb = randint(0, 20)
                 c1 = np.random.uniform(0.1, 5)
                 c2 = np.random.uniform(0.1, 5)
 
