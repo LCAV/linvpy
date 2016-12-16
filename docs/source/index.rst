@@ -52,18 +52,8 @@ Quick start
 ===========
 The main function you may want to use from this package is the tau estimator, which estimates the best value of x to solve :math:`y=Ax` : ::
 
-.. code-block:: python
-   :emphasize-lines: 3,5
-
-       def some_function():
-           interesting = False
-           print 'This line is highlighted.'
-           print 'This one is not...'
-           print '...but this one is.'
-
-.. code-block:: python
-   import numpy as np
-   import linvpy as lp
+    import numpy as np
+    import linvpy as lp
 
     a = np.matrix([[1, 2], [3, 4], [5, 6]])
     y = np.array([1, 2, 3])
