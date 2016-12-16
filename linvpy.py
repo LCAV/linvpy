@@ -233,6 +233,8 @@ class Bisquare(LossFunction):
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
 
+        :Example:
+
         >>> import numpy as np
         >>> import linvpy as lp
 
@@ -282,6 +284,8 @@ class Bisquare(LossFunction):
         :type array: numpy.ndarray
         :return: Array of same shape as the input, cell-wise results of the loss function
         :rtype: numpy.ndarray
+
+        :Example:
 
         >>> import numpy as np
         >>> import linvpy as lp
@@ -465,13 +469,13 @@ class Tikhonov(Regularization):
     # returns the Tikhonov regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
         """
-        :param a:
+        :param a: MxN matrix A in the y=Ax equation
         :type a: numpy.ndarray
-        :param y:
+        :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param lamb:
+        :param lamb: tradeoff parameter between least squares and minimization of the L-2 norm
         :type lamb: integer
-        :return:
+        :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
         """
         assert lamb >= 0
@@ -497,21 +501,21 @@ class Tikhonov(Regularization):
 
 
 class Lasso(Regularization):
+    """
+    Lasso algorithm that solves :math:`min ||\\mathbf{y - Ax}||_2^2 + lambda ||x||_1`
+    """
     pass
-    """
-    Lasso algorithm that solves min ||y - Ax||_2^2 + lambda ||x||_1
-    """
 
     # returns the Lasso regularization from A,y,lambda
     def regularize(self, a, y, lamb=0):
         """
-        :param a:
+        :param a: MxN matrix A in the y=Ax equation
         :type a: numpy.ndarray
-        :param y:
+        :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param lamb:
+        :param lamb: tradeoff parameter between least squares and minimization of the L-2 norm
         :type lamb: integer
-        :return:
+        :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
         """
         assert lamb >= 0
