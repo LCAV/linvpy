@@ -116,7 +116,7 @@ Module contents
 ---------------
 .. automodule:: linvpy
 .. autosummary::
-   :members:
+   linvpy
    Huber
    Tikhonov
 
