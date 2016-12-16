@@ -76,9 +76,6 @@ Module contents
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: Huber, Tikhonov
-.. class:: Tikhonov
-
 Tutorial
 ========
 Why do we need robust estimators?
