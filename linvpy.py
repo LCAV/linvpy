@@ -524,9 +524,7 @@ class Lasso(Regularization):
 
         # if lambda == 0 it simply returns the least squares solution
         if lamb == 0:
-            print "enter lamb == 0"
-            print np.linalg.lstsq(a, y)[0].reshape(-1)
-            return np.linalg.lstsq(a, y)[0].reshape(-1)
+            return np.squeeze(np.asarray(np.linalg.lstsq(a, y)[0].reshape(-1)))
 
         # Converts regularization parameter (sklearn considers (1/2m factor))
         reg_parameter = lamb / (2 * len(y))
