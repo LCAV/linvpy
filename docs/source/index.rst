@@ -115,9 +115,8 @@ Documentation
 Module contents
 ---------------
 
-.. automodule:: linvpy
+.. automodule::
 .. autosummary::
-
    MEstimator
    TauEstimator
    Bisquare
