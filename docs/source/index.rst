@@ -84,6 +84,7 @@ Module contents
    :show-inheritance:
 
 .. autoclass:: Huber, Tikhonov
+.. class:: Tikhonov
 
 Tutorial
 ========
