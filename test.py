@@ -97,3 +97,14 @@ print huber.rho(y)
 a = np.matrix([[1, 2], [3, 4], [5, 6]])
 
 print huber.rho(a)
+
+
+a = np.matrix([[1, 2], [3, 4], [5, 6]])
+y = np.array([1, 2, 3])
+
+tau = lp.TauEstimator()
+
+m = lp.MEstimator()
+
+print tau.estimate(a,y)
+print m.estimate(a,y)

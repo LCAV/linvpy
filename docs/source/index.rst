@@ -60,7 +60,7 @@ To upgrade linvpy to the latest version : ::
     
 Quick start
 ===========
-The main functions you may want to use from this package are the tau-estimator and the M-estimator (documentation below), which estimate the best value of x to solve :math:`y=Ax` : ::
+To solve :math:`y=Ax` : ::
 
     import numpy as np
     import linvpy as lp
@@ -68,20 +68,24 @@ The main functions you may want to use from this package are the tau-estimator a
     a = np.matrix([[1, 2], [3, 4], [5, 6]])
     y = np.array([1, 2, 3])
 
-    # create an instance of tau estimator, don't need to give any parameter
+    # Using the Tau-estimator :
     tau = lp.TauEstimator()
-
     tau.estimate(a,y)
     # returns : (array([  1.45956448e-16,   5.00000000e-01]), 1.9242827743815571)
     # where array([  1.45956448e-16,   5.00000000e-01]) is the best x to solve y=Ax
     # and 1.9242827743815571 is the value of the tau scale for this x
 
-    # By default it uses the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal (all described in the doc below) :
-    tau_ = lp.TauEstimator(loss_function=lp.Cauchy)
-    tau_.estimate(a,y)
+    # Using the M-estimator :
+    m = lp.MEstimator()
+    m.estimate(a,y)
+    # returns [ -2.95552481e-16   5.00000000e-01], the best x to solve y=Ax
+
+    # By default both estimators use the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal (all described in the doc below) :
+    tau = lp.TauEstimator(loss_function=lp.Cauchy)
+    tau.estimate(a,y)
 
     # or you can give one, two, three... or all parameters :
-    tau__ = lp.TauEstimator(
+    tau = lp.TauEstimator(
         loss_function=lp.Optimal,
         clipping_1=0.6,
         clipping_2=1.5,
@@ -89,19 +93,17 @@ The main functions you may want to use from this package are the tau-estimator a
         scale=1.5,
         b=0.7,
         tolerance=1e4, )
-    tau__.estimate(a,y)
-
-    # creates an instance of M-estimator :
-    my_m = lp.MEstimator()
-    my_m.estimate(a,y)
+    tau.estimate(a,y)
 
     # to change the clipping or any other parameter of the estimator :
     tau.loss_function_1.clipping = 0.7
     tau.tolerance = 1e3
+    m.lamb = 3
 
     # running with an initial solution :
     x = np.array([5, 6])
-    tau_.estimate(a,y, initial_x=x)
+    tau.estimate(a,y, initial_x=x)
+    m.estimate(a,y, initial_x=x)
 
 
 
