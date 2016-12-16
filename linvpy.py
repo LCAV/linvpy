@@ -994,6 +994,23 @@ class TauEstimator(Estimator):
         :type initial_iter: integer
         :return x_hat, tscalesquare: best estimation of the N vector x in the y=Ax equation and value of the tau scale
         :rtype: Tuple[numpy.ndarray, numpy.float64]
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> y = np.array([1, 2, 3])
+
+        >>> tau = lp.TauEstimator()
+        >>> tau.fast_estimate(a,y)
+        (array([  1.45956448e-16,   5.00000000e-01]), 1.9242827743815571)
+
+        >>> tau_ = lp.TauEstimator(loss_function=lp.Cauchy, clipping_1=2.23, clipping_2=0.7, regularization=lp.Lasso(), lamb=2)
+        >>> initial_solution = np.array([1, 2])
+        >>> tau_.fast_estimate(a, y, initial_x=initial_solution, initial_iter=6)
+        (array([ 0.        ,  0.26464805]), 0.99363748192798829)
         """
 
         # stores the value of the default max iterations
