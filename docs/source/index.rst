@@ -114,7 +114,11 @@ Documentation
 
 Module contents
 ---------------
+.. currentmodule:: linvpy
 .. autosummary::
+
+   Huber
+   Tikhonov
 
 .. module::
 .. automodule:: linvpy
