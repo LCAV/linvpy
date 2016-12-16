@@ -848,6 +848,8 @@ class MEstimator(Estimator):
 
 class TauEstimator(Estimator):
     """
+    Description of the tau-estimator
+
     :param loss_function: loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
     :param clipping_1: first clipping value of the loss function
