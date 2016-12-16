@@ -117,7 +117,6 @@ Module contents
 .. automodule:: linvpy
 
 .. module::
-.. autosummary:: linvpy
 .. autosummary::
 
    Cauchy
