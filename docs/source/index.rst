@@ -115,9 +115,11 @@ Documentation
 Module contents
 ---------------
 
+
+
 .. automodule::
 .. autosummary:: linvpy
-   linvpy.MEstimator
+   MEstimator
    TauEstimator
    Bisquare
    Cauchy
