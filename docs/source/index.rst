@@ -25,11 +25,17 @@ functions or M-estimators.
 
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
+.. image:: images/lcav_logo.png
+   :width: 50 %
+.. image:: images/EPFL_logo.png
+   :width: 50 %
+
+
 .. figure:: images/lcav_logo.png
    :width: 90 %
    :align: left
 .. figure:: images/EPFL_logo.png
-   :width: 20 %
+   :width: 25 %
    :align: right
 
 Get it
