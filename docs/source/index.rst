@@ -128,6 +128,7 @@ Module contents
 
 .. rubric:: Loss Functions
 .. autosummary::
+   :nosignatures:
 
    Bisquare
    Cauchy
@@ -136,6 +137,7 @@ Module contents
 
 .. rubric:: Regularization Functions
 .. autosummary::
+   :nosignatures:
 
    Lasso
    Tikhonov
