@@ -854,7 +854,7 @@ class TauEstimator(Estimator):
         :type initial_x: numpy.ndarray
         :param initial_iter: number of iterations to be performed
         :type initial_iter: integer
-        :return: best estimation of the N vector x in the y=Ax equation and value of the tau scale
+        :return x_hat, tscalesquare: best estimation of the N vector x in the y=Ax equation and value of the tau scale
         :rtype: Tuple[numpy.ndarray, numpy.float64]
         """
 
