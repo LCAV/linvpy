@@ -132,7 +132,7 @@ class Huber(LossFunction):
         >>> # Plots the rho, psi and m_weights on the given interval
         >>> huber.plot(15)
 
-        .. figure:: images/huber__.png
+        .. figure:: images/huber.png
         """
         # rho version of the Huber loss function
         def unit_rho(element):
