@@ -1,6 +1,11 @@
 .. linvpy documentation master file, created by sphinx-quickstart on Thu Dec  8 09:50:43 2016.
 .. You can adapt this file completely to your liking, but it should at least contain the root `toctree` directive.
 
+.. image:: images/lcav_logo.png
+   :width: 20 %
+.. image:: images/EPFL_logo.png
+   :width: 20 %
+
 Welcome to linvpy's documentation !
 ===================================
 
@@ -25,10 +30,7 @@ functions or M-estimators.
 
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
-.. image:: images/lcav_logo.png
-   :width: 20 %
-.. image:: images/EPFL_logo.png
-   :width: 20 %
+
 
 
 Get it
