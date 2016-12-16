@@ -571,7 +571,6 @@ class Tikhonov(Regularization):
         >>> tiko.regularize(a, y, 2)
         array([ 0.21782178,  0.30693069])
 
-        # With lambda==0 it is equivalent to least squares
         >>> tiko.regularize(a, y)
         array([ -5.97106181e-17,   5.00000000e-01])
         """
@@ -615,6 +614,22 @@ class Lasso(Regularization):
         :type lamb: integer
         :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
+
+        :Example:
+
+        >>> import numpy as np
+        >>> import linvpy as lp
+
+        >>> a = np.matrix([[1, 2], [3, 4], [5, 6]])
+        >>> y = np.array([1, 2, 3])
+
+        >>> lasso = lp.Lasso()
+
+        >>> lasso.regularize(a, y, 2)
+        array([ 0.        ,  0.48214286])
+
+        >>> lasso.regularize(a, y)
+        array([ -5.97106181e-17,   5.00000000e-01])
         """
         assert lamb >= 0
 
