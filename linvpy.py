@@ -1,5 +1,6 @@
 from __future__ import division
 import numpy as np
+from sklearn import linear_model
 
 __author__ = 'GuillaumeBeaud'
 
@@ -499,6 +500,41 @@ class Tikhonov(Regularization):
                 ), y)
             return np.squeeze(
                 np.asarray(xhat))  # flattens result into an array
+
+
+class Lasso(Regularization):
+    pass
+    """
+    Lasso algorithm that solves min ||y - Ax||_2^2 + lambda ||x||_1
+    """
+
+    # returns the Lasso regularization from A,y,lambda
+    def regularize(self, a, y, lamb=0):
+        """
+        :param a:
+        :type a: numpy.ndarray
+        :param y:
+        :type y: numpy.ndarray
+        :param lamb:
+        :type lamb: integer
+        :return:
+        :rtype: numpy.ndarray
+        """
+        assert lamb >= 0
+
+        # Converts regularization parameter (sklearn considers (1/2m factor))
+        reg_parameter = lamb / (2 * len(y))
+
+        # Initialize model
+        clf = linear_model.Lasso(reg_parameter, fit_intercept=False, normalize=False)
+
+        # Fit it
+        clf.fit(a, y)
+
+        # Returns estimate
+        x = clf.coef_
+
+        return x
 
 
 # Super class of the M and Tau Estimators. All values are default so you can

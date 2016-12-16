@@ -49,17 +49,17 @@ To upgrade linvpy to the latest version : ::
     $ sudo pip install --upgrade linvpy
     
 Quick start
-============
+===========
 A small example to warm up: ::
 
-	import numpy as np
-	import linvpy as lp
+    import numpy as np
+    import linvpy as lp
 
-	A = np.matrix([[2, 2], [3, 4], [7, 6]])
-	y = np.array([1, 4, 3])
+    A = np.matrix([[2, 2], [3, 4], [7, 6]])
+    y = np.array([1, 4, 3])
 
-	# create an instance of Tau, don't need to give any parameter
-	my_tau = lp.TauEstimator()
+    # create an instance of Tau, don't need to give any parameter
+    my_tau = lp.TauEstimator()
 	
 
 Documentation
@@ -79,7 +79,7 @@ Module contents
 Tutorial
 ========
 Why do we need robust estimators?
-----------------------------------
+---------------------------------
 The nature of the errors that appear in a problem may pose a significant challenge. This is quite an old problem, and it was already mentioned in the first publications about least squares, more than two centuries ago. Legendre wrote in 1805 
 
  .. epigraph::

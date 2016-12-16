@@ -207,31 +207,34 @@ def test_M_estimator_VS_Marta():
 def test_TauEstimator_alone():
     for i in range(2, TESTING_ITERATIONS):
 
+        # tests all regularizations
+        for reg in (lp.Tikhonov(), lp.Lasso()):
         # tests all loss functions
-        for loss in LOSS_FUNCTIONS:
-            # intiates random inputs
-            lamb = randint(0, 20)
-            #lamb = 0
-            c1 = np.random.uniform(0.1, 5)
-            c2 = np.random.uniform(0.1, 5)
+            for loss in LOSS_FUNCTIONS:
 
-            # clippings are randomly chosen between a random number or None with predominance for number
-            clipping_1 = random.choice([c1, c1, c1, None])
-            clipping_2 = random.choice([c2, c2, c2, None])
+                # intiates random inputs
+                lamb = randint(1, 20)
+                c1 = np.random.uniform(0.1, 5)
+                c2 = np.random.uniform(0.1, 5)
 
-            # creates a tau instance
-            tau_estimator = lp.TauEstimator(
-                loss_function=loss,
-                lamb=lamb,
-                clipping_1=clipping_1,
-                clipping_2=clipping_2)  # creates a tau-estimator with each of the loss functions
+                # clippings are randomly chosen between a random number or None with predominance for number
+                clipping_1 = random.choice([c1, c1, c1, None])
+                clipping_2 = random.choice([c2, c2, c2, None])
 
-            # random (A,y) tuple with i rows and A has a random number of columns between i and i+100
-            tau_estimator.estimate(
-                # A=np.random.rand(i, i + randint(0, 100)),
-                a=np.random.rand(i, i + randint(0, 100)),
-                y=np.random.rand(i).reshape(-1)
-            )
+                # creates a tau instance
+                tau_estimator = lp.TauEstimator(
+                    loss_function=loss,
+                    regularization=reg,
+                    lamb=lamb,
+                    clipping_1=clipping_1,
+                    clipping_2=clipping_2)  # creates a tau-estimator with each of the loss functions
+
+                # random (A,y) tuple with i rows and A has a random number of columns between i and i+100
+                tau_estimator.estimate(
+                    # A=np.random.rand(i, i + randint(0, 100)),
+                    a=np.random.rand(i, i + randint(0, 100)),
+                    y=np.random.rand(i).reshape(-1)
+                )
 
 
 def test_score_function_is_odd():
@@ -301,7 +304,7 @@ def cover_fast_tau():
 # ===================================== MAIN ==================================
 
 
-plot_loss_functions(15)
+# plot_loss_functions(15)
 
 test_TauEstimator_alone()
 
