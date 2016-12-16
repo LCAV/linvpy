@@ -4,7 +4,7 @@
 .. image:: images/EPFL_logo.png
    :align: left
    :width: 20 %
-.. image:: images/lcav_logo.png
+.. image:: images/lcav_logo_.png
    :align: right
    :width: 20 %
 
@@ -12,6 +12,30 @@ lalalala
 
 ::
 lala
+
+
+
+
+
+
+
+
+
+lalalalala
+
+
+lalalala
+
+
+oo
+
+
+aa
+a
+a
+a
+a
+a
 
 
 Welcome to linvpy's documentation !
