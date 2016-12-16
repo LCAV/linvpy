@@ -114,7 +114,7 @@ Documentation
 
 Module contents
 ---------------
-.. module:: linvpy
+.. automodule:: linvpy
 
 .. autoclass:: Huber
    :members:
