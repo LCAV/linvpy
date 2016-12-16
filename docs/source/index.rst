@@ -33,16 +33,7 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
    :align: right
 
 
-.. |logo1| image:: images/lcav_logo.png
-   :scale: 100%
-   :align: left
-.. |logo2| image:: images/EPFL_logo.png
-   :scale: 20%
-   :align: right
 
-+---------+---------+
-| |logo1| | |logo2| |
-+---------+---------+
 
 
 Get it
