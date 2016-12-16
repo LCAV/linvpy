@@ -115,6 +115,7 @@ Documentation
 Module contents
 ---------------
 
+.. automodule::
 .. autosummary:: linvpy
    linvpy.MEstimator
    TauEstimator
