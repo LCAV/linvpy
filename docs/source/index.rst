@@ -8,34 +8,12 @@
    :align: right
    :width: 20 %
 
-lalalala
 
-::
-lala
-
-
-
-
-
-
-
-
-
-lalalalala
-
-
-lalalala
-
-
-oo
-
-
-aa
-a
-a
-a
-a
-a
+|
+|
+|
+|
+|
 
 
 Welcome to linvpy's documentation !
