@@ -114,7 +114,6 @@ Documentation
 
 Module contents
 ---------------
-.. currentmodule:: linvpy
 .. autosummary::
 
    Huber
