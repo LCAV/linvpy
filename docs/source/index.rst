@@ -188,7 +188,6 @@ When your are done, go to the webpage of the main repository, and click 'Pull re
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+:ref:`genindex`
+:ref:`modindex`
+:ref:`search`
