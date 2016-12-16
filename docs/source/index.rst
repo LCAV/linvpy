@@ -121,7 +121,6 @@ Module contents
 
 .. rubric:: Estimators
 .. autosummary::
-
    MEstimator
    TauEstimator
 
