@@ -39,39 +39,6 @@ functions or M-estimators.
 
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
-Module contents
-===============
-.. index::
-
-Module contents
----------------
-
-.. automodule:: linvpy
-
-.. rubric:: Estimators
-.. autosummary::
-:nosignatures:
-
-       MEstimator
-       TauEstimator
-
-.. rubric:: Loss Functions
-.. autosummary::
-:nosignatures:
-
-       Bisquare
-       Cauchy
-       Huber
-       Optimal
-
-.. rubric:: Regularization Functions
-.. autosummary::
-:nosignatures:
-
-       Lasso
-       Tikhonov
-
-
 Get it
 ======
 
