@@ -119,8 +119,13 @@ Module contents
 .. module::
 .. autosummary::
 
+   MEstimator
+   TauEstimator
+   Bisquare
    Cauchy
    Huber
+   Optimal
+   Lasso
    Tikhonov
 
 .. module::
