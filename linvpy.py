@@ -100,7 +100,8 @@ class Huber(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -151,7 +152,8 @@ class Huber(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -230,7 +232,8 @@ class Bisquare(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -282,7 +285,8 @@ class Bisquare(LossFunction):
 
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
 
         :Example:
@@ -332,7 +336,8 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Cauchy loss function
@@ -349,7 +354,8 @@ class Cauchy(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Cauchy loss function
@@ -377,7 +383,8 @@ class Optimal(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # rho version of the Optimal loss function
@@ -400,7 +407,8 @@ class Optimal(LossFunction):
         """
         :param array: Array of values to apply the loss function to
         :type array: numpy.ndarray
-        :return: Array of same shape as the input, cell-wise results of the loss function
+        :return: Array of same shape as the input, cell-wise results of the
+        loss function
         :rtype: numpy.ndarray
         """
         # psi version of the Optimal loss function
@@ -473,7 +481,8 @@ class Tikhonov(Regularization):
         :type a: numpy.ndarray
         :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param lamb: tradeoff parameter between least squares and minimization of the L-2 norm
+        :param lamb: tradeoff parameter between least squares and
+        minimization of the L-2 norm
         :type lamb: integer
         :return: N vector x in the y=Ax equation
         :rtype: numpy.ndarray
@@ -502,7 +511,8 @@ class Tikhonov(Regularization):
 
 class Lasso(Regularization):
     """
-    Lasso algorithm that solves :math:`min ||\\mathbf{y - Ax}||_2^2 + lambda ||x||_1`
+    Lasso algorithm that solves :math:`min ||\\mathbf{y - Ax}||_2^2 + lambda
+    ||x||_1`
     """
     pass
 
@@ -528,7 +538,8 @@ class Lasso(Regularization):
         reg_parameter = lamb / (2 * len(y))
 
         # Initialize model
-        clf = linear_model.Lasso(reg_parameter, fit_intercept=False, normalize=False)
+        clf = linear_model.Lasso(reg_parameter, fit_intercept=False,
+                                 normalize=False)
 
         # Fit it
         clf.fit(a, y)
@@ -544,25 +555,6 @@ class Lasso(Regularization):
 # with my_estimator = MEstimator() and then my_estimator.estimate(A,y) which
 #  gives the answer.
 class Estimator:
-    """
-    :param loss_function: loss function to be used
-    :type loss_function: linvpy.LossFunction type
-    :param clipping:
-    :type clipping: float
-    :param regularization:
-    :type regularization: linvpy.Regularization type
-    :param lamb:
-    :type lamb: integer
-    :param scale:
-    :type scale: float
-    :param b:
-    :type b: float
-    :param tolerance:
-    :type tolerance: float
-    :param max_iterations:
-    :type max_iterations: integer
-    """
-
     def __init__(self,
                  loss_function=Huber,
                  clipping=None,
@@ -586,16 +578,6 @@ class Estimator:
 
         # if an initial value for x is specified, use it, otherwise generate
         #  a vector of ones
-        """
-        :param a:
-        :type a: numpy.ndarray
-        :param y:
-        :type y: numpy.ndarray
-        :param initial_x:
-        :type initial_x: numpy.ndarray
-        :return:
-        :rtype: numpy.ndarray
-        """
         if initial_x is not None:
             vector_x = initial_x
         else:
@@ -710,21 +692,21 @@ class Estimator:
 class MEstimator(Estimator):
     pass
     """
-    :param loss_function:
+    :param loss_function:  loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
-    :param clipping:
+    :param clipping: clipping to be used in the loss function
     :type clipping: float
-    :param regularization:
+    :param regularization: regularization function to regularize the y=Ax system
     :type regularization: linvpy.Regularization type
-    :param lamb:
+    :param lamb: lambda to be used in the regularization (lambda = 0 is equivalent to using least squares)
     :type lamb: integer
     :param scale:
     :type scale: float
     :param b:
     :type b: float
-    :param tolerance:
+    :param tolerance: treshold : when residuals < tolerance, the current solution is returned
     :type tolerance: float
-    :param max_iterations:
+    :param max_iterations: maximum number of iterations of the iteratively reweighted least squares
     :type max_iterations: integer
     """
 
@@ -732,17 +714,16 @@ class MEstimator(Estimator):
     # solution
     def estimate(self, a, y, initial_x=None):
         """
-        :param a:
+        :param a: MxN matrix A in the y=Ax equation
         :type a: numpy.ndarray
-        :param y:
+        :param y: M vector y in the y=Ax equation
         :type y: numpy.ndarray
-        :param initial_x:
+        :param initial_x: N vector of an initial solution
         :type initial_x: numpy.ndarray
-        :return:
+        :return: best estimation of the N vector x in the y=Ax equation
         :rtype: numpy.ndarray
         """
         return self.irls(a, y, initial_x)
-
 
 class TauEstimator(Estimator):
     """
@@ -899,12 +880,6 @@ class TauEstimator(Estimator):
 
     def tau_weights(self, x):
         # ensures numpy matrix type (x is a vector of size 1,n)
-        """
-        :param x:
-        :type x: numpy.ndarray
-        :return:
-        :rtype: float
-        """
         x = np.matrix(x)
 
         # To avoid dividing by zero, if the sum is 0 it returns an array of
@@ -922,12 +897,6 @@ class TauEstimator(Estimator):
 
     # Score function for the tau estimator
     def score_function(self, x):
-        """
-        :param x:
-        :type x: numpy.ndarray
-        :return:
-        :rtype: numpy.ndarray
-        """
         # Computes the Tau weights
         tau_weights = self.tau_weights(x)
 
@@ -938,12 +907,6 @@ class TauEstimator(Estimator):
 
     def m_scale(self, x):
         # ensures array type
-        """
-        :param x:
-        :type x: numpy.ndarray
-        :return:
-        :rtype: float
-        """
         x = np.array(x)
 
         # initial MAD estimation of the scale
@@ -997,12 +960,6 @@ class TauEstimator(Estimator):
 
     # Computes the scale for the Tau-Estimator
     def tau_scale(self, x):
-        """
-        :param x:
-        :type x: numpy.ndarray
-        :return:
-        :rtype: float
-        """
         mscale = self.m_scale(x)
         m = x.shape[0]
 
