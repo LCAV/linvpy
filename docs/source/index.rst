@@ -28,7 +28,7 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
 .. image:: images/lcav_logo.png
    :width: 20 %
 .. image:: images/EPFL_logo.png
-   :width: 25 %
+   :width: 20 %
 
 
 Get it
