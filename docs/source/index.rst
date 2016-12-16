@@ -114,6 +114,7 @@ Documentation
 
 Module contents
 ---------------
+.. automodule::
 .. autosummary::
 
    MEstimator
