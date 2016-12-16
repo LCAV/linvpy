@@ -545,7 +545,7 @@ class Lasso(Regularization):
 #  gives the answer.
 class Estimator:
     """
-    :param loss_function:
+    :param loss_function: loss function to be used
     :type loss_function: linvpy.LossFunction type
     :param clipping:
     :type clipping: float
