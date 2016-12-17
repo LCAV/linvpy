@@ -74,14 +74,20 @@ You can create a tau estimator object with the default parameters : ::
     # where array([  1.45956448e-16,   5.00000000e-01]) is the best x to solve y=Ax
     # and 1.9242827743815571 is the value of the tau scale for this x
 
+Or an M estimator : ::
+
     # Using the M-estimator :
     m = lp.MEstimator()
     m.estimate(a,y)
     # returns [ -2.95552481e-16   5.00000000e-01], the best x to solve y=Ax
 
+You can easily choose the loss function you want to use when you create the object : ::
+    
     # By default both estimators use the Huber loss function, but you can use any of Huber, Cauchy, Bisquare or Optimal (all described in the doc below) :
     tau = lp.TauEstimator(loss_function=lp.Cauchy)
     tau.estimate(a,y)
+
+And the rest of the parameters: ::
 
     # or you can give one, two, three... or all parameters :
     tau = lp.TauEstimator(
@@ -93,16 +99,21 @@ You can create a tau estimator object with the default parameters : ::
         b=0.7,
         tolerance=1e4, )
     tau.estimate(a,y)
+    
+    
+Or you can change the parameters later: ::
 
     # to change the clipping or any other parameter of the estimator :
     tau.loss_function_1.clipping = 0.7
     tau.tolerance = 1e3
     m.lamb = 3
 
+You can also choose a particular initial solution for the irls algorithm. To get the solution you run the method 'estimate' with your data a and y, and initial solution x_0 if any (this is not necessary): ::
+
     # running with an initial solution :
     x = np.array([5, 6])
-    tau.estimate(a,y, initial_x=x)
-    m.estimate(a,y, initial_x=x)
+    x_tau_estimate = tau.estimate(a,y, initial_x=x)
+    m_tau_estimate = m.estimate(a,y, initial_x=x)
 
 
 
