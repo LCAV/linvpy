@@ -792,7 +792,8 @@ class MEstimator(Estimator):
 
     :math:`\\boldsymbol x^{(t+1)} =`
     :math:`{\\rm arg}\\min_x\\,`
-    :math:`\\big|\\big| \\boldsymbol W (\\boldsymbol x^{(t)})(\\boldsymbol y - \\boldsymbol A \\boldsymbol x )\\big | \\big |_2^2.`
+    :math:`\\big|\\big| \\boldsymbol W (\\boldsymbol x^{(t)})(\\boldsymbol\
+     y - \\boldsymbol A \\boldsymbol x )\\big | \\big |_2^2.`
 
     The IRLS is used, among other things, to compute the M-estimate and the \
     tau-estimate.
