@@ -149,16 +149,6 @@ Module contents
    Tikhonov
    
    
-Documentation
-=============
-
-.. module::
-.. automodule:: linvpy
-   :members:
-   :exclude-members: m_scale, score_function, tau_weights, tau_scale, m_weights, Estimator, LossFunction, Regularization
-   :undoc-members:
-   :show-inheritance:
-
 
 Tutorial
 ========
@@ -195,6 +185,17 @@ If you want to contribute to this project, feel free to fork our GitHub main rep
 
 When your are done, go to the webpage of the main repository, and click 'Pull request' to send your changes for review.
 
+
+Documentation
+=============
+
+.. module::
+.. automodule:: linvpy
+   :members:
+   :exclude-members: m_scale, score_function, tau_weights, tau_scale, m_weights, Estimator, LossFunction, Regularization
+   :undoc-members:
+   :show-inheritance:
+   
 
 Indices and tables
 ==================
