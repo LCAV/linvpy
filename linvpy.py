@@ -807,7 +807,8 @@ class MEstimator(Estimator):
     :type scale: float
     :param b:
     :type b: float
-    :param tolerance: treshold : when residuals < tolerance, the current solution is returned
+    :param tolerance: treshold : when residuals < tolerance, the current \
+     solution is returned
     :type tolerance: float
     :param max_iterations: maximum number of iterations of the iteratively reweighted least squares
     :type max_iterations: integer
