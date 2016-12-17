@@ -787,21 +787,25 @@ class Estimator:
 # Inherits every feature from the class Estimator
 class MEstimator(Estimator):
     """
-    The M-estimator uses the method of iteratively reweighted least squares (IRLS) to minimize iteratively the function:
+    The M-estimator uses the method of iteratively reweighted least squares \
+     (IRLS) to minimize iteratively the function:
 
     :math:`\\boldsymbol x^{(t+1)} =`
     :math:`{\\rm arg}\\min_x\\,`
     :math:`\\big|\\big| \\boldsymbol W (\\boldsymbol x^{(t)})(\\boldsymbol y - \\boldsymbol A \\boldsymbol x )\\big | \\big |_2^2.`
 
-    The IRLS is used, among other things, to compute the M-estimate and the tau-estimate.
+    The IRLS is used, among other things, to compute the M-estimate and the \
+    tau-estimate.
 
     :param loss_function:  loss function to be used in the estimation
     :type loss_function: linvpy.LossFunction type
     :param clipping: clipping to be used in the loss function
     :type clipping: float
-    :param regularization: regularization function to regularize the y=Ax system
+    :param regularization: regularization function to regularize the y=Ax \
+    system
     :type regularization: linvpy.Regularization type
-    :param lamb: lambda to be used in the regularization (lambda = 0 is equivalent to using least squares)
+    :param lamb: lambda to be used in the regularization (lambda = 0 is \
+    equivalent to using least squares)
     :type lamb: integer
     :param scale:
     :type scale: float
@@ -810,7 +814,8 @@ class MEstimator(Estimator):
     :param tolerance: treshold : when residuals < tolerance, the current \
      solution is returned
     :type tolerance: float
-    :param max_iterations: maximum number of iterations of the iteratively reweighted least squares
+    :param max_iterations: maximum number of iterations of the iteratively \
+     reweighted least squares
     :type max_iterations: integer
     """
     pass
