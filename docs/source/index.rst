@@ -65,6 +65,8 @@ To solve :math:`y=Ax` with outliers knowing :math:`y, A` : ::
     a = np.matrix([[1, 2], [3, 4], [5, 6]])
     y = np.array([1, 2, 3])
 
+You can create a tau estimator object with the default parameters : ::
+
     # Using the Tau-estimator :
     tau = lp.TauEstimator()
     tau.estimate(a,y)
