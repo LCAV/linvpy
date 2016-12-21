@@ -1,16 +1,6 @@
 __author__ = 'GuillaumeBeaud'
 
 import linvpy as lp
-import numpy as np
-from tests import generate_random as gen
-from random import randint
-import random
-import toolboxutilities as util
-from tests import toolboxinverse as inv
-import copy
-from regularizedtau import toolboxutilities_latest as util_l
-from regularizedtau import toolboxinverse_latest as inverse_l
-from regularizedtau import linvpy_latest as lp_l
 
 # random1 = gen.generate_random(5, 6)
 

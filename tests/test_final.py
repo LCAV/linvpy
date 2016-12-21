@@ -5,7 +5,7 @@ import numpy as np
 import random
 from random import randint
 from tests import generate_random as gen
-import toolboxutilities as util
+from regularizedtau import toolboxutilities as util
 from regularizedtau import toolboxutilities_latest as util_l
 from regularizedtau import linvpy_latest as lp_l
 
