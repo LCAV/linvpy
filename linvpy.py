@@ -1,6 +1,5 @@
 from __future__ import division
 import numpy as np
-from sklearn import linear_model
 
 __author__ = 'GuillaumeBeaud'
 
@@ -632,6 +631,8 @@ class Lasso(Regularization):
         >>> lasso.regularize(a, y)
         array([ -5.97106181e-17,   5.00000000e-01])
         """
+        from sklearn import linear_model
+
         assert lamb >= 0
 
         # if lambda == 0 it simply returns the least squares solution
