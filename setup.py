@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='0.2.6001',
+    version='0.2.6002',
 
     description='Package to solve linear inverse problems',
 
@@ -56,7 +56,7 @@ setup(
 
     #packages=['linvpy'],
 
-    packages=find_packages(exclude=['contrib', 'docs', 'tests', 'regularizedtau']),
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
