@@ -12,7 +12,7 @@ setup(
 
     name='linvpy',
 
-    version='2.5',
+    version='2.0',
 
     description='Package to solve linear inverse problems',
 
@@ -52,7 +52,7 @@ setup(
 
     # packages=['linvpy'],
 
-    packages=find_packages(exclude=['docs']),
+    packages=find_packages(exclude=['docs', 'tests']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
