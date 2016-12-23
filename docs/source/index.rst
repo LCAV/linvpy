@@ -145,6 +145,37 @@ Module contents
    Tikhonov
    
 
+Using custom regularization functions
+=====================================
+
+To use a custom regularization function :
+
+1) copy paste this code into your python file
+
+2) change the name CustomRegularization with the name of your function
+
+3) define the regularization function in the definition of regularize
+
+4) create your custom tau by passing an instance of your regularization, i.e. with "()" after the name
+
+::
+
+    # Define your own regularization that extends lp.Regularization
+    class CustomRegularization(lp.Regularization):
+        pass
+        # Define your regularization function here
+        def regularize(self, a, y, lamb=0):
+            return np.ones(a.shape[1])
+
+    a = np.matrix([[1, 2], [3, 4], [5, 6]])
+    y = np.array([1, 2, 3])
+
+    # Create your custom tau estimator with custom regularization function
+    # Pay attention to pass the loss function as a REFERENCE (without the "()"
+    # after the name, and the regularization as an OBJECT, i.e. with the "()").
+    custom_tau = lp.TauEstimator(regularization=CustomRegularization())
+    print custom_tau.estimate(a,y)
+
 Using custom loss functions
 ===========================
 
@@ -201,36 +232,6 @@ To use a custom loss function :
     custom_tau = lp.TauEstimator(loss_function=CustomLoss)
     print custom_tau.estimate(a,y)
 
-Using custom regularization functions
-=====================================
-
-To use a custom regularization function :
-
-1) copy paste this code into your python file
-
-2) change the name CustomRegularization with the name of your function
-
-3) define the regularization function in the definition of regularize
-
-4) create your custom tau by passing an instance of your regularization with "()"
-
-::
-
-    # Define your own regularization that extends lp.Regularization
-    class CustomRegularization(lp.Regularization):
-        pass
-        # Define your regularization function here
-        def regularize(self, a, y, lamb=0):
-            return np.ones(a.shape[1])
-
-    a = np.matrix([[1, 2], [3, 4], [5, 6]])
-    y = np.array([1, 2, 3])
-
-    # Create your custom tau estimator with custom regularization function
-    # Pay attention to pass the loss function as a REFERENCE (without the "()"
-    # after the name, and the regularization as an OBJECT, i.e. with the "()").
-    custom_tau = lp.TauEstimator(regularization=CustomRegularization())
-    print custom_tau.estimate(a,y)
 
 Tutorial
 ========
