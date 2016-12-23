@@ -51,6 +51,40 @@ If you don't have pip installed, run : ::
     $ sudo easy_install pip
     $ sudo pip2 install --ignore-installed --upgrade linvpy
 
+
+
+.. index::
+
+Module contents
+===============
+
+.. automodule:: linvpy
+
+.. rubric:: Estimators
+.. autosummary::
+:nosignatures:
+
+       MEstimator
+       TauEstimator
+
+.. rubric:: Loss Functions
+.. autosummary::
+:nosignatures:
+
+       Bisquare
+       Cauchy
+       Huber
+       Optimal
+
+.. rubric:: Regularization Functions
+.. autosummary::
+:nosignatures:
+
+       Lasso
+       Tikhonov
+
+
+
 Quick start
 ===========
 To solve :math:`y=Ax` with outliers knowing :math:`y, A` : ::
