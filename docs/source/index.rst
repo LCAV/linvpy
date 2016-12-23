@@ -218,7 +218,7 @@ To use a custom loss function :
             return vfunc(array)
 
         # Define your psi function as the derivative of the rho function : you can
-        # copy paste this and just change what's inside the unit_rho
+        # copy paste this and just change what's inside the unit_psi
         def psi(self, array):
             # rho function of your loss function on ONE single element
             def unit_psi(element):
