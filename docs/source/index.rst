@@ -42,7 +42,7 @@ Source code is on GitHub : https://github.com/LCAV/linvpy.
 Get it
 ======
 
-LinvPy is available from PyPi. If you have pip already installed, simply run : ::
+LinvPy is available from PyPi and Python 2.7 compatible. If you have pip already installed, simply run : ::
 
     $ sudo pip2 install --ignore-installed --upgrade linvpy
 
