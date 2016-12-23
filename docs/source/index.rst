@@ -164,7 +164,7 @@ To use a custom loss function :
 
 ::
 
-    # Define your own loss function
+    # Define your own loss function that extends lp.LossFunction
     class CustomLoss(lp.LossFunction):
 
         # Set your custom clipping
@@ -216,7 +216,7 @@ To use a custom regularization function :
 
 ::
 
-    # Define your own regularization
+    # Define your own regularization that extends lp.Regularization
     class CustomRegularization(lp.Regularization):
         pass
         # Define your regularization function here
