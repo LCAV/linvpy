@@ -149,74 +149,88 @@ Using custom loss functions
 ===========================
 
 To use a custom loss function :
+
 1) copy paste this code into your python file
+
 2) change the name "CustomLoss" with the name of your loss function
+
 3) change the two "0.7" with the value of your default clipping
+
 4) define your rho function in the unit_rho definition
+
 5) define your psi function as the derivative of the rho function in unit_psi
-6) create your own tau estimator by passing your loss function name to it ::
 
-# Define your own loss function
-class CustomLoss(lp.LossFunction):
+6) create your own tau estimator by passing your loss function name to it
 
-    # Set your custom clipping
-    def __init__(self, clipping=0.7):
-        lp.LossFunction.__init__(self, clipping)
-        if clipping is None:
-            self.clipping = 0.7
+::
 
-    # Define your rho function : you can copy paste this and just change what's
-    # inside the unit_rho
-    def rho(self, array):
-        # rho function of your loss function on ONE single element
-        def unit_rho(element):
-            # Simply return clipping * element for example
-            return element + self.clipping
-        # Vectorize the function
-        vfunc = np.vectorize(unit_rho)
-        return vfunc(array)
+    # Define your own loss function
+    class CustomLoss(lp.LossFunction):
 
-    # Define your psi function as the derivative of the rho function : you can
-    # copy paste this and just change what's inside the unit_rho
-    def psi(self, array):
-        # rho function of your loss function on ONE single element
-        def unit_psi(element):
-            # Simply return the clipping for example
-            return 1
-        # Vectorize the function
-        vfunc = np.vectorize(unit_psi)
-        return vfunc(array)
+        # Set your custom clipping
+        def __init__(self, clipping=0.7):
+            lp.LossFunction.__init__(self, clipping)
+            if clipping is None:
+                self.clipping = 0.7
 
-a = np.matrix([[1, 2], [3, 4], [5, 6]])
-y = np.array([1, 2, 3])
+        # Define your rho function : you can copy paste this and just change what's
+        # inside the unit_rho
+        def rho(self, array):
+            # rho function of your loss function on ONE single element
+            def unit_rho(element):
+                # Simply return clipping * element for example
+                return element + self.clipping
+            # Vectorize the function
+            vfunc = np.vectorize(unit_rho)
+            return vfunc(array)
 
-custom_tau = lp.TauEstimator(loss_function=CustomLoss)
-print custom_tau.estimate(a,y)
+        # Define your psi function as the derivative of the rho function : you can
+        # copy paste this and just change what's inside the unit_rho
+        def psi(self, array):
+            # rho function of your loss function on ONE single element
+            def unit_psi(element):
+                # Simply return the clipping for example
+                return 1
+            # Vectorize the function
+            vfunc = np.vectorize(unit_psi)
+            return vfunc(array)
+
+    a = np.matrix([[1, 2], [3, 4], [5, 6]])
+    y = np.array([1, 2, 3])
+
+    custom_tau = lp.TauEstimator(loss_function=CustomLoss)
+    print custom_tau.estimate(a,y)
 
 Using custom regularization functions
 =====================================
 
 To use a custom regularization function :
+
 1) copy paste this code into your python file
+
 2) change the name CustomRegularization with the name of your function
+
 3) define the regularization function in the definition of regularize
+
 4) create your custom tau by passing an instance of your regularization with "()"
 
-# Define your own regularization
-class CustomRegularization(lp.Regularization):
-    pass
-    # Define your regularization function here
-    def regularize(self, a, y, lamb=0):
-        return np.ones(a.shape[1])
+::
 
-a = np.matrix([[1, 2], [3, 4], [5, 6]])
-y = np.array([1, 2, 3])
+    # Define your own regularization
+    class CustomRegularization(lp.Regularization):
+        pass
+        # Define your regularization function here
+        def regularize(self, a, y, lamb=0):
+            return np.ones(a.shape[1])
 
-# Create your custom tau estimator with custom regularization function
-# Pay attenation to pass the loss function as a REFERENCE (without the "()"
-# after the name, and the regularization as an OBJECT, i.e. with the "()").
-custom_tau = lp.TauEstimator(regularization=CustomRegularization())
-print custom_tau.estimate(a,y)
+    a = np.matrix([[1, 2], [3, 4], [5, 6]])
+    y = np.array([1, 2, 3])
+
+    # Create your custom tau estimator with custom regularization function
+    # Pay attenation to pass the loss function as a REFERENCE (without the "()"
+    # after the name, and the regularization as an OBJECT, i.e. with the "()").
+    custom_tau = lp.TauEstimator(regularization=CustomRegularization())
+    print custom_tau.estimate(a,y)
 
 Tutorial
 ========
