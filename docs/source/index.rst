@@ -227,7 +227,7 @@ To use a custom regularization function :
     y = np.array([1, 2, 3])
 
     # Create your custom tau estimator with custom regularization function
-    # Pay attenation to pass the loss function as a REFERENCE (without the "()"
+    # Pay attention to pass the loss function as a REFERENCE (without the "()"
     # after the name, and the regularization as an OBJECT, i.e. with the "()").
     custom_tau = lp.TauEstimator(regularization=CustomRegularization())
     print custom_tau.estimate(a,y)
