@@ -51,37 +51,6 @@ If you don't have pip installed, run : ::
     $ sudo easy_install pip
     $ sudo pip2 install --ignore-installed --upgrade linvpy
 
-
-.. index::
-
-Module contents
-===============
-
-.. automodule:: linvpy
-
-.. rubric:: Estimators
-.. autosummary::
-:nosignatures:
-
-       MEstimator
-       TauEstimator
-
-.. rubric:: Loss Functions
-.. autosummary::
-:nosignatures:
-
-       Bisquare
-       Cauchy
-       Huber
-       Optimal
-
-.. rubric:: Regularization Functions
-.. autosummary::
-:nosignatures:
-
-       Lasso
-       Tikhonov
-
 Quick start
 ===========
 To solve :math:`y=Ax` with outliers knowing :math:`y, A` : ::
@@ -142,6 +111,38 @@ You can also choose a particular initial solution for the irls algorithm. To get
     x_tau_estimate = tau.estimate(a,y, initial_x=x)
     m_tau_estimate = m.estimate(a,y, initial_x=x)
 
+
+
+
+.. index::
+
+Module contents
+===============
+
+.. automodule:: linvpy
+
+.. rubric:: Estimators
+.. autosummary::
+   :nosignatures:
+
+   MEstimator
+   TauEstimator
+
+.. rubric:: Loss Functions
+.. autosummary::
+   :nosignatures:
+
+   Bisquare
+   Cauchy
+   Huber
+   Optimal
+
+.. rubric:: Regularization Functions
+.. autosummary::
+   :nosignatures:
+
+   Lasso
+   Tikhonov
    
 
 Using custom regularization functions
