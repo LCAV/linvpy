@@ -39,6 +39,9 @@ functions or M-estimators.
 
 Source code is on GitHub : https://github.com/LCAV/linvpy.
 
+Paper of reference: **The regularized tau estimator: A robust and efficient solution 
+to ill-posed linear inverse problems**, by Martinez-Camara et al. You can find it at: https://arxiv.org/abs/1606.00812
+
 Get it
 ======
 
